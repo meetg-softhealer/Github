@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<body>
+    <form>
+        <fieldset>
+            <legend>Registeration Form</legend>
+            <label>Full name:</label>
+            <input type="text" id="fname" name="fname" size="20">
+            
+            <br><br>    
+            <label>Gender:</label>
+            <input type="radio" name="gender" id="male">
+            <label for="male">Male</label>
+            <input type="radio" name="gender" id="female">
+            <label for="female">Female</label>
+
+            <br><br>
+            <label>Select Couses:</label>
+            <select name="courses" id="course">
+                <option value="science">Science</option>
+                <option value="commerce">Commerce</option>
+                <option value="arts">Arts</option>
+            </select>
+
+            <br><br>
+            <datalist id="city">
+                <option value="rajkot">Rajkot</option>
+                <option value="ahmedabad">Ahmedabad</option>
+                <option value="surat">Surat</option>
+                <option value="vadodara">Vadodara</option>
+            </datalist>
+
+            <img src="image.png" style="width:900;height:600px;">
+
+            <br><br>
+            <label >Comments:</label>
+            <br>
+            <textarea name="comment" id="comment" rows="20" cols="50"></textarea>
+        </fieldset>
+
+    </form>
+</body>
+</html>
