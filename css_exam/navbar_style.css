@@ -1,0 +1,12 @@
+body{
+    background-color: black;
+}
+.navbar{
+    display: flex;
+}
+
+div.navbar a{
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
