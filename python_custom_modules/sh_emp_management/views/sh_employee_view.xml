@@ -8,7 +8,7 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="name" nolabel="1" class="display-2"/> 
+                            <field name="name"/> 
                         </group>
                         <group>
                             <field name="employee_image" nolabel="1" widget="image" class="oe_avatar"/>
@@ -40,8 +40,8 @@
                                     <field name="birthdate"/>                                
                                     <field name="age"/>
                                     <field name="gender"/>
-                                    <field name="height"/>
-                                    <field name="weight"/> 
+                                    <!-- <field name="height"/> -->
+                                    <!-- <field name="weight"/>  -->
                                 </group>
                                     <group>
                                         <field name="blood_group"/>
@@ -124,8 +124,8 @@
                 <field name="blood_group"/>
                 <field name="age" decoration-primary="age &gt; 0 and age &lt; 25" decoration-success="age &gt; 25 and age &lt; 50" decoration-danger="age &gt; 50"/>
                 <field name="country_of_birth"/>
-                <field name="height"/>
-                <field name="weight"/>
+                <!-- <field name="height"/> -->
+                <!-- <field name="weight"/> -->
                 <field name="marital_status"/>
                 <field name="private_address"/>
                 <field name="private_email"/>
