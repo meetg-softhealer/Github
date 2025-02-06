@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sh_employee,sh.employee,model_sh_employee,base.group_user,1,1,1,1
+access_sh_employee_jobs,sh.employee.jobs,model_sh_employee_jobs,base.group_user,1,1,1,1
+access_sh_employee_skill,sh.employee.skill,model_sh_employee_skill,base.group_user,1,1,1,1
+access_sh_resource_calender,sh.resource.calendar,model_sh_resource_calendar,base.group_user,1,1,1,1
+access_sh_department,sh.department,model_sh_department,base.group_user,1,1,1,1
+access_sh_job,sh.job,model_sh_job,base.group_user,1,1,1,1
+access_sh_employee_category,sh.employee.category,model_sh_employee_category,base.group_user,1,1,1,1
+
+

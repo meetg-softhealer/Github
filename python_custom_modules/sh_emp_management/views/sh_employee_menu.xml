@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="employee_root_menu" name="Employee" web_icon="sh_emp_management,static/description/icon.png">
+        <menuitem id="sh_employee_sub_root_menu" name="Employees" action="sh_employee_action"/>
+        <menuitem id="sh_employee_job_sub_root_menu" name="Configuration">
+            <menuitem id="sh_employee_job_sub_menu" name="Job Positions" action="sh_employee_job_action"/>
+            <menuitem id="sh_employee_department_sub_menu" name="Department" action="sh_department_action"/>
+            <menuitem id="sh_employee_jobs_sub_menu" name="Jobs" action="sh_jobs_action"/>
+            <menuitem id="sh_employee_category_sub_menu" name="Category" action="sh_category_action"/>
+            <menuitem id="sh_resource_calender_sub_menu" name="Calender" action="sh_resource_calender_action"/>
+        
+        </menuitem>
+    </menuitem>
+</odoo>

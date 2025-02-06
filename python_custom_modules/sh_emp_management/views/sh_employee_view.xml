@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sh_employee_form_record" model="ir.ui.view">
+        <field name="name">sh.employee.form.record</field>
+        <field name="model">sh.employee</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" nolabel="1" class="display-2"/> 
+                        </group>
+                        <group>
+                            <field name="employee_image" nolabel="1" widget="image" class="oe_avatar"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="employee_badge_no"/>
+                            <field name="employee_id"/>
+                            <field name="job_id" />
+                            <field name="working_time"/>
+                            <field name="department_id"/>
+                            <field name="user_id"/>
+                            
+                        </group>
+                        <group>
+                            <field name="category_ids" widget="many2many_tags" options="{'color_field':'color'}"/>
+                            <field name="job_position"/>                            
+                            <field name="work_email"/>
+                            <field name="work_phone"/>
+                            <field name="total_leave"/>
+                            <field name="work_address"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Private Details">
+                            <group string="Private Details">
+                                <group>
+                                    <field name="birthdate"/>                                
+                                    <field name="age"/>
+                                    <field name="gender"/>
+                                    <field name="height"/>
+                                    <field name="weight"/> 
+                                </group>
+                                    <group>
+                                        <field name="blood_group"/>
+                                        <field name="country_of_birth"/>
+                                        <field name="marital_status"/>
+                                        <field name="private_email"/>
+                                        <field name="private_mo_number"/>
+                                    </group>
+                                </group>
+                        </page>
+                        <page string="Employee Information">
+                            <group string="Employee Details">
+                                <group>
+                                    <field name="joining_date"/>
+                                    <field name="branch_name"/>
+                                    <field name="salary"/>
+                                    <field name="years_of_experience"/>
+                                </group>
+                                <group>
+                                    <field name="skills" widget="many2many_tags"/>    
+                                    <field name="id_proof_number"/>
+                                    <field name="last_company_name"/>
+                                    <field name="last_job_position"/>
+                                </group>
+                            </group>
+                            <group string="Bank Details">
+                                <group>
+                                    <field name="bank_account_no"/>
+                                    <field name="bank_account_name"/>
+                                </group>
+                                <group>
+                                    <field name="bank_ifsc_code"/>
+                                    <field name="bank_account_type"/>
+                                </group>
+                            </group>
+                            <group  string="Employee Documents">
+                                <group>
+                                    <field name="resume"/>
+                                </group>
+                                <group>
+                                    <field name="security_documents"  widget="many2many_binary"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Other Information">
+                            <group string="Address Details">
+                                <group>
+                                    <field name="private_address"/>
+                                    <field name="pincode" />
+                                </group>
+                                <group>
+                                    <field name="city"/>
+                                    <field name="state"/>
+                                    <field name="country_id"/>
+                                </group>
+                            </group>
+                            <group string="Educational Information">
+                                    <field name="educational_background"/>
+                                    <field name="graduation_level"/>
+                            </group>
+                        </page>
+                        
+                    </notebook>
+                </sheet>
+                <chatter></chatter>
+            </form>
+        </field>
+    </record>
+    <record id="sh_employee_list_record" model="ir.ui.view">
+        <field name="name">Employee</field>
+        <field name="model">sh.employee</field>
+        <field name="arch" type="xml">
+            <list decoration-bf="1">
+                <header>
+                    <button string="Update" name="Multi_Update_Methods" type="object" class="btn-success" display="always" />
+                </header>
+                <field name="name" decoration-danger="1"/>
+                <field name="birthdate" decoration-warning="1"/>
+                <field name="gender" decoration-success="1"/>
+                <field name="blood_group"/>
+                <field name="age" decoration-primary="age &gt; 0 and age &lt; 25" decoration-success="age &gt; 25 and age &lt; 50" decoration-danger="age &gt; 50"/>
+                <field name="country_of_birth"/>
+                <field name="height"/>
+                <field name="weight"/>
+                <field name="marital_status"/>
+                <field name="private_address"/>
+                <field name="private_email"/>
+                <field name="private_mo_number"/>
+                <field name="work_address"/>
+            </list>
+        </field>
+    </record>
+   <record id="sh_employee_kanban_view" model="ir.ui.view">
+            <field name="name">sh.employee.kanban.view</field>
+            <field name="model">sh.employee</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <templates>
+                        <t t-name="card" class="flex-row">
+                            <aside>
+                                <field name="employee_image" widget="image" alt="Avatar"/>
+                            </aside>
+                            <div class="card-body ms-1">
+                                <strong>
+                                    Name:<field name="name"/>
+                                </strong>
+                                <main>
+                                    <div>
+                                    ID:<field class="ms-1 badge rounded-pill bg-success text-white" name="employee_badge_no"/>
+                                    </div>
+                                    <div class="pt-1">
+                                    Job:<field class="ms-1 badge rounded-pill bg-danger text-white" name="job_position"/>
+                                    </div>
+                                    <div class="pt-1">
+                                    Team Leader:<field class="ms-1 badge rounded-pill bg-danger text-white" name="employee_id"/>
+                                    </div>
+                                </main>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    <record id="sh_employee_view_pivot" model="ir.ui.view">
+        <field name="name">sh.employee.view.pivot</field>
+        <field name="model">sh.employee</field>
+        <field name="arch" type="xml">
+            <pivot string="Employee" disable_linking="true">
+                <field name="name"/>
+                <field name="age"/>
+                <field name="private_email" />
+            </pivot>
+        </field>
+    </record>
+    <record id="sh_employee_action" model="ir.actions.act_window">
+        <field name="name">Employee</field>
+        <field name="res_model">sh.employee</field>
+        <field name="view_mode">list,kanban,pivot,form</field>
+    </record>
+</odoo>
+
