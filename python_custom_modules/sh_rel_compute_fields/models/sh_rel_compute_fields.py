@@ -6,7 +6,7 @@ class Employee(models.Model):
     _description="Relational and compute fields"
 
     km = fields.Float("Enter Distance(In km)")
-    meter = fields.Integer("Distance in meter", compute="_compute_km" )
+    meter = fields.Integer("Distance in meter", compute="_compute_km")
 
     @api.depends('km')
     def _compute_km(self):
