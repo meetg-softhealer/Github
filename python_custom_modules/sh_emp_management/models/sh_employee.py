@@ -18,8 +18,10 @@ class Employee(models.Model):
     job_position=fields.Many2one("sh.employee.jobs",string="Job Position")
     employee_id=fields.Many2one("sh.employee",string="Team Leader")
     user_id=fields.Many2one("res.users",string="User")
+    tz = fields.Char(string="Timezone")
     country_of_birth=fields.Many2one('res.country',string="Place of Birth")
     country_id=fields.Many2one('res.country',string="Country")
+    
 
     ###[Work Info]
     employee_badge_no=fields.Char(string="Employee ID")
@@ -90,5 +92,12 @@ class Employee(models.Model):
                 records.age=total_age
             else:
                 records.age = 0
+    
+    
+    @api.onchange('user_id')
+    def _onchange_user_id(self):
+        self.name = self.user_id.name
+        self.tz = self.user_id.tz
+    
        
     
