@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) Softhealer Technologies.
 import datetime as dt
-from odoo import models,fields,api
+from odoo import models,fields,api #type:ignore
 
 class Employee(models.Model):
     _name="sh.employee"
