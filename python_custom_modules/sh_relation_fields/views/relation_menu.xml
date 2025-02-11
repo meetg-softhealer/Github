@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="relation_root_menu" name="Relation">
+        <menuitem id="sh_doctor_menu" name="Doctor" action="sh_doctor_action"/>
+        <menuitem id="sh_patient_menu" name="Patient" action="sh_patient_action"/>
+        <menuitem id="sh_diagnosis_menu" name="Diagnosis" action="sh_diagnosis_action"/>
+    </menuitem>
+</odoo>
