@@ -32,6 +32,8 @@
                             <field name="work_phone"/>
                             <field name="total_leave"/>
                             <field name="work_address"/>
+                            <field name="category_id"/>
+                            <field name="ref"/>
                         </group>
                     </group>
                     <notebook>
@@ -133,6 +135,8 @@
                 <field name="private_email"/>
                 <field name="private_mo_number"/>
                 <field name="work_address"/>
+                <field name="category_id"/>
+                <field name="ref"/>
             </list>
         </field>
     </record>

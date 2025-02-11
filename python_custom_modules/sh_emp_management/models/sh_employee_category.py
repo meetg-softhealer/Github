@@ -11,3 +11,4 @@ class Employee_Category(models.Model):
     active=fields.Boolean(string="Active")
     color=fields.Integer(string="Color")
     employee_ids=fields.Many2many("sh.employee",string="Employees")
+    ref = fields.Char("ref")

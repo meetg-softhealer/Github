@@ -21,6 +21,9 @@ class Employee(models.Model):
     tz = fields.Char(string="Timezone")
     country_of_birth=fields.Many2one('res.country',string="Place of Birth")
     country_id=fields.Many2one('res.country',string="Country")
+
+    category_id = fields.Many2one('sh.employee.category', string="Category")
+    ref = fields.Char("ref", readonly=True)
     
 
     ###[Work Info]
@@ -92,12 +95,31 @@ class Employee(models.Model):
                 records.age=total_age
             else:
                 records.age = 0
-    
-    
+        
     @api.onchange('user_id')
     def _onchange_user_id(self):
         self.name = self.user_id.name
         self.tz = self.user_id.tz
     
        
+    @api.model_create_multi
+    def create(self, vals_list):  
+        # print(val)  
+        for rec in vals_list:
+            # print(rec)
+            for k,v in rec.items():
+                # print(k,v)
+                if str(k)=="name":
+                    rec[k] = rec[k].upper()
+
+        result = super(Employee, self).create(vals_list)
+
+        # print("\n\n\n\n\=======================\n\n\n\n\n")
+        print(self)
+        result.ref = result.category_id.ref
+        return result
     
+    # @api.onchange('category_id')
+    # def _onchange_category_id(self):
+    #     if self.category_id:
+    #         self.ref = self.category_id.ref
