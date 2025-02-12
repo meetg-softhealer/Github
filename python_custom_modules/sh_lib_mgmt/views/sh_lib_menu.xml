@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem id="sh_lib_root_menu" name="Library">
+        <menuitem id="sh_lib_book_menu" name="Books" action="sh_library_book_action" sequence="1"/>
+        <menuitem id="sh_lib_category_menu" name="Categories" action="sh_library_category_action" sequence="2"/>
+        <menuitem id="sh_lib_member_menu" name="Member" action="sh_library_member_action" sequence="3"/>
+    </menuitem>
+</odoo>
