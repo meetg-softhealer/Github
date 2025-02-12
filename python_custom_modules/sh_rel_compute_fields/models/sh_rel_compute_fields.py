@@ -1,5 +1,5 @@
 import datetime as dt
-from odoo import models,fields,api
+from odoo import models,fields,api #type:ignore
 
 class Employee(models.Model):
     _name="sh.rel.compute.fields"
