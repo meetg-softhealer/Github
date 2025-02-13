@@ -13,6 +13,9 @@
                         <group>
                             <field name="employee_image" nolabel="1" widget="image" class="oe_avatar"/>
                         </group>
+                        <group>
+                            <field name="mobile"/>
+                        </group>
                     </group>
                     <group>
                         <group>
@@ -122,6 +125,7 @@
                     <button string="Update" name="Multi_Update_Methods" type="object" class="btn-success" display="always" />
                 </header>
                 <field name="name" decoration-danger="1"/>
+                <field name="mobile"/>
                 <field name="birthdate" decoration-warning="1"/>
                 <field name="gender" decoration-success="1"/>
                 <field name="blood_group"/>

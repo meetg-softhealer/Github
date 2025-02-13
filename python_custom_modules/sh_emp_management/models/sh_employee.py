@@ -10,7 +10,7 @@ class Employee(models.Model):
 
     name=fields.Char(string="Employee Name",required=True)
     employee_image=fields.Image()
-    
+    mobile = fields.Char("Mobile")
     ###[Relational]
     category_ids=fields.Many2many("sh.employee.category",string="Category")
     department_id=fields.Many2one("sh.department")
@@ -111,11 +111,16 @@ class Employee(models.Model):
                 # print(k,v)
                 if str(k)=="name":
                     rec[k] = rec[k].upper()
+        
+        for rec in vals_list:
+            if "mobile" in rec:
+                if '+91' not in rec["mobile"][0:3]:
+                    rec["mobile"] = '+91 '+rec["mobile"]
 
         result = super(Employee, self).create(vals_list)
 
         # print("\n\n\n\n\=======================\n\n\n\n\n")
-        print(self)
+        # print(self)
         result.ref = result.category_id.ref
         return result
     
@@ -123,3 +128,20 @@ class Employee(models.Model):
     # def _onchange_category_id(self):
     #     if self.category_id:
     #         self.ref = self.category_id.ref
+
+
+    def write(self, values):
+        # print("\n\n\n\n\n\n=======1",self)
+        # print("\n\n\n\n\n\n=======2",values)
+        
+        if "mobile" in values:
+            if values["mobile"]:
+                # print("In 1st if condition=====3")
+                # print(self.mobile)
+                if '+91' not in values["mobile"][0:3]:
+                    values["mobile"] = '+91 '+values["mobile"]
+                    # print(self.mobile)
+        result = super(Employee, self).write(values)
+        return result
+    
+    
