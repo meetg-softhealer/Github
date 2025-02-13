@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "mvintg.odoo-file",
+        "mstuttgart.odoo-snippets",
+        "esbenp.prettier-vscode"
+    ]
+}
