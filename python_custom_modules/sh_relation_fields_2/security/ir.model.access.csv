@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sh_relation_fields_2.access_sh_res_partner,access_sh_res_partner,sh_relation_fields_2.model_sh_res_partner,base.group_user,1,1,1,1
+sh_relation_fields_2.access_sh_product_product,access_sh_product_product,sh_relation_fields_2.model_sh_product_product,base.group_user,1,1,1,1
+sh_relation_fields_2.access_sh_account_tax,access_sh_account_tax,sh_relation_fields_2.model_sh_account_tax,base.group_user,1,1,1,1
+sh_relation_fields_2.access_sh_sale_order,access_sh_sale_order,sh_relation_fields_2.model_sh_sale_order,base.group_user,1,1,1,1
+sh_relation_fields_2.access_sh_sale_order_line,access_sh_sale_order_line,sh_relation_fields_2.model_sh_sale_order_line,base.group_user,1,1,1,1

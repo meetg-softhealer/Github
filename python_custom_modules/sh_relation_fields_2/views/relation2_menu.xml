@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="relation2_root_menu" name="Relation2">
+        <menuitem id="sh_res_partner_menu" name="Res Partner" action="sh_res_partner_action"/>
+        <menuitem id="sh_product_product_menu" name="Product Product" action="sh_product_product_action"/>
+        <menuitem id="sh_account_tax_menu" name="account Tax" action="sh_account_tax_action"/>
+        <menuitem id="sh_sale_order_menu" name="Sale Order" action="sh_sale_order_action"/>
+        <menuitem id="sh_sale_order_line_menu" name="Sale Order Line" action="sh_sale_order_line_action"/>
+    </menuitem>
+</odoo>
