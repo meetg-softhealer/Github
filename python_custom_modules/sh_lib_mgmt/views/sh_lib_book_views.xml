@@ -7,9 +7,14 @@
             <form>
                 <sheet>
                     <group>
+                        <!-- <header>
+                            <button name="_compute_borrow_book" type="object" string="Custom Method"/>
+                        </header> -->
                         <field name="name"/>
                         <field name="category_id"/>
+                        <field name="total_qty"/>
                         <field name="borrower_ids" widget="many2many_tags"/>
+                        <field name="availibility" widget="radio"/>
                     </group>
                 </sheet>
             </form>
@@ -21,9 +26,14 @@
         <field name="model">sh.library.book</field>
         <field name="arch" type="xml">
             <list>
+            <!-- <header>
+                <button name="borrow_book" type="object" string="Custom Method"/>
+            </header> -->
                 <field name="name"/>
                 <field name="category_id"/>
+                <field name="total_qty"/>
                 <field name="borrower_ids" widget="many2many_tags"/>
+                <field name="availibility" widget="radio"/>
             </list>
         </field>
     </record>

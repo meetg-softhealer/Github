@@ -2,7 +2,7 @@
 # Copyright (C) Softhealer Technologies.
 
 from odoo import models,fields,api #type:ignore
-from odoo.exceptions import ValidationError #type:ignore
+from odoo.exceptions import UserError, ValidationError #type:ignore
 
 
 class books(models.Model):
@@ -11,7 +11,9 @@ class books(models.Model):
 
     name = fields.Char("Book Name")
     category_id = fields.Many2one("sh.library.category", string="Category")    
+    total_qty = fields.Integer("Total Quantity")   
     borrower_ids = fields.Many2many("sh.library.member", string="Borrower") 
+    availibility = fields.Selection(selection=[('available','Available'),('borrowed','Borrowed')], compute='_compute_borrow_book')
 
     @api.model_create_multi
     def create(self, vals_list):  
@@ -44,4 +46,30 @@ class books(models.Model):
     # # else:
     # #     rec.category_id.name = rec.category_id.name
     # #     print("else",rec.category_id.name)normal
-                
+
+
+    def unlink(self):
+        if not self.borrower_ids:
+            rec = super(books, self).unlink()
+            return rec
+        else:
+            raise UserError('You cannot delete a book which is already being borrowed!!!')
+
+    @api.depends('total_qty')       
+    def _compute_borrow_book(self):           
+        for rec in self:
+            if len(rec.borrower_ids) < rec.total_qty:
+                rec.availibility = 'available'
+            elif len(rec.borrower_ids) > rec.total_qty:
+                raise UserError('You cannot add a borrower as all the books are already being borrowed!!!') 
+            else:    
+                rec.availibility = 'borrowed'
+            
+    @api.onchange('borrower_ids')
+    def _onchange_availibility(self):
+        if len(self.borrower_ids) > self.total_qty:
+            raise UserError('You cannot add a borrower as all the books are already being borrowed!!!') 
+            
+            
+            
+            
