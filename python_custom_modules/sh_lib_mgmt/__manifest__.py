@@ -14,6 +14,7 @@
         'views/sh_lib_member_views.xml',
         'views/sh_lib_menu.xml'
         ],
+
     'installable':True,
     'application':True,
     'license': 'LGPL-3',

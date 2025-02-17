@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem id="sh_student_root_menu" name="Student"> 
+        <menuitem id="sh_student_menu" name="Student Details" action="sh_student_action" sequence="1"/>
+        <menuitem id="sh_age_category_menu" name="Age Category" action="sh_age_category_action" sequence="2"/>
+    </menuitem>
+</odoo>

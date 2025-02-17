@@ -7,7 +7,9 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name"/>        
+                        <field name="name"/>   
+                        <field name="phone"/>     
+                        <field name="already_a_mobile"/>
                         <field name="book_ids" widget="many2many_tags"/>
                         <field name="membership" widget="radio"/>
                     </group>
@@ -22,6 +24,8 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>        
+                <field name="phone"/>   
+                <field name="already_a_mobile"/>
                 <field name="book_ids" widget="many2many_tags"/>
                 <field name="membership" widget="radio"/>
             </list>
