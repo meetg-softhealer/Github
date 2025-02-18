@@ -2,6 +2,8 @@
 # Copyright (C) Softhealer Technologies.
 import datetime as dt
 from odoo import models,fields,api #type:ignore
+from odoo.exceptions import UserError, ValidationError #type:ignore
+
 
 class Employee(models.Model):
     _name="sh.employee"
@@ -113,9 +115,14 @@ class Employee(models.Model):
                     rec[k] = rec[k].upper()
         
         for rec in vals_list:
-            if "mobile" in rec:
+            if rec["mobile"]:
                 if '+91' not in rec["mobile"][0:3]:
                     rec["mobile"] = '+91 '+rec["mobile"]
+
+        for rec in vals_list:
+            email = self.search([('work_email',"=",rec['work_email'])])
+            if email:
+                raise UserError("Email already exists")
 
         result = super(Employee, self).create(vals_list)
 
