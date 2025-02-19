@@ -8,6 +8,7 @@ class category(models.Model):
     _description = "Category Table"
 
     name = fields.Char("Category Name")
+    description = fields.Text("Book Description")
     book_ids = fields.One2many("sh.library.book","category_id",string="Books")
     total_book = fields.Integer("Total Books", compute='_compute_total_books')
     

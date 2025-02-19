@@ -8,6 +8,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="description"/>
                         <field name="book_ids"/>
                         <field name="total_book"/>
                     </group>

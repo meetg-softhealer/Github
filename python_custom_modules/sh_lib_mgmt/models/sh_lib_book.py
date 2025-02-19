@@ -10,9 +10,12 @@ class books(models.Model):
     _description = "Book Table"
 
     name = fields.Char("Book Name")
+    isbn = fields.Char("ISBN Number")
+    published_date = fields.Date("Pulished Date")
     category_id = fields.Many2one("sh.library.category", string="Category")    
     total_qty = fields.Integer("Total Quantity")   
     borrower_ids = fields.Many2many("sh.library.member", string="Borrower") 
+    available_copies = fields.Integer(compute='_compute_available_copies', string="Available Copies")
     availibility = fields.Selection(selection=[('available','Available'),('borrowed','Borrowed')], compute='_compute_borrow_book')
 
     @api.model_create_multi
@@ -65,6 +68,11 @@ class books(models.Model):
             else:    
                 rec.availibility = 'borrowed'
             
+    @api.depends('total_qty')
+    def _compute_available_copies(self):
+        for record in self:
+            record.available_copies = record.total_qty - len(record.borrower_ids)
+
     @api.onchange('borrower_ids')
     def _onchange_availibility(self):
         if len(self.borrower_ids) > self.total_qty:

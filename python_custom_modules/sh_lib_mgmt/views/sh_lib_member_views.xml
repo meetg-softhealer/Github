@@ -8,7 +8,9 @@
                 <sheet>
                     <group>
                         <field name="name"/>   
+                        <field name="membership_id"/>
                         <field name="phone"/>     
+                        <field name="email"/>
                         <field name="already_a_mobile"/>
                         <field name="book_ids" widget="many2many_tags"/>
                         <field name="membership" widget="radio"/>
@@ -24,7 +26,9 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>        
+                <field name="membership_id"/>
                 <field name="phone"/>   
+                <field name="email"/>
                 <field name="already_a_mobile"/>
                 <field name="book_ids" widget="many2many_tags"/>
                 <field name="membership" widget="radio"/>

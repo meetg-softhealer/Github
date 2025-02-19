@@ -11,9 +11,12 @@
                             <button name="_compute_borrow_book" type="object" string="Custom Method"/>
                         </header> -->
                         <field name="name"/>
+                        <field name="isbn"/>
+                        <field name="published_date"/>
                         <field name="category_id"/>
                         <field name="total_qty"/>
                         <field name="borrower_ids" widget="many2many_tags"/>
+                        <field name="available_copies"/>
                         <field name="availibility" widget="radio"/>
                     </group>
                 </sheet>
@@ -30,9 +33,12 @@
                 <button name="borrow_book" type="object" string="Custom Method"/>
             </header> -->
                 <field name="name"/>
+                <field name="isbn"/>
+                <field name="published_date"/>
                 <field name="category_id"/>
                 <field name="total_qty"/>
                 <field name="borrower_ids" widget="many2many_tags"/>
+                <field name="available_copies"/>
                 <field name="availibility" widget="radio"/>
             </list>
         </field>

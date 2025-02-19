@@ -12,6 +12,7 @@
         'views/sh_lib_book_views.xml',
         'views/sh_lib_category_views.xml',
         'views/sh_lib_member_views.xml',
+        'views/sh_lib_borrowing_views.xml',
         'views/sh_lib_menu.xml'
         ],
 

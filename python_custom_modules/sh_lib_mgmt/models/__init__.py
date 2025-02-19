@@ -1,1 +1,1 @@
-from . import sh_lib_book, sh_lib_category, sh_lib_member
+from . import sh_lib_book, sh_lib_category, sh_lib_member, sh_lib_borrowing
