@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sale_order_action" model="ir.actions.act_window">
+        <field name="name">sale.order.inherit</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="sh_note_sale_order_menu" name="Note" action="sale_order_action" sequence="1" parent="sale.menu_sale_config"/>
+    
+</odoo>

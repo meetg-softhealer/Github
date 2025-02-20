@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sh_sale_custom.access_sh_note,access_sh_note,sh_sale_custom.model_sh_note,base.group_user,1,1,1,1

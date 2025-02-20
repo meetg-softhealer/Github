@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_note_view_form" model="ir.ui.view">
+        <field name="name">sh.note.view.form</field>
+        <field name="model">sh.note</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_note_view_list" model="ir.ui.view">
+        <field name="name">sh.note.view.list</field>
+        <field name="model">sh.note</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_note_action" model="ir.actions.act_window">
+        <field name="name">Sh Note</field>
+        <field name="res_model">sh.note</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
