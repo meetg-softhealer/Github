@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sale_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                        <field name="warranty_applicable"/>
+                        <field name="warranty_period"/>
+                        <field name="warranty_exp_date"/>
+                </xpath>
+
+                <xpath expr="//sheet/div/button" position="after">
+                        <button class="oe_stat_button" icon="fa-pencil-square-o" string="Warranty Details" type="action" name="%(sh_sale_warranty_action)d"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_list_inherit" model="ir.ui.view">
+                <field name="name">sale.order.inherit.list</field>
+                <field name="model">sale.order</field>
+                <field name="inherit_id" ref="sale.sale_order_tree"/>
+                <field name="arch" type="xml">
+                        <xpath expr="//field[@name='activity_ids']" position="after">
+                                <field name="warranty_applicable"/>
+                                <field name="warranty_period"/>
+                                <field name="warranty_exp_date"/>
+                        </xpath>
+                </field>
+        </record>       
+</odoo>
+
+
