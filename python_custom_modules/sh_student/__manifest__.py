@@ -11,7 +11,9 @@
         'security/ir.model.access.csv',
         'views/sh_student_views.xml',
         'views/sh_age_category_views.xml',
-        'views/sh_student_menu.xml'
+        'views/sh_student_menu.xml',
+        'report/sh_student_report_template.xml',
+        'report/sh_student_report.xml'
         ],
 
     'installable':True,
