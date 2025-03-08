@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <record id="module_category_timesheet" model="ir.module.category">
+        <field name="name">Timesheet</field>
+        <field name="sequence">5</field>
+    </record>
+    
+    
+    <record id="timesheet_user_group" model="res.groups">
+        <field name="name">Timesheet User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="sh_timesheet_mgmt.module_category_timesheet"/>
+    </record>
+
+    <record id="timesheet_manager_group" model="res.groups">
+        <field name="name">Timesheet Manager</field>
+        <field name="implied_ids" eval="[(4, ref('sh_timesheet_mgmt.timesheet_user_group'))]"/>
+        <field name="category_id" ref="sh_timesheet_mgmt.module_category_timesheet"/>
+    </record>
+
+
+
+    
+</odoo>

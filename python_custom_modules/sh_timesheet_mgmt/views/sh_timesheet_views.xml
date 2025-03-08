@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_timesheet_view_form" model="ir.ui.view">
+        <field name="name">sh.timesheet.view.form</field>
+        <field name="model">sh.timesheet</field>
+        <field name="arch" type="xml">
+            <form>
+                
+                <header>
+                <!--  The object type button will always have a method in its name. -->
+                    <!-- The action type button will have an action which can be called as action_name. -->
+                    <!-- If in a different module, it can be called as action module_name.action_name. -->
+                   
+                    <button string="Submit To Manager" name="submit_action" type="object" class="oe_highlight" invisible="state != 'draft' "/>
+                    <button string="Approve" name="approve_action" type="object" class="oe_highlight" invisible="state != 'submitted' " groups="sh_timesheet_mgmt.timesheet_manager_group"/>
+                    <button string="Reject" name="reject_action_wizard" type="object" class="oe_highlight" invisible="state != 'submitted' " groups="sh_timesheet_mgmt.timesheet_manager_group"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+
+                </header>
+                <sheet>
+                    <group>
+                        <field name="user_id"/>        
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="date"/>
+                        <field name="hours"/>
+                        <field name="tag_ids"/>
+                        <field name="reject_reason"/>
+                        <field name="task_ids"/>
+                        <field name="total_amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>    
+
+    <record id="sh_timesheet_view_tree" model="ir.ui.view">
+        <field name="name">sh.timesheet.view.tree</field>
+        <field name="model">sh.timesheet</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id"/>        
+                <field name="name"/>
+                <field name="date"/>
+                <field name="hours"/>
+                <field name="tag_ids"/>
+                <field name="state"/>
+                <field name="task_ids"/>
+                <field name="total_amount"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_timesheet_view_kanban" model="ir.ui.view">
+        <field name="name">sh.timesheet.view.kanban</field>
+        <field name="model">sh.timesheet</field>
+        <field name="arch" type="xml">
+        
+            <kanban sample="1">
+                <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main class="pe-2">
+                            <div class="mb-1">
+                                <div class="d-flex mb-0 h5">
+                                    <field name="name"/>
+                                </div>
+                            </div>
+                            <span>
+                                Price: <field name="total_amount" widget="monetary"/>
+                            </span>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="sh_timesheet_action" model="ir.actions.act_window">
+        <field name="name">Timesheets</field>
+        <field name="res_model">sh.timesheet</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+</odoo>
