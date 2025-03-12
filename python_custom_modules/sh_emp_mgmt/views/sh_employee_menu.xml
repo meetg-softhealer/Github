@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem id="sh_empoyee_root_menu" name="Employee 2">
+        <menuitem id="sh_employee_menu" name="Employee" action="sh_employee_action" sequence="1"/>
+    </menuitem>
+</odoo>
