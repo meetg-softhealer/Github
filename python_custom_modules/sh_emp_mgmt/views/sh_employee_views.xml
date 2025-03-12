@@ -9,6 +9,8 @@
                     <group>
                         <field name="name"></field>        
                         <field name="user_id"></field>
+
+                        <!-- <button string="Method Call" name="method1" type="object" class="oe_highlight"/> -->
                     </group>
                 </sheet>
             </form>

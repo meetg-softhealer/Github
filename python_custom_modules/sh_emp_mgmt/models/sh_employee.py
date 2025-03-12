@@ -12,3 +12,9 @@ class Employee(models.Model):
     user_id = fields.Many2one("res.users", string="Manager")
 
     
+    # def method1(self):
+    #     self.with_context({'name':True}).method2()
+        
+
+    # def method2(self):
+    #     print(type(self.env.context))
