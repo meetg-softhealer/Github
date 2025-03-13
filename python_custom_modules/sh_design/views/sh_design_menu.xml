@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem id="sh_design_root_menu" name="SH Design">
+        <!-- <menuitem id="sh_design_menu" name="Design" action="sh_design_action" sequence="1"/> -->
+        <menuitem id="sh_design_category_menu" name="Design Category" action="sh_design_category_action" sequence="2"/>
+        <menuitem id="sh_design_type_menu" name="Design Type" action="sh_design_type_action" sequence="3"/>
+    </menuitem>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sh_design.access_sh_design_category,access_sh_design_category,sh_design.model_sh_design_category,base.group_user,1,1,1,1
+sh_design.access_sh_design_type,access_sh_design_type,sh_design.model_sh_design_type,base.group_user,1,1,1,1
+sh_design.access_sh_design,access_sh_design,sh_design.model_sh_design,base.group_user,1,1,1,1

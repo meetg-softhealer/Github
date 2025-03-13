@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="sh_design_page" string="Design">
+                <field name="design_ids">
+                    <list editable="bottom">
+                        <field name="partner_id"/>
+                        <field name="design_category_id"/>
+                        <field name="design_type_id"/>
+                        <field name="des_typ_img" widget="image" class="o_avatar o_user_avatar rounded" options="{'size': [50, 50]}"/>
+                    </list>
+                </field>
+                </page>        
+            </xpath>        
+        </field>
+    </record>
+
+    
+
+    
+    <!-- <record id="sh_design_view_list" model="ir.ui.view">
+        <field name="name">sh.design.view.list</field>
+        <field name="model">sh.design</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="partner_ids"/>
+                <field name="design_category_id"/>
+                <field name="design_type_id"/>
+            </list>
+        </field>
+    </record> -->
+
+    <!-- <record id="sh_design_action" model="ir.actions.act_window">
+        <field name="name">SH Design</field>
+        <field name="res_model">sh.design</field>
+        <field name="view_mode">list</field>
+    </record> -->
+</odoo>
