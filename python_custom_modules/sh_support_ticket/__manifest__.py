@@ -10,6 +10,7 @@
     'data':[
         'security/sh_support_ticket_security.xml',
         'security/ir.model.access.csv',
+        'demo/demo_data.xml',
         'views/ir_cron.xml',
         'views/res_partner_inherit_views.xml',
         'views/res_users_inherit_views.xml',

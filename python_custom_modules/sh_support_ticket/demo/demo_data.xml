@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+
+       <record id="demo_user_1" model="res.users">
+            <field name="name">dev1</field>
+            <field name="login">dev1</field>
+        </record>
+
+        <record id="demo_user_2" model="res.users">
+            <field name="name">dev2</field>
+            <field name="login">dev2</field>
+        </record>
+
+        <record id="demo_user_3" model="res.users">
+            <field name="name">sl1</field>
+            <field name="login">sl1</field>
+        </record>
+
+        <record id="demo_customer_1" model="res.partner">
+            <field name="name">custo1</field>
+        </record>
+
+        <record id="demo_customer_2" model="res.partner">
+            <field name="name">custo2</field>
+        </record>
+
+         <record id="demo_ticket_1" model="support.ticket">
+            <field name="name">ST00001</field>
+            <field name="priority">high</field>
+            <field name="status">new</field>
+            <field name="developer_id" ref="demo_user_1"/>
+            <field name="support_leader" ref="demo_user_3"/>
+            <field name="customer_id" ref="demo_customer_1"/>
+        </record>
+
+        <record id="demo_ticket_2" model="support.ticket">
+            <field name="name">ST00002</field>
+            <field name="priority">low</field>
+            <field name="status">new</field>
+            <field name="developer_id" ref="demo_user_2"/>
+            <field name="support_leader" ref="demo_user_3"/>
+            <field name="customer_id" ref="demo_customer_2"/>
+        </record>
+
+      </data>  
+
+</odoo>
