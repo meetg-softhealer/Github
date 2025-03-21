@@ -9,7 +9,7 @@ class rejection_reason(models.TransientModel):
     
     def save_wizard_action(self):
         # print("\n\n\n\n\n=======",self.env.context)
-        current_id = self.env.context.get('active_id')
+        current_id = self.env.context.get('active_id') #returns id of the current record
         # print(current_id.state)
         current_record = self.env['sh.timesheet'].browse(current_id)
         current_record.state = 'rejected'

@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <data noupdate="1">
+       <record id="ir_sequence_support_ticket" model="ir.sequence">
+           <field name="name">Ticket Sequence</field>
+           <field name="code">support.ticket</field>
+           <field name="prefix">ST</field>
+           <field name="padding">5</field>
+           <field name="number_next">1</field>
+           <field name="number_increment">1</field>
+           <field name="company_id" eval="False"/>
+       </record>
+   </data>
+
+    <record id="action_mass_update_tickets" model="ir.actions.server">
+        <field name="name">Close</field>
+        <field name="model_id" ref="sh_support_ticket.model_support_ticket"/>
+        <field name="binding_model_id" ref="sh_support_ticket.model_support_ticket"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            if record:
+                action = record.close_ticket()
+        </field>
+    </record>
+
+    <record id="support_ticket_search" model="ir.ui.view">
+        <field name="name">support.ticket.search</field>
+        <field name="model">support.ticket</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>        
+                <field name="customer_id"/>
+                <field name="priority"/>
+                <field name="developer_id"/>
+                <field name="status"/>
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="customer_id" context="{'group_by': 'customer_id'}"/>
+                    <filter string="Priority" name="priority" context="{'group_by': 'priority'}"/>
+                    <filter string="Developer" name="developer_id" context="{'group_by': 'developer_id'}"/>
+                    <filter string="Status" name="status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="support_ticket_view_form" model="ir.ui.view">
+        <field name="name">support.ticket.view.form</field>
+        <field name="model">support.ticket</field>
+        <field name="arch" type="xml">
+            <form>
+                        
+                <field name="status" widget="statusbar"/>
+                <group>
+                    <button string="Start" name="status_to_progress" type="object" class="oe_highlight" invisible="status != 'new'"/>
+                    <button string="Finish" name="status_to_resolved" type="object" class="oe_highlight" invisible="status != 'progress'"/>    
+                    <button string="Close" name="status_to_closed" type="object" class="oe_highlight" invisible="status != 'resolved'" groups="sh_support_ticket.support_ticket_sl_group"/>
+                </group>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="invoice_smart_button_action" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            Invoice
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>        
+                            <field name="customer_id"/>
+                            <field name="priority"/>
+                            <field name="developer_id"/>    
+                        </group>
+                        <group>
+                            <field name="creation_date"/>
+                            <field name="support_leader"/>
+                            <field name="sl_rating"/>    
+                        </group>                    
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="support_ticket_view_list" model="ir.ui.view">
+        <field name="name">support.ticket.view.list</field>
+        <field name="model">support.ticket</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>        
+                <field name="customer_id"/>
+                <field name="priority"/>
+                <field name="developer_id"/>        
+                <field name="creation_date"/>
+                <field name="support_leader"/>
+                <field name="sl_rating"/>    
+            </list>
+        </field>
+    </record>
+
+    <record id="support_ticket_kanban_view" model="ir.ui.view">
+            <field name="name">support.ticket.kanban.view</field>
+            <field name="model">support.ticket</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" default_group_by="status">
+                    <templates>
+                        <t t-name="card" class="flex-row">
+                            <div class="card-body ms-1">
+                                <strong>
+                                    Ticket:<field name="name"/>
+                                </strong>
+                                <main>
+                                    <div>
+                                    ID:<field class="ms-1 badge rounded-pill bg-success text-white" name="status"/>
+                                    </div>                        
+                                </main>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="support_ticket_view_pivot" model="ir.ui.view">
+        <field name="name">support.ticket.view.pivot</field>
+        <field name="model">support.ticket</field>
+        <field name="arch" type="xml">
+            <pivot string="Developer" disable_linking="true">
+                <field name="developer_id"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- <record i="support_ticket_view_calendar" model="ir.ui.view">
+        <field name="name">support.ticket.view.calendar</field>
+        <field name="model">support.ticket</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date" string="Tickets Calendar"
+                mode="month" date_stop="end_date">
+                <field name="creation_date"/>
+                <field name="name" avatar_field="avatar_128"/>
+                <field name="status"/>
+                <field name="resolved_date"/>
+            </calendar>
+        </field>
+    </record> -->
+
+    <record model="ir.ui.view" id="support_ticket_calendar">
+        <field name="name">support.ticket.calendar</field>
+        <field name="model">support.ticket</field>
+        <field name="arch" type="xml">
+            <calendar date_start="creation_date" date_stop="resolved_date" string="Ticket Calendar" mode="month">
+                <field name="creation_date"/>
+                <field name="name" avatar_field="avatar_128"/>
+                <field name="status"/>
+                <field name="resolved_date"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- <record id="support_ticket_view_activity" model="ir.ui.view">
+            <field name="name">support.ticket.view.activity</field>
+            <field name="model">support.ticket</field>
+            <field name="arch" type="xml">
+                <activity string="Ticket Activity View">
+                    <field name="name"/>
+                    <templates>
+                        <div t-name="activity-box" class="d-block">
+                            <div class="d-flex justify-content-between">
+                                <field name="creation_date"/>
+                                <field name="developer_id"/>
+                                <field name="resolved_date"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record> -->
+
+    <record id="support_ticket_action" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">support.ticket</field>
+        <field name="view_mode">list,form,kanban,pivot,calendar,activity</field>
+    </record>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="module_category_support_ticket" model="ir.module.category">
+        <field name="name">Support Ticket</field>
+        <field name="sequence">5</field>
+    </record>
+
+    <record id="support_ticket_developer_group" model="res.groups">
+        <field name="name">Ticket Developer</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="sh_support_ticket.module_category_support_ticket"/>
+    </record>
+
+    <record id="support_ticket_sl_group" model="res.groups">
+        <field name="name">Ticket Support Leader</field>
+        <field name="implied_ids" eval="[(4, ref('sh_support_ticket.support_ticket_developer_group'))]"/>
+        <field name="category_id" ref="sh_support_ticket.module_category_support_ticket"/>
+    </record>
+
+    <record id="sh_support_ticket_developer_rule" model="ir.rule">
+        <field name="name">Developer Rule</field>
+        <field name="model_id" ref="model_support_ticket"/>
+        <field name="domain_force">[('developer_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('sh_support_ticket.support_ticket_developer_group'))]"/>
+    </record>
+
+    <record id="sh_support_ticket_sl_rule" model="ir.rule">
+        <field name="name">Support Leader Rule</field>
+        <field name="model_id" ref="model_support_ticket"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('sh_support_ticket.support_ticket_sl_group'))]"/>
+    </record>
+</odoo>

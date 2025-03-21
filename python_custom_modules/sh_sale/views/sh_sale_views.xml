@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_sale_view_form" model="ir.ui.view">
+        <field name="name">sh.sale.view.form</field>
+        <field name="model">sh.sale</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="partner_id"/>        
+                    </group>
+
+                    <group>
+                        <field name="exp_date"/>
+                        <field name="quote_date"/>
+                        <field name="payment_terms_id"/>
+                    </group>
+
+                    <group>
+                        <page name="sh_sale_order_line_page" string="Order Lines">                            
+                            <record id="sh_sale_view_list" model="ir.ui.view">
+                                <field name="name">sh.sale.view.list</field>
+                                <field name="model">sh.sale</field>
+                                <field name="arch" type="xml">
+                                    <list>
+                                        <field name=""/>
+                                    </list>
+                                </field>
+                            </record>
+                        </page>
+                    </group>
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
