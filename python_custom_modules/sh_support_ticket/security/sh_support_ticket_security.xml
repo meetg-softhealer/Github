@@ -15,6 +15,7 @@
         <field name="name">Ticket Support Leader</field>
         <field name="implied_ids" eval="[(4, ref('sh_support_ticket.support_ticket_developer_group'))]"/>
         <field name="category_id" ref="sh_support_ticket.module_category_support_ticket"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"></field>
     </record>
 
     <record id="sh_support_ticket_developer_rule" model="ir.rule">

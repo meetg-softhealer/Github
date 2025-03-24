@@ -14,6 +14,7 @@
         'views/ir_cron.xml',
         'views/res_partner_inherit_views.xml',
         'views/res_users_inherit_views.xml',
+        'views/account_move_inherit_views.xml',
         'views/support_ticket_wizard_views.xml',
         'views/sh_support_ticket_views.xml',
         'views/sh_support_ticket_menu.xml',

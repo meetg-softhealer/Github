@@ -25,20 +25,21 @@ class sh_support_ticket(models.Model):
     status = fields.Selection([("new","New"),("progress","In Progress"),("resolved","Resolved"),("closed","Closed")], default='new')
     creation_date = fields.Date(compute='_compute_creation_date', string="Creation Date")
     resolved_date = fields.Date(string="Issue Resolved Date")
+    invoice_ids = fields.One2many("account.move", "ticket_id", string="Invoices")
 
     # Compute the creation date as today's 
     def _compute_creation_date(self):
         for record in self:
             record.creation_date = datetime.today()
 
-    support_leader = fields.Many2one("res.users", string="Support Leader")
-    sl_rating = fields.Selection([('one','1'),('two','2'),('three','3'),('four','4'),('five','5')], compute='_compute_sl_rating', string="Sl Rating")
+    # support_leader = fields.Many2one("res.users", string="Support Leader")
+    # sl_rating = fields.Selection([('one','1'),('two','2'),('three','3'),('four','4'),('five','5')], compute='_compute_sl_rating', string="Sl Rating")
         
     # Compute rating from the assigned support leader
-    @api.depends('support_leader')
-    def _compute_sl_rating(self):
-        for record in self:
-            record.sl_rating = record.support_leader.rating
+    # @api.depends('support_leader')
+    # def _compute_sl_rating(self):
+    #     for record in self:
+    #         record.sl_rating = record.support_leader.rating
             
     # Update resolved date when status changes to resolved
     @api.onchange('status')
@@ -94,7 +95,21 @@ class sh_support_ticket(models.Model):
 
     # Change status to Closed
     def status_to_closed(self):
-        self.status = 'closed'
+        for ticket in self:
+            ticket.status = 'closed'
+
+            self.env['account.move'].create({
+                'partner_id' : self.customer_id.id,
+                'invoice_date': datetime.today(),
+                'ticket_id': ticket.id,
+                'move_type':'out_invoice',
+                'invoice_line_ids': [(0,0,{
+                    'name': ticket.name,
+                    'quantity':'1',
+                    'price_unit':'10'}
+                )]  
+            })
+
 
     # Open a wizard to close the ticket
     def close_ticket(self):
@@ -104,6 +119,7 @@ class sh_support_ticket(models.Model):
             'res_model': 'support.ticket.wizard',
             'target': 'new',
             'view_mode': 'form',
+            'context' : {'hi':'hi'}
         }
 
     # Set default priority for new tickets
@@ -118,12 +134,10 @@ class sh_support_ticket(models.Model):
     def unique_developer(self):
         tickets = self.search([('developer_id', "=", self.developer_id.id),('id','!=',self.id)])
         for record in tickets:
-            if record.status == 'progress' or record.status == 'new':
+            if record.status != 'closed':                              #record.status == 'progress' or record.status == 'new':
                 raise UserError("The developer has been already assigned with a task !!!")
 
-
             
-
 class res_user_inherit(models.Model):
     _inherit = "res.users"
 
@@ -144,4 +158,11 @@ class res_partner_inherit(models.Model):
             'view_mode': 'list,form',
             'domain': [('customer_id', '=',self.id)],
         }
+    
+class account_move_inherit(models.Model):
+
+    _inherit = "account.move"
+
+    ticket_id = fields.Many2one("support.ticket", string="Ticket")
+
     

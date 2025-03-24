@@ -55,25 +55,23 @@
                 <group>
                     <button string="Start" name="status_to_progress" type="object" class="oe_highlight" invisible="status != 'new'"/>
                     <button string="Finish" name="status_to_resolved" type="object" class="oe_highlight" invisible="status != 'progress'"/>    
-                    <button string="Close" name="status_to_closed" type="object" class="oe_highlight" invisible="status != 'resolved'" groups="sh_support_ticket.support_ticket_sl_group"/>
+                    <button string="Close" name="status_to_closed" type="object" class="oe_highlight" invisible="status != 'resolved'"/>
                 </group>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="invoice_smart_button_action" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                        <button name="invoice_smart_button_action" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="status != 'closed'">
                             Invoice
                         </button>
                     </div>
                     <group>
                         <group>
                             <field name="name"/>        
-                            <field name="customer_id"/>
-                            <field name="priority"/>
+                            <field name="customer_id"/>                
                             <field name="developer_id"/>    
                         </group>
                         <group>
                             <field name="creation_date"/>
-                            <field name="support_leader"/>
-                            <field name="sl_rating"/>    
+                            <field name="priority"/>
                         </group>                    
                     </group>
                 </sheet>
@@ -90,9 +88,7 @@
                 <field name="customer_id"/>
                 <field name="priority"/>
                 <field name="developer_id"/>        
-                <field name="creation_date"/>
-                <field name="support_leader"/>
-                <field name="sl_rating"/>    
+                <field name="creation_date"/>                    
             </list>
         </field>
     </record>
