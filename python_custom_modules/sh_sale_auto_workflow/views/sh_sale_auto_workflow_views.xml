@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_sale_auto_workflow_view_list" model="ir.ui.view">
+        <field name="name">sh.sale.auto.workflow.view.list</field>
+        <field name="model">sh.sale.auto.workflow</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="delivery_order" widget="boolean_toggle"/>
+                <field name="force_transfer" widget="boolean_toggle"/>
+                <field name="create_invoice" widget="boolean_toggle"/>
+                <field name="validate_invoice" widget="boolean_toggle"/>
+                <field name="register_payment" widget="boolean_toggle"/>
+                <field name="invoice_by_mail" widget="boolean_toggle"/>
+                <field name="sale_journal"/>
+                <field name="payment_journal"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_sale_auto_workflow_view_form" model="ir.ui.view">
+        <field name="name">sh.sale.auto.workflow.view.form</field>
+        <field name="model">sh.sale.auto.workflow</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <field name="delivery_order"/>
+                        <field name="force_transfer"/>
+                        <field name="create_invoice"/>
+                        <field name="validate_invoice"/>
+                    </group>
+                    <group>
+                        <field name="sale_journal"/>
+                        <field name="payment_journal"/>
+                        <field name="company_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_sale_auto_workflow_action" model="ir.actions.act_window">
+        <field name="name">Sale Auto Workflow</field>
+        <field name="res_model">sh.sale.auto.workflow</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

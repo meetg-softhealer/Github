@@ -1,0 +1,1 @@
+from . import sh_sale_auto_workflow, sale_inherit

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="replace_button_wizard_view_form" model="ir.ui.view">
+        <field name="name">replace.button.wizard.view.form</field>
+        <field name="model">replace.button.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

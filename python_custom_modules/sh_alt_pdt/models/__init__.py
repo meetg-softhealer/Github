@@ -1,0 +1,1 @@
+from . import sh_product_variant_inherit, sh_res_users_inherit
