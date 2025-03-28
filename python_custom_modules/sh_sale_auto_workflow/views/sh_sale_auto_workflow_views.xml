@@ -7,7 +7,6 @@
             <list>
                 <field name="name"/>
                 <field name="delivery_order" widget="boolean_toggle"/>
-                <field name="force_transfer" widget="boolean_toggle"/>
                 <field name="create_invoice" widget="boolean_toggle"/>
                 <field name="validate_invoice" widget="boolean_toggle"/>
                 <field name="register_payment" widget="boolean_toggle"/>
@@ -29,8 +28,7 @@
                         <field name="name"/>
                     </h1>
                     <group>
-                        <field name="delivery_order"/>
-                        <field name="force_transfer"/>
+                        <field name="delivery_order"/>                    
                         <field name="create_invoice"/>
                         <field name="validate_invoice"/>
                     </group>

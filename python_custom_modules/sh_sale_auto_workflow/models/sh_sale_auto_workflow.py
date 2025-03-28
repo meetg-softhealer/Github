@@ -10,7 +10,6 @@ class sh_sale_auto_workflow(models.Model):
     name = fields.Char(string="Name")
 
     delivery_order = fields.Boolean(string="Delivery Order")
-    force_transfer = fields.Boolean(string="Force Transfer")
     create_invoice = fields.Boolean(string="Create Invoice")
     validate_invoice = fields.Boolean(string="Validate Invoice")
     register_payment = fields.Boolean(string="Register Payment")
