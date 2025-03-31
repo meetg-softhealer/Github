@@ -1,0 +1,1 @@
+from . import sh_sale_order_inherit,sh_sale_order_line_inherit,sh_res_config_settings_inherit,sh_temp_table,sh_res_company

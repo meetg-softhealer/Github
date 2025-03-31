@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="temp_table_view_list" model="ir.ui.view">
+        <field name="name">temp.table.view.list</field>
+        <field name="model">temp.table</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="tech_name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="temp_table_action" model="ir.actions.act_window">
+        <field name="name">Temp Table</field>
+        <field name="res_model">temp.table</field>
+        <field name="view_mode">list</field>        
+    </record>
+
+    <menuitem id="temp_table_root_menu" name="Temp Table">
+        <menuitem id="temp_table_menu" name="Temp Table" action="temp_table_action"/>
+    </menuitem>
+
+
+</odoo>
