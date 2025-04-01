@@ -12,8 +12,11 @@ class sh_sale_order_line_inherit(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Alternative Product'),   #type:ignore
-            'res_model': 'replace.support.wizard',
+            'res_model': 'replace.button.wizard',
             'target': 'new',
             'view_mode': 'form',
+            'context':{'default_product_id':self.product_id.id,
+                       'default_sale_order_line_id':self.id} 
+                       
         }
 
