@@ -1,1 +1,1 @@
-from . import sh_sale_auto_workflow, sale_inherit
+from . import sh_res_company, sh_res_config_settings_inherit, sh_sale_auto_workflow, sale_inherit
