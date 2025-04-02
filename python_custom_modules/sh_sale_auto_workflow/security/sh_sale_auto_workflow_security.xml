@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <record id="module_category_sh_sale_auto_workflow" model="ir.module.category">
+    <!-- <record id="module_category_sh_sale_auto_workflow" model="ir.module.category">
         <field name="name">Sale Auto Workflow</field>
         <field name="sequence">5</field>
-    </record>
+    </record> -->
 
     <record id="sh_sale_auto_workflow_enable" model="res.groups">
         <field name="name">Sale Auto Workflow</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        <field name="category_id" ref="sh_sale_auto_workflow.module_category_sh_sale_auto_workflow"/>
+        <!-- <field name="category_id" ref="sh_sale_auto_workflow.module_category_sh_sale_auto_workflow"/> -->
     </record>
 </odoo>

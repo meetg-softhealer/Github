@@ -7,9 +7,11 @@
         <field name="arch" type="xml">
             <xpath expr="//block[@id='connectors_setting_container']" position="after">
                 <block title="Auto Sale Workflow Settings" >
-                        <setting id="auto_sale_workflow_setting_container">
-                            <field name="enable_auto_workflow" widget="upgrade_boolean"/>
-                            <field name="default_workflow"/>
+                        <setting id="auto_sale_workflow_setting_container_1">
+                            <field name="enable_auto_workflow"/>                        
+                        </setting>
+                        <setting id="auto_sale_workflow_setting_container_2">                
+                            <field name="bydefault_workflow" string="Default Workflow"/>
                         </setting>
                     </block>
             </xpath>

@@ -1,1 +1,1 @@
-from . import sh_product_variant_inherit, sh_res_users_inherit
+from . import sh_product_variant_inherit, sh_res_users_inherit, replace_button_wizard, sh_sale_order_line_inherit

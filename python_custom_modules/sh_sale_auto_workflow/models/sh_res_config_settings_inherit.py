@@ -7,5 +7,5 @@ from odoo.exceptions import UserError #type:ignore
 class sh_res_config_settings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    enable_auto_workflow = fields.Boolean(string="Enable Auto Sale Workflow")
-    default_workflow = fields.Many2one("sh.sale.auto.workflow", string="Default Workflow")
+    enable_auto_workflow = fields.Boolean(string="Enable Auto Sale Workflow", related='company_id.enable_auto_workflow', readonly=False)
+    bydefault_workflow = fields.Many2one("sh.sale.auto.workflow", string="Default Workflow", related='company_id.bydefault_workflow', readonly=False)

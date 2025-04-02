@@ -8,6 +8,7 @@ class sh_product_variant_inherit(models.Model):
     _inherit = "product.product"
 
     alt_pdt_ids = fields.Many2many("product.product", string="Alterntive Product",relation="pdt_pdt", column1='source_id', column2='destination_id')
+    select_bool = fields.Boolean("")
 
     @api.model
     def create(self,vals_list):

@@ -1,12 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <record id="sh_sale_auto_workflow_inherit_sale_order_view" model="ir.ui.view">
+    <record id="sh_sale_order_inherit" model="ir.ui.view">
         <field name="name">sale.order.view.form.inherit</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="sale_workflow_id"/>
+            <xpath expr="//field[@name='order_line']/list/field[@name='price_subtotal']" position="after">           
+                
+                    <button name="replace_button_action" type="object" class="fa fa-book"/>
+                            
             </xpath>
         </field>
     </record>
