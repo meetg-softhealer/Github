@@ -34,25 +34,22 @@ class sh_sale_order_inherit(models.Model):
             for order in record_ids:
                 print('\n\n\n\n\n\n==== In :Loop')
                 self.sale_order_line_ids += order.order_line
-            
-
-    def create_new_record(self, record):
-        
-        new_record_values = {
-            'partner_id': self.partner_id.id,
-            'order_line': [(4,item.id) for item in record],
-        }
-    
-        self.create(new_record_values)
 
 
     def reorder_button_action(self):
-        record_list = []
-        for rec in self.sale_order_line_ids:
-            if rec.select_bool:
-                record_list += rec                
+        # record_list = []
+        # for rec in self.sale_order_line_ids:
+        #     if rec.select_bool:
+        #         record_list += rec                
 
-        self.create_new_record(record_list)
+        # self.create_new_record(record_list)
+        for record in self.sale_order_line_ids:
+            if record.select_bool:
+                record.env['sale.order.line'].create({'order_id':self.id,
+                                                  'product_id':record.product_template_id.id,                                                  
+                                                })
+        
+        self.sale_order_line_ids.select_bool = False
 
 
 

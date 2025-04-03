@@ -25,8 +25,8 @@ class sh_sale_order_lines_inherit(models.Model):
         }
     
     def copy_product_order_line_action(self):
-        print("\n\n\n\n\n\n=========", len(self))
-        print("\n\n\n\n\n\n=========", self.product_template_id.id)
+        # print("\n\n\n\n\n\n=========", len(self))
+        # print("\n\n\n\n\n\n=========", self.product_template_id.id)
         self.create({'order_id':self.sale_order_id.id,  
                      'product_id':self.product_template_id.id
                      })
