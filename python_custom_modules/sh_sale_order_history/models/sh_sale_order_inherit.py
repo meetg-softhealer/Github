@@ -39,6 +39,7 @@ class sh_sale_order_inherit(models.Model):
     def reorder_button_action(self):
       
         record_list = [rec.select_bool for rec in self.sale_order_line_ids]
+        # record_list_bools = [rec.select_bool for rec in record_list]
         
         if True in record_list:
             
