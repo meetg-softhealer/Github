@@ -37,20 +37,24 @@ class sh_sale_order_inherit(models.Model):
 
 
     def reorder_button_action(self):
-        # record_list = []
-        # for rec in self.sale_order_line_ids:
-        #     if rec.select_bool:
-        #         record_list += rec                
-
-        # self.create_new_record(record_list)
-        for record in self.sale_order_line_ids:
-            if record.select_bool:
-                record.env['sale.order.line'].create({'order_id':self.id,
-                                                  'product_id':record.product_template_id.id,                                                  
-                                                })
+      
+        record_list = [rec.select_bool for rec in self.sale_order_line_ids]
         
-        self.sale_order_line_ids.select_bool = False
-
+        if True in record_list:
+            
+            for record in self.sale_order_line_ids:
+                if record.select_bool:
+                    record.env['sale.order.line'].create({'order_id':self.id,
+                                                    'product_id':record.product_template_id.id,                                                  
+                                                    })
+            
+            self.sale_order_line_ids.select_bool = False
+        
+        else:
+            for record in self.sale_order_line_ids:                
+                record.env['sale.order.line'].create({'order_id':self.id,
+                                                'product_id':record.product_template_id.id,                                                  
+                                                })
 
 
 
