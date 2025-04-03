@@ -26,6 +26,7 @@
                             <field name="sh_status" widget="badge" decoration-info="state == 'draft'" 
                                                     decoration-success="state == 'sale'"/>
 
+                            <button name="copy_product_order_line_action" type="object" class="fa fa-exchange"/>        
                             <button name="view_order_action" type="object" class="fa fa-eye"/>
                         </list>
                     </field>   

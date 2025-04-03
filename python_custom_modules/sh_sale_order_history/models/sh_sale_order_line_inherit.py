@@ -12,6 +12,7 @@ class sh_sale_order_lines_inherit(models.Model):
 
     sh_status = fields.Selection(related='order_id.state')
 
+
     def view_order_action(self):
         # record = self.env['sale.order'].browse['order_id']
         return {
@@ -22,3 +23,10 @@ class sh_sale_order_lines_inherit(models.Model):
             'view_id': self.env.ref('sale.view_order_form').id,
             'res_id': self.order_id.id,
         }
+    
+    def copy_product_order_line_action(self):
+        print("\n\n\n\n\n\n=========", len(self))
+        print("\n\n\n\n\n\n=========", self.product_template_id.id)
+        self.create({'order_id':self.sale_order_id.id,  
+                     'product_id':self.product_template_id.id
+                     })
