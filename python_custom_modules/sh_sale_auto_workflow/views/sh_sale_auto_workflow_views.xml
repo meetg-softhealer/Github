@@ -6,11 +6,11 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
-                <field name="delivery_order" widget="boolean_toggle"/>
-                <field name="create_invoice" widget="boolean_toggle"/>
-                <field name="validate_invoice" widget="boolean_toggle"/>
-                <field name="register_payment" widget="boolean_toggle"/>
-                <field name="invoice_by_mail" widget="boolean_toggle"/>
+                <field name="delivery_order" widget="boolean_toggle" readonly="1"/>
+                <field name="create_invoice" widget="boolean_toggle" readonly="1"/>
+                <field name="validate_invoice" widget="boolean_toggle" readonly="1"/>
+                <field name="register_payment" widget="boolean_toggle" readonly="1"/>
+                <field name="invoice_by_mail" widget="boolean_toggle" readonly="1"/>
                 <field name="sale_journal"/>
                 <field name="payment_journal"/>
                 <field name="company_id"/>
@@ -30,12 +30,15 @@
                     <group>
                         <field name="delivery_order"/>                    
                         <field name="create_invoice"/>
-                        <field name="validate_invoice"/>
+                        <field name="validate_invoice" invisible="not create_invoice"/>
+                        <field name="register_payment" invisible="not create_invoice"/>
                     </group>
                     <group>
-                        <field name="sale_journal"/>
-                        <field name="payment_journal"/>
-                        <field name="company_id"/>
+                        <field name="sale_journal" invisible="not create_invoice"/>
+                        <field name="payment_journal" invisible="not create_invoice"/>
+                        <field name="payment_method" invisible="not create_invoice"/>
+                        <field name="invoice_by_mail" invisible="not create_invoice"/>
+                        <field name="company_id"/>                        
                     </group>
                 </sheet>
             </form>

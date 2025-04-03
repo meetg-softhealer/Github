@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- <record id="demo_company_rec_1" model="res.company">
+            <field name="name">My Company (India)</field>            
+        </record> -->
+        
+        
+        <record id="demo_accounting_journal_rec_1" model="account.journal">
+            <field name="name">Customer Invoices</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">sale</field>
+            <field name="code">S0002</field>
+        </record>
+
+        <record id="demo_accounting_journal_rec_2" model="account.journal">
+            <field name="name">Bank</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">bank</field>
+            <field name="code">S0003</field>
+        </record>
+    
+        <record id="demo_workflow_rec_1" model="sh.sale.auto.workflow">
+            <field name="name">demo workflow</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="delivery_order">True</field>
+            <field name="create_invoice">True</field>
+            <field name="validate_invoice">True</field>
+            <field name="register_payment">True</field>
+            <field name="invoice_by_mail">True</field>
+            <field name="sale_journal" ref="demo_accounting_journal_rec_1"/>
+            <field name="payment_journal" ref="demo_accounting_journal_rec_2"/>
+            <field name="payment_method" ref="account.account_payment_method_manual_in"/>
+        </record>
+    
+
+    </data>
+    
+</odoo>

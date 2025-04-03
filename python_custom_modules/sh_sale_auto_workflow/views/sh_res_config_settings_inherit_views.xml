@@ -8,9 +8,9 @@
             <xpath expr="//block[@id='connectors_setting_container']" position="after">
                 <block title="Auto Sale Workflow Settings" >
                         <setting id="auto_sale_workflow_setting_container_1">
-                            <field name="enable_auto_workflow"/>                        
+                            <field name="group_enable_auto_workflow"/>                        
                         </setting>
-                        <setting id="auto_sale_workflow_setting_container_2">                
+                        <setting id="auto_sale_workflow_setting_container_2" invisible="not group_enable_auto_workflow">                
                             <field name="bydefault_workflow" string="Default Workflow"/>
                         </setting>
                     </block>
