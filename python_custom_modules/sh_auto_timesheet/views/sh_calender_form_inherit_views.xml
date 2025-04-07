@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_calendar_inherit_form_view" model="ir.ui.view">
+        <field name="name">calendar.event.view.form.inherit</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='recurrency']" position="before">
+                <field name="update_reason" invisible="not update_bool2"/>
+            </xpath>
+
+            <xpath expr="//field[@name='alarm_ids']" position="after">
+                <field name="project_id"/>
+                <field name="task_id" 
+                domain="[('project_id', '=', project_id)]"
+                />
+            </xpath>
+
+            <xpath expr="//page[@name='page_invitations']" position="after">
+                <page name="Timesheets" invisible="not update_bool">   
+
+                    <field name="timesheet_ids">
+                        <list>                            
+                            <field name="date"/>
+                            <field name="project_id"/>
+                            <field name="employee_id" />
+                            <field name="name"/>
+                            <field name="unit_amount" string="Hours Spent"/>                            
+                        </list>
+                    </field>   
+                </page>                                
+            </xpath>
+        </field>
+    </record>
+</odoo>
