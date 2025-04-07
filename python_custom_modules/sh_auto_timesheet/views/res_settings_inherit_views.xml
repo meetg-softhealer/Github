@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="res_config_settings_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='calendar']" position="after">
+                <block title="Meeting Auto Timesheet" >
+                    <setting id="sh_auto_timesheet">
+                        <field name="group_enable_bool"/>                          
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -10,14 +10,14 @@
             </xpath>
 
             <xpath expr="//field[@name='alarm_ids']" position="after">
-                <field name="project_id"/>
+                <field name="project_id" />
                 <field name="task_id" 
                 domain="[('project_id', '=', project_id)]"
                 />
             </xpath>
 
             <xpath expr="//page[@name='page_invitations']" position="after">
-                <page name="Timesheets" invisible="not update_bool">   
+                <page name="Timesheets" invisible="not update_bool" groups="sh_auto_timesheet.sh_auto_timesheet_enable">   
 
                     <field name="timesheet_ids">
                         <list>                            

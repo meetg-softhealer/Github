@@ -9,6 +9,8 @@
     'depends':['timesheet_grid','project','calendar'],
     'data':[
         'security/ir.model.access.csv',
+        'security/sh_auto_timesheet_security.xml',
+        'views/res_settings_inherit_views.xml',
         'views/sh_calender_form_inherit_views.xml'
         ],
 

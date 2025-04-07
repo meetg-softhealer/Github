@@ -38,7 +38,7 @@ class sh_calendar_inherit(models.Model):
     
     @api.model
     def write(self, values):
-      
+      print("\n\n\n\n====", values)
       result = super(sh_calendar_inherit, self).write(values)
       
       rec = self.env['account.analytic.line'].search([('calendar_id','=',self.id)])

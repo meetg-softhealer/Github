@@ -1,1 +1,1 @@
-from . import sh_calendar_inherit, sh_timesheet_inherit
+from . import res_company_inherit, res_config_settings_inherit, sh_calendar_inherit, sh_timesheet_inherit 
