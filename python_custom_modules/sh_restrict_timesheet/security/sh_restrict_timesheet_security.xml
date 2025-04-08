@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_timesheet_entry_access" model="res.groups">
+        <field name="name">Timesheet Entry Advance Access</field>        
+    </record>
+</odoo>

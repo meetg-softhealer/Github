@@ -1,0 +1,1 @@
+from . import res_company_inherit, sh_timesheet_inherit, sh_res_config_settings_inherit
