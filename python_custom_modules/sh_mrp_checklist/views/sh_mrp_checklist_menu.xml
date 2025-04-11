@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem id="sh_mrp_checklist_menu" name="Manufacturing Custom Checklist" action="manufacturing_checklist_action" parent="mrp.menu_mrp_configuration" sequence="1" groups="sh_mrp_checklist.sh_mrp_checklist_enable"/>
+    
+    <menuitem id="sh_mrp_checklist_template_menu" name="Manufacturing Custom Checklist Template" action="manufacturing_checklist_template_action" parent="mrp.menu_mrp_configuration" sequence="2" groups="sh_mrp_checklist.sh_mrp_checklist_enable"/>
+</odoo>
+

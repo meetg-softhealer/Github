@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_mrp_checklist_enable" model="res.groups">
+        <field name="name">MRP Custom Checklist</field>
+    </record>
+</odoo>

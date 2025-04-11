@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-     <record id="action_report_sh_student" model="ir.actions.report">
+    <record id="action_report_sh_student" model="ir.actions.report">
         <field name="name">Student Reports</field>
         <field name="model">sh.student</field>
         <field name="report_type">qweb-pdf</field>

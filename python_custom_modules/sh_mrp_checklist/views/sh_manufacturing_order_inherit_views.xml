@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_manufacturing_order_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.view.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='miscellaneous']" position="after">
+                <page name="checklist" string="Checklist">
+                    <group>
+                        <group>
+                            <field name="checklist_completed" widget="percentpie"/>                        
+                        </group>
+                        <group>                   
+                            <field name="manufacturing_checklist_template_ids" widget="many2many_tags"/>    
+                        </group>    
+                    </group>
+                    
+                    
+                    <field name="manufacturing_order_line_ids">                        
+                        <list editable="bottom">
+                            <field name="checklist_id"/>    
+                            <field name="description"/>
+                            <field name="date"/>                        
+                            <field name="state" widget="badge" decoration-success="state == 'complete'" decoration-danger="state == 'cancel'"/>
+                            <button string="Complete" name="complete_method_action" type="object" icon="fa-icon" invisible="state != 'new'"/>
+                            <button string="Cancel" name="cancel_method_action" type="object" icon="fa-icon" invisible="state=='cancel'"/>
+                        </list>                        
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="sh_manufacturing_order_inherit_view_list" model="ir.ui.view">
+        <field name="name">mrp.production.list</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="checklist_completed" widget="progressbar"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sh_manufacturing_order_inherit_view_kanban" model="ir.ui.view">
+        <field name="name">mrp.production.view.kanban</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div" position="after">
+                <div>
+                    <field name="checklist_completed" widget="percentpie"/>    
+                </div>                
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sh_manufacturing_order_inherit_view_search" model="ir.ui.view">
+        <field name="name">mrp.production.view.search</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="arch" type="xml">
+            <search>                
+                <filter string="Completed Checklist" name="checklist_completed" 
+                domain="[('checklist_completed', '=', 100)]"/>  
+
+                <filter string="Uncompleted Checklist" name="checklist_completed" 
+                domain="[('checklist_completed', '!=', 100)]"/>                                                    
+            </search>
+        </field>
+    </record>
+</odoo>

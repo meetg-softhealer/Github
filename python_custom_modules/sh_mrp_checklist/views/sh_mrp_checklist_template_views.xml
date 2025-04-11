@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="manufacturing_checklist_template_view_form" model="ir.ui.view">
+        <field name="name">manufacturing.checklist.template.view.form</field>
+        <field name="model">manufacturing.checklist.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="check_list_ids" widget="many2many_tags"/>
+                        <field name="company_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="manufacturing_checklist_template_view_list" model="ir.ui.view">
+        <field name="name">manufacturing.checklist.template.view.list</field>
+        <field name="model">manufacturing.checklist.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="check_list_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="manufacturing_checklist_template_view_search" model="ir.ui.view">
+        <field name="name">manufacturing.checklist.template.view.search</field>
+        <field name="model">manufacturing.checklist.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>        
+                <field name="company_id"/>
+                <field name="check_list_ids"/>
+                <group expand="0" string="Group By">
+                    <filter string="Checklist Template" name="check_list_ids" context="{'group_by': 'check_list_ids'}"/>                    
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="manufacturing_checklist_template_action" model="ir.actions.act_window">
+        <field name="name">Manufacturing Custom Checklist Template</field>
+        <field name="res_model">manufacturing.checklist.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
