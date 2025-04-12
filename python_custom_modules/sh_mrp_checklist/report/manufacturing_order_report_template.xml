@@ -7,7 +7,7 @@
                     Checklist
                 </h3>
                 <div>
-                    Completed Checklist:<span t-field="o.checklist_completed"/>%
+                    Completed Checklist: <span t-field="o.checklist_completed"/>%
                 </div>
                 <table class="table table-sm">                    
                     <thead>

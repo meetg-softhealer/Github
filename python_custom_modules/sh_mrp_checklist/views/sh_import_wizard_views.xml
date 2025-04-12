@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="import_wizard_view_form" model="ir.ui.view">
+        <field name="name">import.wizard.view.form</field>
+        <field name="model">import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="import_file_type" widget="radio"/>        
+                        <field name="company_id"/>
+                        <field name="file"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Import" name="process_file" type="object" class="oe_highlight"/>
+                    <button string="Discard" class="btn btn-secondary" special="cancel"/>
+
+                    <a href="/sh_mrp_checklist/static/download/import_mrp_cl_csv.csv">CSV File</a>
+                    <a href="/sh_mrp_checklist/static/download/import_mrp_cl_excel.xls">Excel File</a>
+
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="import_wizard_action" model="ir.actions.act_window">
+        <field name="name">Import File Wizard</field>
+        <field name="res_model">import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
+

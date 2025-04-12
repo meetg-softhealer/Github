@@ -3,6 +3,10 @@
 
 from odoo import models,fields,api,_ #type:ignore
 from odoo.exceptions import UserError #type:ignore
+import base64
+import csv
+import io
+import xlrd 
 
 class ManufacturingOrdersInherit(models.Model):
     _inherit = "mrp.production"
@@ -12,9 +16,7 @@ class ManufacturingOrdersInherit(models.Model):
     manufacturing_order_line_ids = fields.One2many("manufacturing.order.checklist.line","manufacturing_order_id")
     
     checklist_completed = fields.Integer("Checklist Completed",compute='_compute_checklist_completed', search='_search_checklist_completed')
-    # def checklist_progress(self):            
-
-    
+        
     def _search_checklist_completed(self, operator, value):
         if operator == '=':
             operator = '=='
@@ -88,4 +90,11 @@ class ManufacturingOrdersInherit(models.Model):
                     self.manufacturing_order_line_ids = [(0,0,dict1)]
 
             
-                
+    # def import_files(self):
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': _('Import files'),   #type:ignore
+    #         'res_model': 'import.wizard',
+    #         
+    #         'view_mode': 'form',
+    #     }
