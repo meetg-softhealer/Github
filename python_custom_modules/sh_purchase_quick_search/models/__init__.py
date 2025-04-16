@@ -1,0 +1,1 @@
+from . import sh_purchase_order_inherit, sh_product_product_inherit

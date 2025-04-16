@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_product_product_inherit_view_list" model="ir.ui.view">
+        <field name="name">product.product.view.list.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_code']" position="before">
+                <field name="multi_add_bool"/>
+            </xpath>
+<!-- 
+            <xpath expr="//field[@name='virtual_available']" position="after">
+                <button name="copy_product_order_line_action" type="object" class="fa fa-shopping-cart"/>
+            </xpath> -->
+        </field>
+    </record>
+</odoo>

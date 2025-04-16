@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_purchase_order_inherit_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <div>        
+                    <group>                        
+                        <group>                            
+                            <field name="vender_search"/>
+                        </group>
+                        <group>                            
+                            <field name="search_name"/>
+                        </group>
+                    </group>
+                </div>
+                
+                <field name="search_filter"/>
+                <button string="Load Products" name="load_products_action" type="object" class="oe_highlight"/>
+                <button string="Add To Products" name="add_to_products_action" type="object" class="oe_highlight"/>                         
+            </xpath>
+            <!-- <xpath expr="//field[@name='search_filter']" position="before">
+                <field name="search_name"/>
+            </xpath> -->
+            <xpath expr="//notebook" position="inside">
+                <page name="loaded_products" string="Loaded Product List" groups="sh_purchase_quick_search.sh_purchase_quick_search_enable">
+                    <group>
+                        <button string="Add Selected Lines" name="add_selected_lines_action" type="object" class="oe_highlight"/>    
+                    </group>                    
+                    <field name="product_ids">                                                
+                        <list editable="bottom">
+                            <field name="multi_add_bool"/>
+                            <field name="default_code"/>
+                            <field name="name"/>
+                            <field name="product_template_variant_value_ids"/>
+                            <field name="lst_price"/>
+                            <field name="standard_price"/>
+                            <field name="qty_available"/>
+                            <field name="virtual_available"/>
+                            <button name="copy_product_order_line_action" type="object" class="fa fa-shopping-cart"/>
+                            <field name="company_id"/>
+                        </list>                    
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

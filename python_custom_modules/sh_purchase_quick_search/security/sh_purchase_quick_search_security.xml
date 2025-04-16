@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_purchase_quick_search_enable" model="res.groups">
+        <field name="name">Allow Quick Search Purchase Order</field>
+    </record>
+</odoo>
