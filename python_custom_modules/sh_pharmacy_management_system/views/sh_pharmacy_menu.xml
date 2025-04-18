@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem id="sh_pharmacy_root_menu" name="Pharmacy"/>    
+    
+    <menuitem id="sh_doctor_menu" name="Doctor" action="res_doctor_action" sequence="1" parent="sh_pharmacy_root_menu"/>
+    <menuitem id="sh_patient_menu" name="Patient" action="account.res_partner_action_customer" sequence="2" parent="sh_pharmacy_root_menu"/>
+    <menuitem id="sh_vendor_menu" name="Vendor" action="account.res_partner_action_customer" sequence="3" parent="sh_pharmacy_root_menu"/>
+    <menuitem id="sh_report_menu" name="Report" sequence="4" parent="sh_pharmacy_root_menu"/>
+    <menuitem id="sh_configuration_menu" name="Configuration" parent="sh_pharmacy_root_menu" sequence="5"/>
+    
+    <!-- report menu -->
+    <menuitem id="sh_doctor_report_menu" name="Doctor Wise" parent="sh_report_menu" sequence="1" action="res_doctor_action"/>
+    <menuitem id="sh_patients_report_menu" name="Patients Wise" parent="sh_report_menu" sequence="2" action="res_doctor_action"/>
+    <menuitem id="sh_medicine_report_menu" name="Medicine Wise" parent="sh_report_menu" sequence="3" action="res_doctor_action"/>
+    <menuitem id="sh_gender_report_menu" name="Gender Wise" parent="sh_report_menu" sequence="4" action="res_doctor_action"/>
+    <menuitem id="sh_age_report_menu" name="Age Wise" parent="sh_report_menu" sequence="5" action="res_doctor_action"/>
+    <menuitem id="sh_date_report_menu" name="Date Wise" parent="sh_report_menu" sequence="6" action="res_doctor_action"/>
+    <menuitem id="sh_disease_report_menu" name="Disease Wise" parent="sh_report_menu" sequence="7" action="res_doctor_action"/>
+
+    <!-- configuration menu -->
+    <menuitem id="sh_doctor_config" sequence="1" name="Doctor Settings" parent='sh_configuration_menu'/>
+    <menuitem id="sh_specialization_categories_config" sequence="2" name="Specialization Categories" parent='sh_doctor_config' action="sh_specialization_action"/>
+    <menuitem id="sh_commission_type_config" sequence="3" name="Commission Type" parent='sh_doctor_config' action="res_doctor_action"/>
+
+    <menuitem id="sh_product_setting_config" sequence="4" name="Product Setting" parent='sh_configuration_menu'/>
+    <menuitem id="sh_medicine_ingredients_config" sequence="5" name="Medicine Ingredients" parent='sh_product_setting_config' action="res_doctor_action"/>
+    <menuitem id="sh_medicine_form_config" sequence="6" name="Medicine Form" parent='sh_product_setting_config' action="res_doctor_action"/>            
+
+    <menuitem id="sh_allergies_setting_config" sequence="7" name="Allergies Setting" parent='sh_configuration_menu'/>
+    <menuitem id="sh_allergies_type_config" sequence="8" name="Allergies Type" parent='sh_allergies_setting_config' action="res_doctor_action"/>
+    <menuitem id="sh_allergies_config" sequence="9" name="Allergies" parent='sh_allergies_setting_config' action="res_doctor_action"/>
+    
+</odoo>
