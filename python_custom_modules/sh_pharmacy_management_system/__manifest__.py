@@ -17,6 +17,10 @@
         'security/ir.model.access.csv',  
         'views/sh_res_partner_view_inherit.xml',
         'views/sh_specialization_views.xml',
+        'views/sh_commission_type_views.xml',
+        'views/sh_doctor_commission_views.xml',
+        'views/sh_allergies_views.xml',
+        'views/sh_allergy_type_views.xml',
         'views/sh_pharmacy_menu.xml'
         ],
     'images':['static/description/pharmacy.png'],

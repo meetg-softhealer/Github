@@ -1,1 +1,1 @@
-from . import sh_specialization, sh_doctor
+from . import res_partner_inherit, sh_doctor_commission, sh_specialization, sh_allergies, sh_allergy_type, sh_commission_type

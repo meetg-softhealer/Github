@@ -20,14 +20,14 @@
     <!-- configuration menu -->
     <menuitem id="sh_doctor_config" sequence="1" name="Doctor Settings" parent='sh_configuration_menu'/>
     <menuitem id="sh_specialization_categories_config" sequence="2" name="Specialization Categories" parent='sh_doctor_config' action="sh_specialization_action"/>
-    <menuitem id="sh_commission_type_config" sequence="3" name="Commission Type" parent='sh_doctor_config' action="res_doctor_action"/>
+    <menuitem id="sh_commission_type_config" sequence="3" name="Commission Type" parent='sh_doctor_config' action="sh_commission_type_action"/>
 
     <menuitem id="sh_product_setting_config" sequence="4" name="Product Setting" parent='sh_configuration_menu'/>
     <menuitem id="sh_medicine_ingredients_config" sequence="5" name="Medicine Ingredients" parent='sh_product_setting_config' action="res_doctor_action"/>
     <menuitem id="sh_medicine_form_config" sequence="6" name="Medicine Form" parent='sh_product_setting_config' action="res_doctor_action"/>            
 
     <menuitem id="sh_allergies_setting_config" sequence="7" name="Allergies Setting" parent='sh_configuration_menu'/>
-    <menuitem id="sh_allergies_type_config" sequence="8" name="Allergies Type" parent='sh_allergies_setting_config' action="res_doctor_action"/>
-    <menuitem id="sh_allergies_config" sequence="9" name="Allergies" parent='sh_allergies_setting_config' action="res_doctor_action"/>
+    <menuitem id="sh_allergies_type_config" sequence="8" name="Allergies Type" parent='sh_allergies_setting_config' action="sh_allergy_type_action"/>
+    <menuitem id="sh_allergies_config" sequence="9" name="Allergies" parent='sh_allergies_setting_config' action="sh_allergies_action"/>
     
 </odoo>
