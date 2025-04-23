@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_ingredients_view_form" model="ir.ui.view">
+        <field name="name">sh.ingredients.view.form</field>
+        <field name="model">sh.ingredients</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sh_color" widget="color_picker"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_ingredients_view_list" model="ir.ui.view">
+        <field name="name">sh.ingredients.view.list</field>
+        <field name="model">sh.ingredients</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="sh_color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_ingredients_action" model="ir.actions.act_window">
+        <field name="name">Medical Ingredients</field>
+        <field name="res_model">sh.ingredients</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -21,6 +21,12 @@
         'views/sh_doctor_commission_views.xml',
         'views/sh_allergies_views.xml',
         'views/sh_allergy_type_views.xml',
+        'views/sh_ingredients_views.xml',
+        'views/sh_product_category_inherit_views.xml',
+        'views/sh_medicine_form_views.xml',
+        'views/sh_sale_order_inherit_views.xml',
+        'views/sh_product_template_inherit_views.xml',
+        'views/sh_split_wizard_views.xml',
         'views/sh_pharmacy_menu.xml'
         ],
     'images':['static/description/pharmacy.png'],

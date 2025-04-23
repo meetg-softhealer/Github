@@ -13,7 +13,9 @@ class ResPartnerInherit(models.Model):
     sh_gender = fields.Selection(selection=[('male','Male'),('female','Female')],string="Gender", required=True, tracking=True)
     sh_specialization_ids = fields.Many2many("sh.specialization",string="Specialization")
 
-    sh_commission_type = fields.Many2one("sh.commission.type", string="Commission Type",tracking=True, required=True)
+    # sh_commission_type = fields.Many2one("sh.commission.type", string="Commission Type",tracking=True, required=True)
+
+    sh_commission_types = fields.Selection([('fixed','Fixed'),('percent','Percentage'),('none','None')], string="Commission Type", default='none', required=True, trackable=True)    
     sh_amount = fields.Monetary("Amount", tracking=True, required=True)
     sh_commission_percent = fields.Float("Commission Rate(%)", tracking=True, required=True)
 
@@ -29,4 +31,11 @@ class ResPartnerInherit(models.Model):
     sh_allergies_ids = fields.Many2many("sh.allergies", string="Allergies", tracking=True)
 
 
-
+    def sh_create_commission_line(self):
+        print("\n\n\n com line called")
+        print("\n\n\n self id", self.id)
+        
+        record_ids = self.env['sh.doctor.commission'].search([('sh_res_partner_id','=',self.id)])
+        print("\n\n\n record ids", record_ids)
+        self.sh_commission_ids = [(4,rec.id) for rec in record_ids]
+        print("\n\n\n commission ids",self.sh_commission_ids)

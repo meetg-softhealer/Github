@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_split_wizard_view_form" model="ir.ui.view">
+        <field name="name">sh.split.wizard.view.form</field>
+        <field name="model">sh.split.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sh_order_line_ids" >
+                            <list editable="bottom" options="{'no_create_edit': True}">
+                                <field name="product_template_id" string="Product"/>
+                                <field name="product_uom_qty"/>
+                            </list>
+                        </field>        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -11,8 +11,8 @@
                         <field name="sh_so_id"/>        
                         <field name="sh_so_id_patient_name"/>
                         <field name="sh_so_amount"/>
-                        <field name="sh_commission_type"/>
-                        <field name="sh_rate"/>
+                        <field name="sh_commission_types"/>
+                        <!-- <field name="sh_rate"/> -->
                         <field name="sh_total_commission"/>
                     </group>
                 </sheet>
@@ -29,8 +29,8 @@
                 <field name="sh_so_id"/>        
                 <field name="sh_so_id_patient_name"/>
                 <field name="sh_so_amount"/>
-                <field name="sh_commission_type"/>
-                <field name="sh_rate"/>
+                <field name="sh_commission_types"/>
+                <!-- <field name="sh_rate"/> -->
                 <field name="sh_total_commission"/>                
             </list>
         </field>

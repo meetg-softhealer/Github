@@ -23,10 +23,11 @@ class ShDoctorCommission(models.Model):
 
     sh_date = fields.Datetime(string='Date', tracking=True, required=True)
     sh_so_amount = fields.Monetary("Total Amount", currency_field='company_currency_id',required=True)
-    sh_commission_type = fields.Many2one("sh.commission.type",string="Commission Type", tracking=True, required=True)
+    # sh_commission_type = fields.Many2one("sh.commission.type",string="Commission Type", tracking=True, required=True)
 
-    sh_rate = fields.Selection([('fixed','Fixed'),('percent','Percentage')], string="Commission Rate",tracking=True, required=True)
+    # sh_rate = fields.Selection([('fixed','Fixed'),('percent','Percentage')], string="Commission Rate",tracking=True, required=True)
 
+    sh_commission_types = fields.Selection([('fixed','Fixed'),('percent','Percentage'),('none','None')], string="Commission Type", default='none', required=True, trackable=True)
     sh_total_commission = fields.Monetary(string="Dr.Commission", currency_field='company_currency_id', required=True)
 
     

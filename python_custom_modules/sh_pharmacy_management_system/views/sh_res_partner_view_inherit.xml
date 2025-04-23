@@ -28,9 +28,9 @@
             <xpath expr="//field[@name='website']" position="before">                                
                 <field name="sh_gender" widget="radio"/>            
                 <field name="sh_specialization_ids" widget="many2many_tags" invisible="not sh_is_doctor"/>
-                <field name="sh_commission_type" invisible="not sh_is_doctor"/>
-                <field name="sh_amount" invisible="not sh_is_doctor"/>
-                <field name="sh_commission_percent" invisible="not sh_is_doctor"/>
+                <field name="sh_commission_types" invisible="not sh_is_doctor"/>
+                <field name="sh_amount" invisible="not sh_is_doctor or sh_commission_types != 'fixed'" />
+                <field name="sh_commission_percent" invisible="not sh_is_doctor or sh_commission_types != 'percent'"/>
             </xpath>
 
             <xpath expr="//field[@name='sh_gender']" position="before">
@@ -49,7 +49,7 @@
                             <field name="sh_so_id"/>        
                             <field name="sh_so_id_patient_name"/>
                             <field name="sh_so_amount"/>
-                            <field name="sh_commission_type"/>
+                            <field name="sh_commission_types"/>
                             <field name="sh_total_commission"/>
                         </list>
                     </field>
