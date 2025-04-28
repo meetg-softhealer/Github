@@ -8,3 +8,5 @@ class ShProductCategoryInherit(models.Model):
     _inherit = "product.category"
 
     sh_is_medicine = fields.Boolean("Is Medicine")
+    sh_is_narcotic = fields.Boolean("Is Narcotic")
+    

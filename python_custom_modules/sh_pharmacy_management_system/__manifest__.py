@@ -26,8 +26,8 @@
         'views/sh_medicine_form_views.xml',
         'views/sh_sale_order_inherit_views.xml',
         'views/sh_product_template_inherit_views.xml',
-        'views/sh_split_wizard_views.xml',
-        'views/sh_pharmacy_menu.xml'
+        'views/sh_pharmacy_menu.xml',
+        'wizard/sh_split_wizard_views.xml',
         ],
     'images':['static/description/pharmacy.png'],
     'installable':True,

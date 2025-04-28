@@ -8,14 +8,15 @@
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="sh_gender" widget="radio"/>
                 <field name="sh_age"/>
-                <field name="sh_doctor_id"/>
-                <field name="sh_precription"/>
+                <field name="sh_doctor_id" required="sh_is_narcotic"/>
+                <field name="sh_precription" required="sh_is_narcotic"/>
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
-                <field name="sh_mobile_number"/>
-                <field name="sh_card"/>
+                <field name="sh_mobile_number" required="sh_is_narcotic"/>
+                <field name="sh_card" required="sh_is_narcotic"/>
                 <field name="sh_email"/>
+                <field name="sh_is_narcotic"/>
             </xpath>
 
             <xpath expr="//field[@name='order_line']/list/field[@name='discount']" position="before">

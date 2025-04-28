@@ -11,6 +11,7 @@ class ShProductTemplateInherit(models.Model):
     sh_ingredients_ids = fields.Many2many("sh.ingredients", string="Ingredients", tracking=True)
 
     is_medicine = fields.Boolean(default=False, string="Is medicine")
+    is_narcotic = fields.Boolean(default=False)
 
     @api.onchange('categ_id')
     def _onchange_categ_id(self):
@@ -18,6 +19,12 @@ class ShProductTemplateInherit(models.Model):
             self.is_medicine = True
         else:
             self.is_medicine = False
+
+        if self.categ_id.sh_is_narcotic:
+            self.is_narcotic = True
+        else:
+            self.is_medicine = False
+
 
     @api.model_create_multi
     def create(self, values):

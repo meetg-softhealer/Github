@@ -8,7 +8,8 @@
             <xpath expr="//field[@name='invoice_policy']" position="after">
                 <field name="sh_medicine_form_id" required="is_medicine"/>
                 <field name="sh_ingredients_ids" widget="many2many_tags"/>
-                <field name="is_medicine"/>    
+                <field name="is_medicine" invisible="1"/>
+                <field name="is_narcotic" invisible="1"/>    
             </xpath>
         </field>
     </record>

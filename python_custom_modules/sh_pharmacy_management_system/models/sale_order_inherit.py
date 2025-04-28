@@ -22,6 +22,14 @@ class ShSaleOrderInherit(models.Model):
 
     sh_is_narcotic = fields.Boolean()
 
+    @api.onchange('order_line')
+    def _onchange_order_line(self):
+        for rec in self.order_line:
+            if rec.product_id.categ_id.sh_is_narcotic:
+                self.sh_is_narcotic = True
+    
+            
+
     def sh_split_action(self):
         print("\n\n\n Split called \n\n\n")
         return {
@@ -31,21 +39,19 @@ class ShSaleOrderInherit(models.Model):
             'target': 'new',
             'view_mode': 'form',
             'view_id':self.env.ref('sh_pharmacy_management_system.sh_split_wizard_view_form').id,            
-            'context':{'default_sh_order_line_ids':self.order_line.filtered(lambda rec: rec.select_bool == True).ids
-            } 
-                       
+            'context':{'default_sh_order_id':self.id} #'default_sh_order_line_ids':self.order_line.filtered(lambda rec: rec.select_bool == True).ids}
+            # 'next': {'type': 'ir.actions.act_window_close'}                        
         }
     
     def sh_calculate_commission(self):
-        if self.sh_doctor_id.sh_commission_types=='fixed':
+        if self.sh_doctor_id.sh_commission_types=='fixed':  
             return self.sh_doctor_id.sh_amount
         elif self.sh_doctor_id.sh_commission_types=='percent':
             return (self.amount_untaxed*self.sh_doctor_id.sh_commission_percent)/100
 
     def action_confirm(self):
         result = super(ShSaleOrderInherit, self).action_confirm()
-        print("\n\n\n in action confirm")
-
+        
         if self.sh_doctor_id.sh_commission_types!='none':
             self.env['sh.doctor.commission'].create({
                 'sh_res_partner_id':self.sh_doctor_id.id,
@@ -60,7 +66,12 @@ class ShSaleOrderInherit(models.Model):
 
         return result
     
-
+    @api.model
+    def create(self, values):
+            
+        result = super(ShSaleOrderInherit, self).create(values)
+        
+        return result
     
 
     
