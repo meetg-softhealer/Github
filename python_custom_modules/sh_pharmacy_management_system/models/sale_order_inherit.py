@@ -28,8 +28,6 @@ class ShSaleOrderInherit(models.Model):
             if rec.product_id.categ_id.sh_is_narcotic:
                 self.sh_is_narcotic = True
     
-            
-
     def sh_split_action(self):
         print("\n\n\n Split called \n\n\n")
         return {
@@ -66,12 +64,6 @@ class ShSaleOrderInherit(models.Model):
 
         return result
     
-    @api.model
-    def create(self, values):
-            
-        result = super(ShSaleOrderInherit, self).create(values)
-        
-        return result
     
 
     

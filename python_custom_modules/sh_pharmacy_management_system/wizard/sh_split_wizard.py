@@ -10,6 +10,11 @@ class ShSplitWizard(models.TransientModel):
     sh_order_id = fields.Many2one("sale.order")
     sh_order_line_ids = fields.Many2many("sh.split.wizard.line",string="Products")
     sh_partner_id = fields.Many2one("res.partner", string="Customer")
+    sh_doc_id = fields.Many2one("res.partner", string="Doctor")
+    sh_prescribe = fields.Binary("Prescription")
+    sh_aadhar = fields.Char("Aadhar Card No.")
+    sh_mobile = fields.Char("Mobile No.")
+    sh_wiz_narcotic_bool = fields.Boolean()
 
     @api.model
     def default_get(self, fields):
@@ -18,8 +23,12 @@ class ShSplitWizard(models.TransientModel):
         
         current_id = self.env.context.get('active_id')
         current_rec = self.env['sale.order'].browse(current_id)
-        
         res['sh_partner_id'] = current_rec.partner_id.id
+        res['sh_doc_id'] = current_rec.sh_doctor_id.id
+        res['sh_prescribe'] = current_rec.sh_precription
+        res['sh_aadhar'] = current_rec.sh_card
+        res['sh_mobile'] = current_rec.sh_mobile_number
+
         # res['sh_order_line_ids'] = [(0,0,{'sh_name':rec.name,
         #                                   'sh_sol_lot_no':rec.sh_lot_no,
         #                                    'sh_sol_expiry_date':rec.sh_expiry_date,
@@ -34,14 +43,27 @@ class ShSplitWizard(models.TransientModel):
                                            'sh_sol_expiry_date':rec.sh_expiry_date,
                                         #    'sh_product_template_id':rec.product_template_id.id,
                                            'sh_product_product_id':rec.product_id.id,
+                                           'sh_is_narcotic_bool':rec.product_id.categ_id.sh_is_narcotic,
                                            'sh_product_uom_qty':rec.product_uom_qty}) for rec in current_rec.order_line if rec['select_bool']]
-        print("\n\n\n for sh_order_line_id", res)
+        
+
+        for record in res['sh_order_line_ids']:
+            print("\n\n record", record)
+            if record[2]['sh_is_narcotic_bool']:
+                res['sh_wiz_narcotic_bool'] = True
+
         return res
 
     def sh_wizard_confirm_action(self):
         
         self.env['sale.order'].create({
             'partner_id':self.sh_partner_id.id,
+            'sh_doctor_id':self.sh_doc_id.id,
+            'sh_precription':self.sh_prescribe,
+            'sh_card':self.sh_aadhar,
+            'sh_mobile_number':self.sh_mobile,
+            'sh_is_narcotic':self.sh_wiz_narcotic_bool,
+
             'order_line':[(0,0,{'name':line.sh_name,
                                 'sh_lot_no':line.sh_sol_lot_no,
                                 'sh_expiry_date':line.sh_sol_expiry_date,

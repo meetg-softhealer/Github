@@ -8,15 +8,19 @@
                 <sheet>
                     <group>
                         <field name="sh_partner_id"/>
+                        <field name="sh_doc_id" required="sh_wiz_narcotic_bool" invisible="not sh_wiz_narcotic_bool"/>
+                        <field name="sh_prescribe" required="sh_wiz_narcotic_bool" invisible="not sh_wiz_narcotic_bool"/>
+                        <field name="sh_aadhar" required="sh_wiz_narcotic_bool" invisible="not sh_wiz_narcotic_bool"/>
+                        <field name="sh_mobile" required="sh_wiz_narcotic_bool" invisible="not sh_wiz_narcotic_bool"/>
                         <field name="sh_order_line_ids">
-                            <list editable="bottom">                                
-                                <!-- <field name="sh_product_template_id" string="Product"/> -->
+                            <list editable="bottom">
+                                <!-- <field name="sh_product_template_id" string="Product" readonly="1" column_invisible="1"/> -->
                                 <field name="sh_product_product_id" string="Product"/>
-                                <field name="sh_name" invisible="1"/>
+                                <field name="sh_name" column_invisible="1"/>
                                 <field name="sh_product_uom_qty"/>
-                                <field name="sh_sol_lot_no" invisible="1"/>
-                                <field name="sh_sol_expiry_date" invisible="1"/>
-                                <field name="sh_order_line_id" invisible="1"/>
+                                <field name="sh_sol_lot_no" column_invisible="1"/>
+                                <field name="sh_sol_expiry_date" column_invisible="1"/>
+                                <field name="sh_order_line_id" column_invisible="1"/>
                             </list>
                         </field>                                                    
                     </group>

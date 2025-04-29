@@ -19,12 +19,8 @@ class ShSplitWizardLine(models.TransientModel):
         
     sh_order_line_id = fields.Many2one("sale.order.line")
 
-    @api.model
-    def create(self, values):
-        print("\n\n\n sh_name create", values['sh_name'])        
-        result = super(ShSplitWizardLine, self).create(values)
-    
+    sh_is_narcotic_bool = fields.Boolean()
 
-        return result
+
     
     
