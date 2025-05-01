@@ -28,7 +28,7 @@
             <xpath expr="//field[@name='website']" position="before">                                
                 <field name="sh_gender" widget="radio"/>            
                 <field name="sh_specialization_ids" widget="many2many_tags" invisible="not sh_is_doctor"/>
-                <field name="sh_commission_types" invisible="not sh_is_doctor"/>
+                <field name="sh_commission_types" invisible="not sh_is_doctor" required="sh_is_doctor"/>
                 <field name="sh_amount" invisible="not sh_is_doctor or sh_commission_types != 'fixed'" />
                 <field name="sh_commission_percent" invisible="not sh_is_doctor or sh_commission_types != 'percent'"/>
             </xpath>

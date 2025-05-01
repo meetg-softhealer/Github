@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) Softhealer Technologies.
 
-from odoo import models,fields,api,_ #type:ignore
+from odoo import models,fields,api,Command,_ #type:ignore
 from odoo.exceptions import UserError #type:ignore
 
 class ShSaleOrderInherit(models.Model):
     _inherit = "sale.order"
 
     sh_gender = fields.Selection(selection=[('male','Male'),('female','Female')],string="Gender", tracking=True)
-    sh_age = fields.Integer(string="Age", tracking=True)
-
+    sh_age = fields.Integer(string="Age", tracking=True, readonly=True)
+    
     sh_doctor_id = fields.Many2one("res.partner", string="Doctor", domain=[(('sh_is_doctor','=', True))], tracking=True)
 
     sh_precription = fields.Binary(string='Prescription', tracking=True)
@@ -21,6 +21,14 @@ class ShSaleOrderInherit(models.Model):
     sh_email = fields.Char("Email")
 
     sh_is_narcotic = fields.Boolean()
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        self.sh_gender = self.partner_id.sh_gender
+        self.sh_age = self.partner_id.sh_age
+        self.sh_mobile_number = self.partner_id.mobile
+        self.sh_card = self.partner_id.sh_card
+        self.sh_email = self.partner_id.email
 
     @api.onchange('order_line')
     def _onchange_order_line(self):
@@ -49,8 +57,8 @@ class ShSaleOrderInherit(models.Model):
 
     def action_confirm(self):
         result = super(ShSaleOrderInherit, self).action_confirm()
-        
-        if self.sh_doctor_id.sh_commission_types!='none':
+        print("\n\n self.sh_doctor_id", self.sh_doctor_id.sh_commission_types)
+        if self.sh_doctor_id and self.sh_doctor_id.sh_commission_types!='none':
             self.env['sh.doctor.commission'].create({
                 'sh_res_partner_id':self.sh_doctor_id.id,
                 'sh_date':self.date_order,
@@ -61,7 +69,7 @@ class ShSaleOrderInherit(models.Model):
                 'sh_total_commission':self.sh_calculate_commission()
             })
             self.sh_doctor_id.sh_create_commission_line()
-
+                   
         return result
     
     
