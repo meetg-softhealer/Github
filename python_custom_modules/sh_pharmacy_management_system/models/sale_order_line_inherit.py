@@ -29,3 +29,6 @@ class ShSaleOrderLineInherit(models.Model):
                     break
             print("\n\n\n sh_list", sh_list)
             self.sh_lot_no_ids = [(6,False,sh_list)]
+
+
+    

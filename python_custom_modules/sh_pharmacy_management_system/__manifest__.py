@@ -26,6 +26,7 @@
         'views/sh_medicine_form_views.xml',
         'views/sh_sale_order_inherit_views.xml',
         'views/sh_product_template_inherit_views.xml',
+        'wizard/sh_cash_drawer_report_wizard_views.xml',
         'views/sh_pharmacy_menu.xml',
         'wizard/sh_split_wizard_views.xml',
         ],
