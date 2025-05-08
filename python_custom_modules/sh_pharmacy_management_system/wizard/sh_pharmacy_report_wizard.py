@@ -1,52 +1,132 @@
 # Copyright (C) Softhealer Technologies.
 
-from odoo import models,fields,api,_ #type:ignore
+from odoo import models,fields,api,_,Command #type:ignore
 from odoo.exceptions import UserError #type:ignore
 import xlwt #type:ignore
 import io
 import xlsxwriter #type:ignore
 import base64
 from datetime import datetime
+from datetime import date
 from dateutil.relativedelta import relativedelta
 
-class ShCashDrawerReportWizard(models.TransientModel):
-    _name = "sh.cash.drawer.report.wizard"
+class ShPharmacyReportWizard(models.TransientModel):
+    _name = "sh.pharmacy.report.wizard"
+
+    # Report Booleans
+    sh_is_fetch = fields.Boolean()
+    sh_is_cash_drawer = fields.Boolean()
+    sh_is_exp_date = fields.Boolean()
+
 
     sh_wiz_from_date = fields.Datetime("From:", default=datetime.today()-relativedelta(months=1))    
 
     sh_wiz_to_date = fields.Datetime("To:", default=datetime.today())
 
+    # Cash Drawer Fields
     sh_wiz_cashier_id = fields.Many2one("res.users", string="Cashier")
+    sh_cash_drawer_wizard_line_ids = fields.Many2many("sh.cash.drawer.wizard.line")
+
+    # Expiry Date Fields
+    sh_product_id = fields.Many2one("product.product", string="Product:")
+    sh_category_id = fields.Many2one("product.category", string="Category: ")
+    sh_remaining_days = fields.Integer(string="Remaining Days:")
+    sh_lot_id = fields.Many2one("stock.lot", string="Batch Number")
+    sh_exp_date_wizard_line_ids = fields.Many2many("sh.exp.date.wizard.line") 
+
+    def fetch_report_action(self):
+        self.sh_is_fetch = True
+        
+        if self.sh_is_cash_drawer:
+
+            date_domain = [('start_at','>=',self.sh_wiz_from_date),('stop_at','<=',self.sh_wiz_to_date)]
+            if not self.sh_wiz_from_date or not self.sh_wiz_to_date:
+                    raise UserError("Enter From and To date fields to generate reports!!!")
+            
+            if self.sh_wiz_from_date and self.sh_wiz_to_date and self.sh_wiz_cashier_id:
+                records = self.env['pos.session'].search([('user_id','=',self.sh_wiz_cashier_id.id)]+date_domain)
+                
+            elif self.sh_wiz_from_date and self.sh_wiz_to_date:            
+                records = self.env['pos.session'].sudo().search([date_domain])
+                print("\n\n\n recs", records)
+
+            self.sh_cash_drawer_wizard_line_ids = [Command.create({
+                                                    'sh_session_id':rec.id,
+                                                    'sh_date':rec.start_at.strftime("%Y-%m-%d"),
+                                                    'sh_cashier_id':rec.user_id.id,
+                                                    'sh_open_bal':rec.cash_register_balance_start,
+                                                    'sh_close_bal':rec.cash_register_balance_end_real,
+            }) for rec in records]
+
+            for rec in self.sh_cash_drawer_wizard_line_ids:
+                cash_sale = self.env['pos.payment'].search([('payment_method_id.name','=','Cash'),('payment_date','>=',rec.sh_session_id.start_at),('payment_date','<=',rec.sh_session_id.stop_at)])
+                cash_sale_total = 0
+                for item in cash_sale:
+                    cash_sale_total += item.amount
+                    print("\n\n Item",item.amount)
+                print("\n\n Cash Total",cash_sale_total)
+                rec.sh_cash_sale = cash_sale_total
+
+                card_sale = self.env['pos.payment'].search([('payment_method_id.name','=','Card'),('payment_date','>=',rec.sh_session_id.start_at),('payment_date','<=',rec.sh_session_id.stop_at)])
+                card_sale_total = 0
+                for item in card_sale:
+                    card_sale_total += item.amount
+                    print("\n\n Item",item.amount)
+                print("\n\n Card Total",card_sale_total)
+                rec.sh_card_sale = card_sale_total
+
+                upi_sale = self.env['pos.payment'].search([('payment_method_id.name','=','UPI'),('payment_date','>=',rec.sh_session_id.start_at),('payment_date','<=',rec.sh_session_id.stop_at)])
+                upi_sale_total = 0
+                for item in upi_sale:
+                    upi_sale_total += item.amount
+                rec.sh_upi_sale = upi_sale_total
+                rec.sh_net_cash = rec.sh_close_bal
+        
+        if self.sh_is_exp_date:
+            domain = []
+
+            if self.sh_wiz_from_date:
+                domain += [('expiration_date','>=',self.sh_wiz_from_date)]
+            if self.sh_wiz_to_date:
+                domain += [('expiration_date','<=',self.sh_wiz_to_date)]
+            if self.sh_product_id:
+                domain += [('product_id','=',self.sh_product_id.id)]
+            if self.sh_category_id:
+                domain += [('product_id.categ_id','=',self.sh_product_id.categ_id.id)]
+            if self.sh_remaining_days:
+                domain += [('sh_days_remaining','<=',self.sh_remaining_days)]
+            if self.sh_lot_id:
+                domain += [('name','=',self.sh_lot_id.name)]
+
+            records = self.env['stock.lot'].search(domain)
+
+            self.sh_exp_date_wizard_line_ids = [Command.create({
+                                                'sh_pdt_id':rec.product_id.id,
+                                                'sh_lot_name':rec.name,
+                                                'sh_exp_date':rec.expiration_date,
+                                                'sh_qty':rec.product_qty,                                            
+                                                'sh_category_id':rec.product_id.categ_id.id
+            }) for rec in records]
+
+            for rec in self.sh_exp_date_wizard_line_ids:
+                rec.sh_days_remaining = int(rec.sh_exp_date - datetime.now())
+         
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Pharmacy Reports'),   #type:ignore
+            'res_model': 'sh.pharmacy.report.wizard',        
+            'target': 'new',
+            'view_mode': 'form',
+            'view_id':self.env.ref('sh_pharmacy_management_system.sh_pharmacy_report_wizard').id,            
+            'res_id':self.id                     
+        }
 
     def export_report_action(self):
+        if self.sh_is_cash_drawer:
+            records = self.sh_cash_drawer_wizard_line_ids
+        
         workbook = xlwt.Workbook(encoding='utf-8')
-        if not self.sh_wiz_from_date or not self.sh_wiz_to_date:
-            raise UserError("Enter From and To date fields to generate reports!!!")
-
-        if self.sh_wiz_from_date and self.sh_wiz_to_date and self.sh_wiz_cashier_id:
-            records = self.env['pos.session'].search([('start_at','>=',self.sh_wiz_from_date),('stop_at','<=',self.sh_wiz_to_date),('user_id','=',self.sh_wiz_cashier_id.id)])
-            
-        # elif self.sh_wiz_from_date and self.sh_wiz_to_date:            
-        #     records = self.env['pos.session'].sudo().search([('start_at','>=',self.sh_wiz_from_date),('stop_at','<=',self.sh_wiz_to_date)])
-        #     print("\n\n\n recs", records)
-        #     print("domian",[('start_at','>=',self.sh_wiz_from_date),('stop_at','<=',self.sh_wiz_to_date)])
-        # elif self.sh_wiz_from_date and self.sh_wiz_cashier_id:
-        #     records = self.env['pos.session'].search([('start_at','>=',self.sh_wiz_from_date),('user_id','=',self.sh_wiz_cashier_id.id)])
-            
-        # elif self.sh_wiz_to_date and self.sh_wiz_cashier_id:
-        #     records = self.env['pos.session'].search([('stop_at','<=',self.sh_wiz_from_date),('user_id','=',self.sh_wiz_cashier_id.id)])
-        
-        # elif self.sh_wiz_from_date:
-        #     records = self.env['pos.session'].search([('start_at','>=',self.sh_wiz_from_date)])    
-       
-        # elif self.sh_wiz_to_date:
-        #     records = self.env['pos.session'].search([('stop_at','<=',self.sh_wiz_from_date)])
-        
-        # elif self.sh_wiz_cashier_id:
-        #     records = self.env['pos.session'].search([('user_id','=',self.sh_wiz_cashier_id.id)])
-
-
-        
+                       
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         worksheet = workbook.add_worksheet("Cash Drawer")
@@ -82,40 +162,19 @@ class ShCashDrawerReportWizard(models.TransientModel):
         
 
         for rec in records:    
-            print("In Rec Loop", rec)        
-            cash_sale = rec.env['pos.payment'].search([('payment_method_id.name','=','Cash'),('payment_date','>=',rec.start_at),('payment_date','<=',rec.stop_at)])
-            cash_sale_total = 0
-            for item in cash_sale:
-                cash_sale_total += item.amount
-                print("\n\n Item",item.amount)
-            print("\n\n Cash Total",cash_sale_total)
 
-            card_sale = rec.env['pos.payment'].search([('payment_method_id.name','=','Card'),('payment_date','>=',rec.start_at),('payment_date','<=',rec.stop_at)])
-            card_sale_total = 0
-            for item in card_sale:
-                card_sale_total += item.amount
-                print("\n\n Item",item.amount)
-            print("\n\n Card Total",card_sale_total)
-
-            upi_sale = rec.env['pos.payment'].search([('payment_method_id.name','=','UPI'),('payment_date','>=',rec.start_at),('payment_date','<=',rec.stop_at)])
-            upi_sale_total = 0
-            for item in upi_sale:
-                upi_sale_total += item.amount
-                
-
-            values = [
-                str(count),
-                rec.start_at.strftime("%d/%m/%Y"),
-                rec.user_id.name,
-                rec.cash_register_balance_start,
-                rec.cash_register_balance_end_real,                
-                cash_sale_total,    
-                card_sale_total,
-                upi_sale_total,
-                rec.cash_register_balance_end_real
-            ]
-
-
+            if self.sh_is_cash_drawer:
+                values = [
+                    str(count),
+                    rec.sh_date,
+                    rec.sh_cashier_id.name,
+                    rec.sh_open_bal,
+                    rec.sh_close_bal,                
+                    rec.sh_cash_sale,    
+                    rec.sh_card_sale,
+                    rec.sh_upi_sale,
+                    rec.sh_net_cash
+                ]
 
                 # Write values and update column widths
             for col, val in enumerate(values):
@@ -129,7 +188,6 @@ class ShCashDrawerReportWizard(models.TransientModel):
         for col, width in enumerate(col_widths):
             worksheet.set_column(col, col, width + 2)  # +2 for padding
 
-    
         fp = io.BytesIO()
         workbook.close()
         output.seek(0)
@@ -161,7 +219,9 @@ class ShCashDrawerReportWizard(models.TransientModel):
         return {'type': 'ir.actions.act_url', 'url': url,
                 'target': 'new'}
 
-
+    
+    
+        
         
 
 '''

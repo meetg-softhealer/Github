@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_pharmacy_report_wizard" model="ir.ui.view">
+        <field name="name">sh.pharmacy.report.wizard.view.form</field>
+        <field name="model">sh.pharmacy.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sh_wiz_from_date"/>        
+                        <field name="sh_wiz_to_date"/>
+
+                        <!-- Cash Drawer -->
+                        <field name="sh_wiz_cashier_id" invisible="not sh_is_cash_drawer"/>
+                        <field name="sh_cash_drawer_wizard_line_ids" invisible="not sh_is_cash_drawer or not sh_is_fetch">
+                            <list>
+                                <field name="sh_date"/>
+                                <field name="sh_cashier_id"/>
+                                <field name="sh_open_bal"/>
+                                <field name="sh_close_bal"/>
+                                <field name="sh_cash_sale"/>
+                                <field name="sh_card_sale"/>
+                                <field name="sh_upi_sale"/>
+                                <field name="sh_net_cash"/>
+                            </list>
+                        </field>
+
+                        <!-- Expiry Date -->
+                        <field name="sh_product_id" invisible="not sh_is_exp_date"/>
+                        <field name="sh_category_id" invisible="not sh_is_exp_date"/>
+                        <field name="sh_remaining_days" invisible="not sh_is_exp_date"/>
+                        <field name="sh_lot_id" invisible="not sh_is_exp_date"/>
+
+                        <field name="sh_exp_date_wizard_line_ids" invisible="not sh_is_exp_date or not sh_is_fetch" string="">
+                            <list>
+                                <field name="sh_pdt_id"/>
+                                <field name="sh_lot_name"/>
+                                <field name="sh_exp_date"/>
+                                <field name="sh_days_remaining"/>
+                                <field name="sh_qty"/>                                
+                                <field name="sh_category_id"/>
+                            </list>
+                        </field>
+                    </group>
+                    <footer>
+                        <!-- Cash Drawer -->
+                        <button string="Fetch" name="fetch_report_action" type="object" class="oe_highlight"/>
+                        <button string="Generate" name="export_report_action" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_cash_drawer_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Cash Drawer Report</field>
+        <field name="res_model">sh.pharmacy.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_sh_is_cash_drawer':True}</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="sh_exp_date_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Expiry Date Report</field>
+        <field name="res_model">sh.pharmacy.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_sh_is_exp_date':True}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

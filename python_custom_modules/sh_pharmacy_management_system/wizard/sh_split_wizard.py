@@ -39,8 +39,8 @@ class ShSplitWizard(models.TransientModel):
         res['sh_order_line_ids'] = [Command.create({
                                            'sh_order_line_id':rec.id,
                                            'sh_name':rec.name,
-                                           'sh_sol_lot_no':rec.sh_lot_no,
-                                           'sh_sol_expiry_date':rec.sh_expiry_date,
+                                           'sh_sol_lot_no_ids':rec.sh_lot_no_ids.ids,
+                                        #    'sh_sol_expiry_date':rec.sh_expiry_date,
                                         #    'sh_product_template_id':rec.product_template_id.id,
                                            'sh_product_product_id':rec.product_id.id,
                                            'sh_is_narcotic_bool':rec.product_id.categ_id.sh_is_narcotic,
@@ -56,7 +56,7 @@ class ShSplitWizard(models.TransientModel):
 
     def sh_wizard_confirm_action(self):
         
-        self.env['sale.order'].create({
+        new_so = self.env['sale.order'].create({
             'partner_id':self.sh_partner_id.id,
             'sh_doctor_id':self.sh_doc_id.id,
             'sh_precription':self.sh_prescribe,
@@ -65,8 +65,8 @@ class ShSplitWizard(models.TransientModel):
             'sh_is_narcotic':self.sh_wiz_narcotic_bool,
 
             'order_line':[(0,0,{'name':line.sh_name,
-                                'sh_lot_no':line.sh_sol_lot_no,
-                                'sh_expiry_date':line.sh_sol_expiry_date,
+                                'sh_lot_no_ids':line.sh_sol_lot_no_ids.ids,
+                                # 'sh_expiry_date':line.sh_sol_expiry_date,
                                 # 'product_id':line.sh_product_template_id.product_variant_id.id,
                                 'product_id':line.sh_product_product_id.id,
                                 'product_uom_qty':line.sh_product_uom_qty}) for line in self.sh_order_line_ids]
@@ -81,6 +81,14 @@ class ShSplitWizard(models.TransientModel):
                 print('\n\n\nrec.sh_order_line_id',rec.sh_order_line_id)
                 fil_rec.product_uom_qty -= rec.sh_product_uom_qty
       
+        for rec in self.sh_order_id.order_line:
+            rec._onchange_product_id_product_uom_qty()
+        
+        for rec in new_so.order_line:
+            rec._onchange_product_id_product_uom_qty()
+        
+        new_so._onchange_partner_id()
+        
         self.sh_wizard_cancel_action()
         
     def sh_wizard_cancel_action(self):

@@ -18,8 +18,8 @@
                                 <field name="sh_product_product_id" string="Product"/>
                                 <field name="sh_name" column_invisible="1"/>
                                 <field name="sh_product_uom_qty"/>
-                                <field name="sh_sol_lot_no" column_invisible="1"/>
-                                <field name="sh_sol_expiry_date" column_invisible="1"/>
+                                <field name="sh_sol_lot_no_ids" />
+                                <!-- <field name="sh_sol_expiry_date" /> -->
                                 <field name="sh_order_line_id" column_invisible="1"/>
                             </list>
                         </field>                                                    

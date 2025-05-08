@@ -12,8 +12,8 @@ class ShSplitWizardLine(models.TransientModel):
     sh_product_template_id = fields.Many2one("product.template", string="Product")
     sh_product_uom_qty = fields.Float(string="Quantity")
 
-    sh_sol_lot_no = fields.Char()
-    sh_sol_expiry_date = fields.Date()
+    sh_sol_lot_no_ids = fields.Many2many("stock.lot", string="Lot/Sr no.")
+    # sh_sol_expiry_date = fields.Date()
     
     sh_product_product_id = fields.Many2one("product.product")
         
