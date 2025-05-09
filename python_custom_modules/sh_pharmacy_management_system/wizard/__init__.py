@@ -3,3 +3,4 @@ from . import sh_split_wizard_line
 from . import sh_pharmacy_report_wizard
 from . import sh_cash_drawer_wizard_line
 from . import sh_exp_date_wizard_line
+from . import sh_doctor_commission_wizard_line

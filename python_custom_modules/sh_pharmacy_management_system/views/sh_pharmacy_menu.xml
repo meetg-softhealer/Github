@@ -11,7 +11,7 @@
     <!-- report menu -->
     <menuitem id="sh_cash_drawer_report_menu" name="Cash Drawer Report" parent="sh_report_menu" sequence="1" action="sh_cash_drawer_report_wizard_action"/>
     <menuitem id="sh_expiry_date_report_menu" name="Expiry Date Report" parent="sh_report_menu" sequence="2" action="sh_exp_date_report_wizard_action"/>
-    <menuitem id="sh_doctor_commission_report_menu" name="Doctor Commission Reoprt" parent="sh_report_menu" sequence="3" action="res_doctor_action"/>
+    <menuitem id="sh_doctor_commission_report_menu" name="Doctor Commission Reoprt" parent="sh_report_menu" sequence="3" action="sh_doctor_commission_report_wizard_action"/>
     <menuitem id="sh_day_category_report_menu" name="Day Wise Category Wise Report" parent="sh_report_menu" sequence="4" action="res_doctor_action"/>
     <menuitem id="sh_product_wise_report_menu" name="Product Wise Selling Report" parent="sh_report_menu" sequence="5" action="res_doctor_action"/>
     <menuitem id="sh_fsn_report_menu" name="FSN Report" parent="sh_report_menu" sequence="6" action="res_doctor_action"/>
