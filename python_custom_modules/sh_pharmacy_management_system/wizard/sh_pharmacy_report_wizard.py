@@ -18,6 +18,8 @@ class ShPharmacyReportWizard(models.TransientModel):
     sh_is_cash_drawer = fields.Boolean()
     sh_is_exp_date = fields.Boolean()
     sh_is_doctor_commission = fields.Boolean()
+    sh_is_product_selling = fields.Boolean()
+    sh_is_fsn = fields.Boolean()
 
 
     sh_wiz_from_date = fields.Datetime("From:", default=datetime.today()-relativedelta(months=1))    
@@ -28,15 +30,23 @@ class ShPharmacyReportWizard(models.TransientModel):
     sh_wiz_cashier_id = fields.Many2one("res.users", string="Cashier")
     sh_cash_drawer_wizard_line_ids = fields.Many2many("sh.cash.drawer.wizard.line")
 
-    # Expiry Date Fields
+    # Expiry Date Fields and Product Selling and Fsn Fields
     sh_product_id = fields.Many2one("product.product", string="Product:")
     sh_category_id = fields.Many2one("product.category", string="Category:")
+    #Expiry Date
     sh_lot_id = fields.Many2one("stock.lot", string="Batch Number")
-    sh_exp_date_wizard_line_ids = fields.Many2many("sh.exp.date.wizard.line") 
+    sh_exp_date_wizard_line_ids = fields.Many2many("sh.exp.date.wizard.line", string="") 
+    #Product Selling
+    sh_product_wizard_line_ids = fields.Many2many("sh.product.wizard.line", string="") 
 
     #Doctor Commission Fields
     sh_doc_id = fields.Many2one("res.partner", string="Doctor", domain=[('sh_is_doctor','=',True)])
     sh_doctor_commission_wizard_line_ids = fields.Many2many("sh.doctor.commission.wizard.line", string="")
+
+    #Fsn fields
+    sh_min_qty_rate = fields.Float("Minimum Qty Rate")
+    sh_sale_rate = fields.Selection([('fast','Fast'),('slow','Slow')], string="Sale Rate:")  
+    sh_fsn_wizard_line_ids = fields.Many2many("sh.fsn.wizard.line", string="")
 
     def fetch_report_action(self):
         self.sh_is_fetch = True
@@ -45,6 +55,8 @@ class ShPharmacyReportWizard(models.TransientModel):
         self.sh_cash_drawer_wizard_line_ids = False
         self.sh_exp_date_wizard_line_ids = False
         self.sh_doctor_commission_wizard_line_ids = False
+        self.sh_product_wizard_line_ids = False
+        self.sh_fsn_wizard_line_ids = False
 
         if not self.sh_wiz_from_date or not self.sh_wiz_to_date:
                 raise UserError("Enter From and To date fields to generate reports!!!")
@@ -92,10 +104,8 @@ class ShPharmacyReportWizard(models.TransientModel):
         
         if self.sh_is_exp_date:
 
-            if self.sh_wiz_from_date:
-                domain += [('expiration_date','>=',self.sh_wiz_from_date)]
-            if self.sh_wiz_to_date:
-                domain += [('expiration_date','<=',self.sh_wiz_to_date)]
+            if self.sh_wiz_from_date or self.sh_wiz_to_date:
+                domain += [('expiration_date','>=',self.sh_wiz_from_date),('expiration_date','<=',self.sh_wiz_to_date)]    
             if self.sh_product_id:
                 domain += [('product_id','=',self.sh_product_id.id)]
             if self.sh_category_id:
@@ -118,10 +128,8 @@ class ShPharmacyReportWizard(models.TransientModel):
          
         if self.sh_is_doctor_commission:
             
-            if self.sh_wiz_from_date:
-                domain += [('date_order','>=',self.sh_wiz_from_date)]
-            if self.sh_wiz_to_date:
-                domain += [('date_order','<=',self.sh_wiz_to_date)]
+            if self.sh_wiz_from_date or self.sh_wiz_to_date:
+                domain += [('date_order','>=',self.sh_wiz_from_date.date()),('date_order','<=',self.sh_wiz_to_date.date())]            
             if self.sh_doc_id:
                 domain += [('sh_doctor_id','=',self.sh_doc_id.id)]
 
@@ -147,6 +155,83 @@ class ShPharmacyReportWizard(models.TransientModel):
                 elif record.sh_doctor_id.sh_commission_types=='fixed':
                     record.sh_com_amount = record.sh_commission_fixed_amount
 
+        if self.sh_is_product_selling:
+            if self.sh_wiz_from_date or self.sh_wiz_to_date:
+                domain += [('order_id.date_order','>=',self.sh_wiz_from_date.date()),('order_id.date_order','<=',self.sh_wiz_to_date.date()),('order_id.state','=','sale')]
+            if self.sh_product_id:
+                domain += [('product_id','=',self.sh_product_id.id)]
+            if self.sh_category_id:
+                domain += [('product_id.categ_id','=',self.sh_category_id.id)]
+
+            records = self.env['sale.order.line'].search(domain)
+            # if rec.product_id.id in self.sh_product_wizard_line_ids.sh_pdt_id.id
+
+            # self.sh_product_wizard_line_ids = [Command.create({
+            #     'sh_pdt_id':rec.product_id.id,
+            #     'sh_categ_id':rec.product_id.categ_id.id,
+            #     'sh_qty_sold':0,
+            #     'sh_unit_price':0,
+            #     'sh_total_sale':0
+            # })
+            for rec in records:
+                if rec.product_id.id not in self.sh_product_wizard_line_ids.mapped('sh_pdt_id').ids:
+                    self.sh_product_wizard_line_ids = [Command.create({
+                    'sh_pdt_id':rec.product_id.id,
+                    'sh_categ_id':rec.product_id.categ_id.id,
+                    'sh_qty_sold':0,
+                    'sh_unit_price':0,
+                    'sh_total_sale':0,
+                    'sh_margin_rate':0,
+                    'sh_total_margin':0,
+                    'sh_cost_price':0
+                    })]
+                    # print("\n\n\n rec", rec)
+                    # print("\n\n\n rec.product_id.id", rec.product_id.id)
+                    # print("\n\n\n self.sh_product_wizard_line_ids.mapped('sh_pdt_id').ids", self.sh_product_wizard_line_ids.mapped('sh_pdt_id').ids)
+
+            for record in self.sh_product_wizard_line_ids:
+                for rec in records:
+                    if rec.product_id.id == record.sh_pdt_id.id:
+                        record.sh_qty_sold += rec.product_uom_qty
+                        record.sh_total_sale += rec.price_subtotal
+                record.sh_unit_price = record.sh_total_sale/record.sh_qty_sold
+                record.sh_cost_price = record.sh_pdt_id.standard_price
+                record.sh_total_margin = record.sh_unit_price - record.sh_cost_price 
+                record.sh_margin_rate = (record.sh_total_margin*100)/record.sh_unit_price
+
+        if self.sh_is_fsn:
+
+            if self.sh_wiz_from_date or self.sh_wiz_to_date:
+                domain += [('order_id.date_order','>=',self.sh_wiz_from_date.date()),('order_id.date_order','<=',self.sh_wiz_to_date.date()),('order_id.state','=','sale')]
+            if self.sh_product_id:
+                domain += [('product_id','=',self.sh_product_id.id)]
+            if self.sh_category_id:
+                domain += [('product_id.categ_id','=',self.sh_category_id.id)]
+            # if self.sh_min_qty_rate:
+            #     domain += [('product_id.qty_available','>=',)]
+
+            records = self.env['sale.order.line'].search(domain)
+                
+            for rec in records:
+                if rec.product_id.id not in self.sh_fsn_wizard_line_ids.mapped('sh_pdt_id').ids:
+                    self.sh_fsn_wizard_line_ids = [Command.create({
+                        'sh_pdt_id':rec.product_id.id,
+                        'sh_categ_id':rec.product_id.categ_id.id,
+                        'sh_stock_qty':rec.product_id.qty_available,
+                        'sh_stock_forecast':rec.product_id.virtual_available,
+                        'sh_qty_sold':0,                        
+                    })]
+
+            for record in self.sh_fsn_wizard_line_ids:
+                for rec in records:
+                    if rec.product_id.id == record.sh_pdt_id.id:
+                        record.sh_qty_sold += rec.product_uom_qty
+                
+                if record.sh_qty_sold >= self.sh_min_qty_rate:
+                    record.sh_sold_rate = 'fast'
+                else:
+                    record.sh_sold_rate = 'slow'
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Pharmacy Reports'),   #type:ignore
@@ -167,7 +252,11 @@ class ShPharmacyReportWizard(models.TransientModel):
             records = self.sh_exp_date_wizard_line_ids
         if self.sh_is_doctor_commission:
             records = self.sh_doctor_commission_wizard_line_ids
-            
+        if self.sh_is_product_selling:
+            records = self.sh_product_wizard_line_ids
+        if self.sh_is_fsn:
+            records = self.sh_fsn_wizard_line_ids
+
 
         workbook = xlwt.Workbook(encoding='utf-8')
                        
@@ -179,6 +268,11 @@ class ShPharmacyReportWizard(models.TransientModel):
             worksheet = workbook.add_worksheet("Expiry Date")
         if self.sh_is_doctor_commission:
             worksheet = workbook.add_worksheet("Doctor Commission")
+        if self.sh_is_product_selling:
+            worksheet = workbook.add_worksheet("Product Selling")
+        if self.sh_fsn_wizard_line_ids:
+            worksheet = workbook.add_worksheet("FSN Report")
+
         # print("\n\n\n records", records)
 
         bold_style = workbook.add_format({'bold': True,'align': 'center','valign': 'vcenter','border': 1})
@@ -208,6 +302,22 @@ class ShPharmacyReportWizard(models.TransientModel):
                 'valign': 'vcenter'
             }))
 
+        if self.sh_is_product_selling:
+            worksheet.merge_range('A1:R1', 'Product Selling Report', workbook.add_format({
+                'bold': True,
+                'font_size': 14,
+                'align': 'center',
+                'valign': 'vcenter'
+            }))
+
+        if self.sh_is_fsn:
+            worksheet.merge_range('A1:R1', 'FSN Report', workbook.add_format({
+                'bold': True,
+                'font_size': 14,
+                'align': 'center',
+                'valign': 'vcenter'
+            }))
+
         date_range = f'From: {self.sh_wiz_from_date.strftime("%d/%m/%Y")} To: {self.sh_wiz_to_date.strftime("%d/%m/%Y")}'
         worksheet.merge_range('A2:R2', date_range, workbook.add_format({
             'font_size': 11,
@@ -230,6 +340,16 @@ class ShPharmacyReportWizard(models.TransientModel):
                 'Sr. No.', 'Doctor', 'Patient','Sale Order', 'Date', 'Total Bill Amount', 'Commission Percentage', 'Commission Fixed Amount', 'Commission Amount' 
             ]
         
+        if self.sh_is_product_selling:
+            header = [
+                'Sr. No.', 'Product', 'Category','Quantity Sold', 'Unit/Sale Price', 'Total Sale', 'Margin Rate(%)', 'Total Margin Amount', 'Cost Price' 
+            ]
+
+        if self.sh_is_fsn:
+            header = [
+                'Sr. No.', 'Product', 'Category','Quantity On Hand', 'Quantity Forecast', 'Quantity Sold', 'Sale Rate' 
+            ]
+
         header_format = workbook.add_format({'bold': True, 'bg_color': '#D3D3D3'})
         for col, title in enumerate(header):
             worksheet.write(2, col, title, header_format)
@@ -276,6 +396,30 @@ class ShPharmacyReportWizard(models.TransientModel):
                     rec.sh_commission_percentage,
                     rec.sh_commission_fixed_amount,
                     rec.sh_com_amount                    
+                ]
+
+            if self.sh_is_product_selling:
+                values = [
+                    str(count),
+                    rec.sh_pdt_id.name,
+                    rec.sh_categ_id.name,
+                    rec.sh_qty_sold,
+                    rec.sh_unit_price,
+                    rec.sh_total_sale,
+                    rec.sh_margin_rate,
+                    rec.sh_total_margin,
+                    rec.sh_cost_price
+                ]
+
+            if self.sh_is_fsn:
+                values = [
+                    str(count),
+                    rec.sh_pdt_id.name,
+                    rec.sh_categ_id.name,
+                    rec.sh_stock_qty,
+                    rec.sh_stock_forecast,
+                    rec.sh_qty_sold,
+                    rec.sh_sold_rate
                 ]
                 
                 # Write values and update column widths
@@ -339,6 +483,36 @@ class ShPharmacyReportWizard(models.TransientModel):
 
             attachment = IrAttachment.search([('name', '=',
                     'Doctor Commission Report.xls'), ('type', '=', 'binary'),
+                    ('res_model', '=', 'ir.ui.view')], limit=1)
+
+        if self.sh_is_product_selling:
+            attachment_vals = {
+            'name': 'Product Selling Report.xls',
+            'res_model': 'ir.ui.view',
+            'type': 'binary',
+            'datas': xlsx_data,
+            'public': True,
+            }
+        
+            fp.close()
+
+            attachment = IrAttachment.search([('name', '=',
+                    'Product Selling Report.xls'), ('type', '=', 'binary'),
+                    ('res_model', '=', 'ir.ui.view')], limit=1)
+
+        if self.sh_is_fsn:
+            attachment_vals = {
+            'name': 'FSN Report.xls',
+            'res_model': 'ir.ui.view',
+            'type': 'binary',
+            'datas': xlsx_data,
+            'public': True,
+            }
+        
+            fp.close()
+
+            attachment = IrAttachment.search([('name', '=',
+                    'FSN Report.xls'), ('type', '=', 'binary'),
                     ('res_model', '=', 'ir.ui.view')], limit=1)
 
         if attachment:
