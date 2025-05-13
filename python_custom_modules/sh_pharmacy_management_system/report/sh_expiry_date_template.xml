@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="sh_expiry_date_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Lot/Sr no.</th>
+                            <th>Expiry Date</th>
+                            <th>Days Remaining</th>
+                            <th>Quantity</th>
+                            <th>Category</th>                            
+                        </tr>
+                    </thead>
+                    <t t-foreach="docs" t-as="record">
+                        <t t-foreach="record.sh_exp_date_wizard_line_ids" t-as="rec">    
+                            <tr>
+                                <td>
+                                    <span t-field="rec.sh_pdt_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_lot_name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_exp_date"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_days_remaining"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_qty"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_category_id.name"/>
+                                </td>                                
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

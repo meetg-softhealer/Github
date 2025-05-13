@@ -21,7 +21,7 @@
                                 <field name="sh_cash_sale"/>
                                 <field name="sh_card_sale"/>
                                 <field name="sh_upi_sale"/>
-                                <field name="sh_net_cash"/>
+                                <!-- <field name="sh_net_cash"/> -->
                             </list>
                         </field>
 
@@ -111,6 +111,7 @@
                     <footer>                        
                         <button string="Fetch" name="fetch_report_action" type="object" class="oe_highlight"/>
                         <button string="Generate Excel" name="export_report_action" type="object" class="oe_highlight"/>
+                        <button string="Generate PDF" name="export_pdf_action" type="object" class="oe_highlight"/>
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                 </sheet>

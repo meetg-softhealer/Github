@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="sh_doctor_commission_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Patient</th>
+                            <th>Sale Order</th>
+                            <th>Date</th>
+                            <th>Bill Total</th>
+                            <th>Commission Percentage</th>
+                            <th>Fixed Commission</th>
+                            <th>Total Commission</th>                            
+                        </tr>
+                    </thead>
+                    <t t-foreach="docs" t-as="record">
+                        <t t-foreach="record.sh_doctor_commission_wizard_line_ids" t-as="rec">    
+                            <tr>
+                                <td>
+                                    <span t-field="rec.sh_doctor_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_patient_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_so_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_date"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_bill_total"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_commission_percentage"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_commission_fixed_amount"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_com_amount"/>
+                                </td>                                
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

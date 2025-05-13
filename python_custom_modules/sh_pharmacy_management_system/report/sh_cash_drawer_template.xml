@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="sh_cash_drawer_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Cashier</th>
+                            <th>Opening Balance</th>
+                            <th>Closing Balance</th>
+                            <th>Cash Sale</th>
+                            <th>Card Sale</th>
+                            <th>UPI Sale</th>                            
+                        </tr>
+                    </thead>
+                    <t t-foreach="docs" t-as="record">
+                        <t t-foreach="record.sh_cash_drawer_wizard_line_ids" t-as="rec">    
+                            <tr>
+                                <td>
+                                    <span t-field="rec.sh_date"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_cashier_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_open_bal"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_close_bal"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_cash_sale"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_card_sale"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_upi_sale"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

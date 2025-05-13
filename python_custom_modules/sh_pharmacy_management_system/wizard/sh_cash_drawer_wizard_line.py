@@ -16,7 +16,7 @@ class ShCashDrawerWizardLine(models.TransientModel):
     sh_cash_sale = fields.Monetary(currency_field='sh_company_currency_id')
     sh_card_sale = fields.Monetary(currency_field='sh_company_currency_id')
     sh_upi_sale = fields.Monetary(currency_field='sh_company_currency_id')
-    sh_net_cash = fields.Monetary(currency_field='sh_company_currency_id')
+    # sh_net_cash = fields.Monetary(currency_field='sh_company_currency_id')
     
     @api.depends_context('company')
     def _compute_company_currency_id(self):

@@ -109,7 +109,7 @@ class ShPharmacyReportWizard(models.TransientModel):
                 for item in upi_sale:
                     upi_sale_total += item.amount
                 rec.sh_upi_sale = upi_sale_total
-                rec.sh_net_cash = rec.sh_close_bal
+                # rec.sh_net_cash = rec.sh_close_bal
         
         if self.sh_is_exp_date:
 
@@ -618,7 +618,22 @@ class ShPharmacyReportWizard(models.TransientModel):
                 'target': 'new'}
 
     
-    
+    def export_pdf_action(self):
+        self.fetch_report_action()
+
+        if self.sh_is_cash_drawer:
+            return self.env.ref('sh_pharmacy_management_system.action_report_sh_cash_drawer').report_action(self)
+        if self.sh_is_exp_date:
+            return self.env.ref('sh_pharmacy_management_system.action_report_sh_expiry_date').report_action(self)
+        if self.sh_is_doctor_commission:
+            return self.env.ref('sh_pharmacy_management_system.action_report_sh_doctor_commission').report_action(self)            
+        if self.sh_is_product_selling:
+            return self.env.ref('sh_pharmacy_management_system.action_report_sh_product_selling').report_action(self)
+        if self.sh_is_fsn:
+            return self.env.ref('sh_pharmacy_management_system.action_report_sh_fsn').report_action(self)
+        if self.sh_is_patient:
+            return self.env.ref('sh_pharmacy_management_system.action_report_sh_patient').report_action(self)
+
         
         
 

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_report_sh_cash_drawer" model="ir.actions.report">
+        <field name="name">Cash Drawer Reports</field>
+        <field name="model">sh.pharmacy.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_pharmacy_management_system.sh_cash_drawer_report_template</field>
+        <field name="report_name">sh_pharmacy_management_system.sh_cash_drawer_report_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_sh_pharmacy_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_sh_expiry_date" model="ir.actions.report">
+        <field name="name">Expiry Date Reports</field>
+        <field name="model">sh.pharmacy.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_pharmacy_management_system.sh_expiry_date_report_template</field>
+        <field name="report_name">sh_pharmacy_management_system.sh_expiry_date_report_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_sh_pharmacy_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_sh_doctor_commission" model="ir.actions.report">
+        <field name="name">Doctor Commission Reports</field>
+        <field name="model">sh.pharmacy.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_pharmacy_management_system.sh_doctor_commission_report_template</field>
+        <field name="report_name">sh_pharmacy_management_system.sh_doctor_commission_report_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_sh_pharmacy_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_sh_product_selling" model="ir.actions.report">
+        <field name="name">Product Selling Reports</field>
+        <field name="model">sh.pharmacy.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_pharmacy_management_system.sh_product_selling_report_template</field>
+        <field name="report_name">sh_pharmacy_management_system.sh_product_selling_report_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_sh_pharmacy_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_sh_fsn" model="ir.actions.report">
+        <field name="name">FSN Reports</field>
+        <field name="model">sh.pharmacy.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_pharmacy_management_system.sh_fsn_report_template</field>
+        <field name="report_name">sh_pharmacy_management_system.sh_fsn_report_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_sh_pharmacy_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_sh_patient" model="ir.actions.report">
+        <field name="name">Patient Reports</field>
+        <field name="model">sh.pharmacy.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_pharmacy_management_system.sh_patient_report_template</field>
+        <field name="report_name">sh_pharmacy_management_system.sh_patient_report_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_sh_pharmacy_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
