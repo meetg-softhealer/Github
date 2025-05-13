@@ -6,3 +6,4 @@ from . import sh_exp_date_wizard_line
 from . import sh_doctor_commission_wizard_line
 from . import sh_product_wizard_line
 from . import sh_fsn_wizard_line
+from . import sh_patient_wizard_line

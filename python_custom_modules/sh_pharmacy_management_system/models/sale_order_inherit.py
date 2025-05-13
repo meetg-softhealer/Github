@@ -8,7 +8,7 @@ class ShSaleOrderInherit(models.Model):
     _inherit = "sale.order"
 
     sh_gender = fields.Selection(selection=[('male','Male'),('female','Female')],string="Gender", tracking=True)
-    sh_age = fields.Integer(string="Age", tracking=True, readonly=True)
+    sh_age = fields.Integer(string="Age", tracking=True, readonly=True, related='partner_id.sh_age')
     
     sh_doctor_id = fields.Many2one("res.partner", string="Doctor", domain=[(('sh_is_doctor','=', True))], tracking=True)
 
@@ -25,7 +25,7 @@ class ShSaleOrderInherit(models.Model):
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
         self.sh_gender = self.partner_id.sh_gender
-        self.sh_age = self.partner_id.sh_age
+        # self.sh_age = self.partner_id.sh_age
         self.sh_mobile_number = self.partner_id.mobile
         self.sh_card = self.partner_id.sh_card
         self.sh_email = self.partner_id.email

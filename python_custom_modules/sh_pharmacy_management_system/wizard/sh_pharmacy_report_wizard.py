@@ -20,6 +20,7 @@ class ShPharmacyReportWizard(models.TransientModel):
     sh_is_doctor_commission = fields.Boolean()
     sh_is_product_selling = fields.Boolean()
     sh_is_fsn = fields.Boolean()
+    sh_is_patient = fields.Boolean()
 
 
     sh_wiz_from_date = fields.Datetime("From:", default=datetime.today()-relativedelta(months=1))    
@@ -39,7 +40,7 @@ class ShPharmacyReportWizard(models.TransientModel):
     #Product Selling
     sh_product_wizard_line_ids = fields.Many2many("sh.product.wizard.line", string="") 
 
-    #Doctor Commission Fields
+    #Doctor Commission Fields and Patient Field
     sh_doc_id = fields.Many2one("res.partner", string="Doctor", domain=[('sh_is_doctor','=',True)])
     sh_doctor_commission_wizard_line_ids = fields.Many2many("sh.doctor.commission.wizard.line", string="")
 
@@ -47,6 +48,12 @@ class ShPharmacyReportWizard(models.TransientModel):
     sh_min_qty_rate = fields.Float("Minimum Qty Rate")
     sh_sale_rate = fields.Selection([('fast','Fast'),('slow','Slow')], string="Sale Rate:")  
     sh_fsn_wizard_line_ids = fields.Many2many("sh.fsn.wizard.line", string="")
+
+    #Patient Fields
+    sh_patient_id = fields.Many2one("res.partner", string="Patient")
+    sh_age_categ = fields.Selection([('child','0-12'),('teen','13-18'),('adult','19-40'),('senior','40+')], string='Age Category')
+    sh_gender = fields.Selection([('male','Male'),('female','Female')], string="Gender")
+    sh_patient_wizard_line_ids = fields.Many2many("sh.patient.wizard.line", string="")
 
     def fetch_report_action(self):
         self.sh_is_fetch = True
@@ -57,6 +64,8 @@ class ShPharmacyReportWizard(models.TransientModel):
         self.sh_doctor_commission_wizard_line_ids = False
         self.sh_product_wizard_line_ids = False
         self.sh_fsn_wizard_line_ids = False
+        self.sh_patient_wizard_line_ids = False
+        
 
         if not self.sh_wiz_from_date or not self.sh_wiz_to_date:
                 raise UserError("Enter From and To date fields to generate reports!!!")
@@ -156,6 +165,7 @@ class ShPharmacyReportWizard(models.TransientModel):
                     record.sh_com_amount = record.sh_commission_fixed_amount
 
         if self.sh_is_product_selling:
+
             if self.sh_wiz_from_date or self.sh_wiz_to_date:
                 domain += [('order_id.date_order','>=',self.sh_wiz_from_date.date()),('order_id.date_order','<=',self.sh_wiz_to_date.date()),('order_id.state','=','sale')]
             if self.sh_product_id:
@@ -232,6 +242,41 @@ class ShPharmacyReportWizard(models.TransientModel):
                 else:
                     record.sh_sold_rate = 'slow'
 
+        if self.sh_is_patient:
+            print("\n\n\n age", self.sh_age_categ)
+
+            if self.sh_wiz_from_date or self.sh_wiz_to_date:
+                domain += [('date_order','>=',self.sh_wiz_from_date.date()),('date_order','<=',self.sh_wiz_to_date.date()),('state','=','sale')]
+            if self.sh_doc_id:
+                domain += [('sh_doctor_id','=',self.sh_doc_id.id)]
+            if self.sh_patient_id:
+                domain += [('partner_id','=',self.sh_patient_id.id)]
+            if self.sh_gender:
+                domain += [('sh_gender','=',self.sh_gender)]
+            if self.sh_age_categ:
+                print("\n\n\n in age")
+                if self.sh_age_categ=='child':
+                    domain += [('partner_id.sh_age','>=',0),('partner_id.sh_age','<=',12)]
+                elif self.sh_age_categ=='teen':
+                    domain += [('partner_id.sh_age','>=',13),('partner_id.sh_age','<=',18)]
+                elif self.sh_age_categ=='adult':
+                    domain += [('partner_id.sh_age','>=',19),('partner_id.sh_age','<=',40)]
+                elif self.sh_age_categ=='senior':
+                    domain += [('partner_id.sh_age','>',40)]
+
+            records = self.env['sale.order'].search(domain)
+
+            self.sh_patient_wizard_line_ids = [Command.create({
+                'sh_so_id':rec.id,
+                'sh_so_date':rec.date_order.date(),
+                'sh_patient_id':rec.partner_id.id,
+                # 'sh_age':rec.sh_age,
+                'sh_gender':rec.sh_gender,
+                'sh_doctor_id':rec.sh_doctor_id.id,
+                'sh_total_amount':rec.amount_total
+            }) for rec in records]
+
+
         return {
             'type': 'ir.actions.act_window',
             'name': _('Pharmacy Reports'),   #type:ignore
@@ -256,6 +301,8 @@ class ShPharmacyReportWizard(models.TransientModel):
             records = self.sh_product_wizard_line_ids
         if self.sh_is_fsn:
             records = self.sh_fsn_wizard_line_ids
+        if self.sh_is_patient:
+            records = self.sh_patient_wizard_line_ids
 
 
         workbook = xlwt.Workbook(encoding='utf-8')
@@ -272,6 +319,8 @@ class ShPharmacyReportWizard(models.TransientModel):
             worksheet = workbook.add_worksheet("Product Selling")
         if self.sh_fsn_wizard_line_ids:
             worksheet = workbook.add_worksheet("FSN Report")
+        if self.sh_patient_wizard_line_ids:
+            worksheet = workbook.add_worksheet("Patient Report")
 
         # print("\n\n\n records", records)
 
@@ -318,6 +367,14 @@ class ShPharmacyReportWizard(models.TransientModel):
                 'valign': 'vcenter'
             }))
 
+        if self.sh_is_patient:
+            worksheet.merge_range('A1:R1', 'Patient Report', workbook.add_format({
+                'bold': True,
+                'font_size': 14,
+                'align': 'center',
+                'valign': 'vcenter'
+            }))
+
         date_range = f'From: {self.sh_wiz_from_date.strftime("%d/%m/%Y")} To: {self.sh_wiz_to_date.strftime("%d/%m/%Y")}'
         worksheet.merge_range('A2:R2', date_range, workbook.add_format({
             'font_size': 11,
@@ -348,6 +405,11 @@ class ShPharmacyReportWizard(models.TransientModel):
         if self.sh_is_fsn:
             header = [
                 'Sr. No.', 'Product', 'Category','Quantity On Hand', 'Quantity Forecast', 'Quantity Sold', 'Sale Rate' 
+            ]
+
+        if self.sh_is_patient:
+            header = [
+                'Sr. No.', 'Order', 'Order Date','Patient', 'Age', 'Gender', 'Doctor', 'Amount' 
             ]
 
         header_format = workbook.add_format({'bold': True, 'bg_color': '#D3D3D3'})
@@ -420,6 +482,18 @@ class ShPharmacyReportWizard(models.TransientModel):
                     rec.sh_stock_forecast,
                     rec.sh_qty_sold,
                     rec.sh_sold_rate
+                ]
+
+            if self.sh_is_patient:
+                values = [
+                    str(count),
+                    rec.sh_so_id.name,
+                    rec.sh_so_date,
+                    rec.sh_patient_id.name,
+                    rec.sh_age,
+                    rec.sh_gender,
+                    rec.sh_doctor_id.name,
+                    rec.sh_total_amount
                 ]
                 
                 # Write values and update column widths
@@ -513,6 +587,21 @@ class ShPharmacyReportWizard(models.TransientModel):
 
             attachment = IrAttachment.search([('name', '=',
                     'FSN Report.xls'), ('type', '=', 'binary'),
+                    ('res_model', '=', 'ir.ui.view')], limit=1)
+
+        if self.sh_is_patient:
+            attachment_vals = {
+            'name': 'Patient Report.xls',
+            'res_model': 'ir.ui.view',
+            'type': 'binary',
+            'datas': xlsx_data,
+            'public': True,
+            }
+        
+            fp.close()
+
+            attachment = IrAttachment.search([('name', '=',
+                    'Patient Report.xls'), ('type', '=', 'binary'),
                     ('res_model', '=', 'ir.ui.view')], limit=1)
 
         if attachment:

@@ -28,7 +28,7 @@ class ResPartnerInherit(models.Model):
     sh_card = fields.Char(string="Aadhar Card",size=12,tracking=True)
     sh_dob = fields.Date(string="Date of Birth", tracking=True)
     sh_blood = fields.Selection(string="Blood Type",selection=[('a','A'),('b','B'),('o','O'),('ab','AB'),('apositive','A+'),('bpositive','B+'),('opositive','O+'),('abpositive','AB+'),('anegetive','A-'),('bnegetive','B-'),('onegetive','O-'),('abnegetive','AB-')], tracking=True)
-    sh_age = fields.Integer(string="Age", compute="_compute_age_calculation",tracking=True)
+    sh_age = fields.Integer(string="Age", compute="_compute_age_calculation",tracking=True, store=True)
     sh_allergies_ids = fields.Many2many("sh.allergies", string="Allergies", tracking=True)
 
 

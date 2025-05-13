@@ -90,10 +90,27 @@
                             </list>
                         </field>
 
+                        <!-- Patient Reports -->
+                        <field name="sh_doc_id" invisible="not sh_is_patient"/>
+                        <field name="sh_patient_id" invisible="not sh_is_patient"/>
+                        <field name="sh_age_categ" invisible="not sh_is_patient"/>
+                        <field name="sh_gender" invisible="not sh_is_patient"/>
+                        <field name="sh_patient_wizard_line_ids" invisible="not sh_is_patient or not sh_is_fetch" string="">
+                            <list>
+                                <field name="sh_so_id"/>
+                                <field name="sh_so_date"/>
+                                <field name="sh_patient_id"/>
+                                <field name="sh_age"/>
+                                <field name="sh_gender"/>
+                                <field name="sh_doctor_id"/>
+                                <field name="sh_total_amount"/>
+                            </list>
+                        </field>
+
                     </group>
                     <footer>                        
                         <button string="Fetch" name="fetch_report_action" type="object" class="oe_highlight"/>
-                        <button string="Generate" name="export_report_action" type="object" class="oe_highlight"/>
+                        <button string="Generate Excel" name="export_report_action" type="object" class="oe_highlight"/>
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                 </sheet>
@@ -138,6 +155,14 @@
         <field name="res_model">sh.pharmacy.report.wizard</field>
         <field name="view_mode">form</field>
         <field name="context">{'default_sh_is_fsn':True}</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="sh_patient_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Patient Report</field>
+        <field name="res_model">sh.pharmacy.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_sh_is_patient':True}</field>
         <field name="target">new</field>
     </record>
 </odoo>
