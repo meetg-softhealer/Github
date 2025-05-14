@@ -34,7 +34,7 @@ class ShSplitWizard(models.TransientModel):
         #                                    'sh_sol_expiry_date':rec.sh_expiry_date,
         #                                    'sh_product_template_id':rec.product_template_id.id,
         #                                    'sh_product_product_id':rec.product_id.id,
-        #                                    'sh_product_uom_qty':rec.product_uom_qty}) for rec in current_rec.order_line if rec['select_bool']]  
+        #                                    'sh_product_uom_qty':rec.product_uom_qty}) for rec in current_rec.order_line if rec['sh_select_bool']]  
 
         res['sh_order_line_ids'] = [Command.create({
                                            'sh_order_line_id':rec.id,
@@ -44,7 +44,7 @@ class ShSplitWizard(models.TransientModel):
                                         #    'sh_product_template_id':rec.product_template_id.id,
                                            'sh_product_product_id':rec.product_id.id,
                                            'sh_is_narcotic_bool':rec.product_id.categ_id.sh_is_narcotic,
-                                           'sh_product_uom_qty':rec.product_uom_qty}) for rec in current_rec.order_line if rec['select_bool']]
+                                           'sh_product_uom_qty':rec.product_uom_qty}) for rec in current_rec.order_line if rec['sh_select_bool']]
         
 
         for record in res['sh_order_line_ids']:
@@ -58,6 +58,7 @@ class ShSplitWizard(models.TransientModel):
         
         new_so = self.env['sale.order'].create({
             'partner_id':self.sh_partner_id.id,
+            'sh_gender':self.sh_partner_id.sh_gender,
             'sh_doctor_id':self.sh_doc_id.id,
             'sh_precription':self.sh_prescribe,
             'sh_card':self.sh_aadhar,
@@ -87,13 +88,20 @@ class ShSplitWizard(models.TransientModel):
         for rec in new_so.order_line:
             rec._onchange_product_id_product_uom_qty()
         
-        new_so._onchange_partner_id()
+        # new_so._onchange_partner_id()
         
         self.sh_wizard_cancel_action()
         
     def sh_wizard_cancel_action(self):
-        self.sh_order_id.order_line.select_bool = False
+        self.sh_order_id.order_line.sh_select_bool = False
 
+    @api.onchange('sh_partner_id')
+    def _onchange_sh_partner_id(self):
+        # self.sh_gender = self.sh_partner_id.sh_gender
+        # self.sh_age = self.partner_id.sh_age
+        self.sh_mobile = self.sh_partner_id.mobile
+        self.sh_aadhar = self.sh_partner_id.sh_card
+        # self.sh_email = self.partner_id.email
 
 
 

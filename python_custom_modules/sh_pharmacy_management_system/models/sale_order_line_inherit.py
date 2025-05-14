@@ -7,7 +7,7 @@ from odoo.exceptions import UserError #type:ignore
 class ShSaleOrderLineInherit(models.Model):
     _inherit = "sale.order.line"
 
-    select_bool = fields.Boolean(" ")
+    sh_select_bool = fields.Boolean(" ")
     # sh_lot_no = fields.Char(string="Lot/Sr no.", tracking=True)
     # sh_expiry_date = fields.Date(string="Expiry Date", tracking=True)
     sh_lot_no_ids = fields.Many2many("stock.lot",string="Lot/Sr No.", tracking=True)
