@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_report_sh_print_meeting_minutes" model="ir.actions.report">
+        <field name="name">Meeting Minutes Reports</field>
+        <field name="model">calendar.event</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_print_meeting_minutes.sh_meeting_minutes_template</field>
+        <field name="report_name">sh_print_meeting_minutes.sh_meeting_minutes_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_calendar_event"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

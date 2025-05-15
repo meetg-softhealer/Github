@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_calendar_event_form_view_inherit_print_meeting" model="ir.ui.view">
+        <field name="name">calendar.event.view.form.inherit</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='page_invitations']" position="after">
+                <page name="sh_meeting_info" string="Meeting Addtional Info">
+                    <group>
+                        <field name="sh_presenter"/>
+                        <field name="sh_facilitator"/>
+                        <field name="sh_note_taker"/>
+                        <field name="sh_time_keeper"/>
+                        <field name="sh_agenda_topics"/>
+                        <field name="sh_action_items"/>
+                        <field name="sh_conclusion"/>
+                    </group>                    
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

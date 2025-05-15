@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="sh_meeting_minutes_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="record">
+                <t t-call="web.external_layout">                
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <h1> <span t-field="record.name"/> - Meeting Minutes</h1>
+                
+                        <table class="table table-bordered">
+                            <tr>                                
+                                <td>
+                                    <span>Meeting Date</span>
+                                </td>
+                                <td>
+                                    <span t-field="record.start"/>
+                                </td>
+
+                                <t t-if="record.location">
+                                    <td>
+                                        <span>Meeting Location</span>
+                                    </td>
+                                    <td>
+                                        <span t-field="record.location"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </table>
+                        <div/>
+                        <table class="table table-bordered">
+                            <tr>
+                                <t t-if="record.sh_presenter">
+                                    <td>
+                                        <span>Presenter</span>
+                                    </td>
+                                    <td>
+                                        <span t-field="record.sh_presenter"/>
+                                    </td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <t t-if="record.user_id">
+                                    <td>
+                                        <span>Meeting Called By</span>
+                                    </td>
+                                    <td>
+                                        <span t-field="record.user_id"/>
+                                    </td>
+                                </t>
+                                <t t-if="record.sh_facilitator">                                    
+                                    <td>
+                                        <span>Facilitator</span>
+                                    </td>
+                                    <td>
+                                        <span t-field="record.sh_facilitator"/>
+                                    </td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <t t-if="record.sh_note_taker">                                    
+                                    <td>
+                                        <span>Note Taker</span>
+                                    </td>
+                                    <td>
+                                        <span t-field="record.sh_note_taker"/>
+                                    </td>
+                                </t>
+                                <t t-if="record.sh_time_keeper">                                    
+                                    <td>
+                                        <span>Time Keeper</span>
+                                    </td>
+                                    <td>
+                                        <span t-field="record.sh_time_keeper"/>
+                                    </td>
+                                </t>
+                            </tr>                            
+                        </table> 
+
+                        <br></br>                        
+                        <table class="table table-bordered">
+                            <tr>
+                                <h3>Meeting Attendees</h3>
+                            </tr>
+                            <t t-set="count" t-value="1"/>
+                            <t t-foreach="record.partner_ids" t-as="rec">                                
+                                <tr>                    
+                                    <td>
+                                        <t t-out="count"/>
+                                    </td>            
+                                    <td>
+                                        <span t-field="rec.name"/>
+                                    </td>
+                                    <t t-set="count" t-value="count + 1"/>
+                                </tr>                                
+                            </t>
+                        </table>                                      
+                        
+                        <div></div>
+                        <table class="table table-bordered">
+                            <t t-if="record.sh_agenda_topics">                                    
+                                <tr>
+                                    <td>
+                                        <h3>Agenda Topic</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p t-field="record.sh_agenda_topics"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            
+                            <div/>
+                            <t t-if="record.sh_action_items">                                    
+                                <tr>
+                                    <td>
+                                        <h3>Action Items</h3>
+                                    </td>
+                                </tr>   
+                                <tr>
+                                    <td>
+                                        <p t-field="record.sh_action_items"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <div/>
+                            <t t-if="record.sh_conclusion">                                    
+                                <tr>
+                                    <td>
+                                        <h3>Conclusion</h3>
+                                    </td>
+                                </tr>   
+                                <tr>
+                                    <td>
+                                        <p t-field="record.sh_conclusion"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                        <div class="oe_structure"/>
+                    </div>
+                </t>        
+            </t>
+        </t>
+    </template>
+
+</odoo>
