@@ -17,6 +17,4 @@ class ShCalendarEventInherit(models.Model):
     sh_action_items = fields.Text("Action Items")
     sh_conclusion = fields.Text("Conclusion")
 
-    # sh_company_id = fields.Many2one("res.company", default=lambda self: self.env.company.id)
-
     

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sh_shift_management</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Shift Management" string="Shift Management" name="sh_shift_management">
+                    <block title="Shift Management Settings" name="sh_shift_management_settings">
+                            <setting string="Enable Custom Shift Configuration" help="User Custom Shift Management Configuration">
+                                <field name="sh_enable_custom_shift"/>
+                            </setting>
+
+                            <setting string="Restrict heckout if working hours are not completed!!!" help="It will not allow employees to checkout if the working hours are not completed!!!">
+                                <field name="sh_restrict_checkout"/>
+                            </setting>
+
+                            <setting string="Notify Shift allocation Before">
+                                <field name="sh_notify_shift"/>
+                                <field name="sh_days"/><span>Days</span>
+                            </setting>                                
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

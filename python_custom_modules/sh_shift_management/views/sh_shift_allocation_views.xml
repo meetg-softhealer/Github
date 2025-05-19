@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_shift_allocation_view_form" model="ir.ui.view">
+        <field name="name">sh.shift.allocation.view.form</field>
+        <field name="model">sh.shift.allocation</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                                
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
