@@ -11,4 +11,5 @@ class ShResourceCalendar(models.Model):
     sh_shift_manager = fields.Many2one("res.users", string="Shift Manager")
     sh_active = fields.Boolean("Active")
 
+    sh_days_ids = fields.Many2many("sh.days", string="Week-off Days")
     

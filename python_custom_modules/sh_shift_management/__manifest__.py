@@ -12,6 +12,7 @@
         'views/res_config_settings_views.xml',
         'views/sh_shift_type_views.xml',
         'views/sh_shift_allocation_views.xml',
+        'views/resource_calendar_views.xml',
         'views/sh_shift_management_menu.xml'     
         ],
 

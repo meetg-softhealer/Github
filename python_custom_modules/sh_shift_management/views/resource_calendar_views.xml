@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="resource_calendar_inherit_form_view" model="ir.ui.view">
+        <field name="name">resource.calendar.view.form.inherit</field>
+        <field name="model">resource.calendar</field>
+        <field name="inherit_id" ref="resource.resource_calendar_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='hours_per_day']" position="after">
+                <field name="sh_shift_type"/>
+                <field name="sh_shift_manager"/>
+            </xpath>
+
+            <xpath expr="//field[@name='tz']" position="after">
+                <field name="sh_active"/>                
+                <field name="sh_days_ids" widget="many2many_tags" create="false"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

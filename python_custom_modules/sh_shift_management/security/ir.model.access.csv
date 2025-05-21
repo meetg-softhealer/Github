@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 sh_shift_management.access_sh_shift_type,access_sh_shift_type,sh_shift_management.model_sh_shift_type,base.group_user,1,1,1,1
 sh_shift_management.access_sh_shift_allocation,access_sh_shift_allocation,sh_shift_management.model_sh_shift_allocation,base.group_user,1,1,1,1
+sh_shift_management.access_sh_scheduled_info,access_sh_scheduled_info,sh_shift_management.model_sh_scheduled_info,base.group_user,1,1,1,1
+sh_shift_management.access_sh_days,access_sh_days,sh_shift_management.model_sh_days,base.group_user,1,1,0,0

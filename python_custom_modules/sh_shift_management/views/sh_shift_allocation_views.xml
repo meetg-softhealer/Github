@@ -4,13 +4,67 @@
         <field name="name">sh.shift.allocation.view.form</field>
         <field name="model">sh.shift.allocation</field>
         <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                                
+            <form>  
+                <group>
+                    <group>                
+                        <button string="Allocate" name="sh_allocate_action" type="object" class="oe_highlight" invisible="sh_button_bool"/>
                     </group>
+
+                    <group style="width:25%">                
+                        <field name="sh_stage" widget="statusbar" string=""/>                
+                    </group>
+                </group>                           
+                <sheet>
+                    <h3>Name:<field name="name"/></h3>
+                    <group>
+                        <field name="sh_resource_calendar_id" readonly="sh_bool" force_save="1"/>
+                    </group>
+                    <group>                        
+                        <group>                        
+                            <field name="sh_employee_ids" widget="many2many_tags"/>                            
+                            <field name="sh_from_date"/>
+                        </group>
+
+                        <group>
+                            <field name="sh_shift_type_id"/>
+                            <field name="sh_to_date"/>
+                            <field name="sh_working_hours"/>
+                        </group>
+                    </group>                   
+                    <notebook invisible="not sh_button_bool">
+                        <page string="Schedule Info">                                
+                            <field name="sh_scheduled_info_ids" string="">
+                                <list>
+                                    <field name="sh_date"/>
+                                    <field name="sh_shift_type_id"/>
+                                    <field name="sh_dayofweek"/>                                    
+                                </list>
+                            </field>                    
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
+    </record>
+
+    <record id="sh_shift_allocation_view_list" model="ir.ui.view">
+        <field name="name">sh.shift.allocation.view.list</field>
+        <field name="model">sh.shift.allocation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="sh_resource_calendar_id"/>
+                <field name="sh_from_date"/>
+                <field name="sh_to_date"/>
+                <field name="sh_shift_type_id"/>
+                <field name="sh_working_hours"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_shift_allocation_action" model="ir.actions.act_window">
+        <field name="name">Sh Shift Allocation</field>
+        <field name="res_model">sh.shift.allocation</field>
+        <field name="view_mode">list,form</field>                
     </record>
 </odoo>
