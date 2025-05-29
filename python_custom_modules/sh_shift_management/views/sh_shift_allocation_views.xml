@@ -17,27 +17,41 @@
                 <sheet>
                     <h3>Name:<field name="name"/></h3>
                     <group>
-                        <field name="sh_resource_calendar_id" readonly="sh_bool" force_save="1"/>
+                        <field name="sh_resource_calendar_id" readonly="sh_bool or sh_button_bool" force_save="1"/>
                     </group>
                     <group>                        
                         <group>                        
-                            <field name="sh_employee_ids" widget="many2many_tags"/>                            
-                            <field name="sh_from_date"/>
+                            <field name="sh_employee_ids" widget="many2many_tags" readonly="sh_button_bool"/>
+                            <field name="sh_from_date" readonly="sh_button_bool"/>
                         </group>
 
                         <group>
-                            <field name="sh_shift_type_id"/>
-                            <field name="sh_to_date"/>
-                            <field name="sh_working_hours"/>
+                            <field name="sh_shift_type_id" readonly="sh_button_bool"/>
+                            <field name="sh_to_date" readonly="sh_button_bool"/>
+                            <field name="sh_working_hours" readonly="sh_button_bool"/>
                         </group>
                     </group>                   
                     <notebook invisible="not sh_button_bool">
                         <page string="Schedule Info">                                
-                            <field name="sh_scheduled_info_ids" string="">
+                            <field name="sh_scheduled_info_ids" string="" readonly="sh_button_bool">
                                 <list>
                                     <field name="sh_date"/>
                                     <field name="sh_shift_type_id"/>
                                     <field name="sh_dayofweek"/>                                    
+                                </list>
+                            </field>                    
+                        </page>
+
+                        <page string="Approved Change Requests">                                
+                            <field name="sh_change_request_for_allocation_ids" string="" readonly="sh_button_bool">
+                                <list>
+                                    <field name="sh_allocation_id"/>
+                                    <field name="sh_resource_calendar_id"/>
+                                    <field name="sh_employee_id"/>
+                                    <field name="sh_shift_type"/>
+                                    <field name="sh_from_date"/>
+                                    <field name="sh_to_date"/>
+                                    <field name="sh_working_hours"/>
                                 </list>
                             </field>                    
                         </page>
@@ -55,6 +69,7 @@
                 <field name="name"/>
                 <field name="sh_resource_calendar_id"/>
                 <field name="sh_from_date"/>
+                <field name="sh_date"/>
                 <field name="sh_to_date"/>
                 <field name="sh_shift_type_id"/>
                 <field name="sh_working_hours"/>

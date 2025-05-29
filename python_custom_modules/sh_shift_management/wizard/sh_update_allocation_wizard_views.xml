@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_update_allocation_wizard_view_form" model="ir.ui.view">
+        <field name="name">sh.update.allocation.wizard.view.form</field>
+        <field name="model">sh.update.allocation.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <!-- <field name="sh_allocation_id"/>
+                            <field name="sh_employee_ids"/> -->
+                            <field name="sh_employee_id"  domain="[('id', 'in', sh_employee_ids)]"/>
+                            <field name="sh_from_date"/>
+                            <field name="sh_resource_calendar_id"/>
+                        </group>        
+                        <group>
+                            <field name="sh_shift_type"/>
+                            <field name="sh_to_date"/>
+                            <field name="sh_working_hours"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Create" name="wizard_create_action" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+</odoo>

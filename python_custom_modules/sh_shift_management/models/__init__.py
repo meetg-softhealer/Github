@@ -5,3 +5,5 @@ from . import res_company
 from . import resource_calendar
 from . import sh_scheduled_info
 from . import sh_days
+from . import sh_change_shift_request
+from . import sh_change_request_line

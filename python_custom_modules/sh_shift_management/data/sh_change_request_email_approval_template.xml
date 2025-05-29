@@ -1,0 +1,27 @@
+<odoo>
+   <data>
+       <record id="sh_change_request_approve_template" model="mail.template">
+           <field name="name">Shift Change Request Approval</field>
+           <field name="model_id" ref="sh_shift_management.model_sh_change_request_line"/>
+           <field name="subject">{{ object.sh_company_id.name }}</field>
+           <field name="email_from">{{ (object.sh_company_id.email) }}</field>
+           <field name="partner_to">{{ (object.sh_employee_id.user_id.partner_id.id) }}</field>
+           <field name="description">Change Shift Request Reply</field>
+           <field name="body_html" type="html">
+               <div>
+                   <p>
+                       Hello,
+                       <br/>
+                       <br/>
+                       Your application request for changing the shift is just approved!!!
+                       <br/>
+                       <br/>
+                       <br/>Mitchell Admin
+                       <br/>
+                       <br/>
+                   </p>
+               </div>
+           </field>
+       </record>
+   </data>
+</odoo>

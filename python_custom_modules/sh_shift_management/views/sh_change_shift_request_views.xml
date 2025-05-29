@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_change_shift_request_view_form" model="ir.ui.view">
+        <field name="name">sh.change.shift.request.view.form</field>
+        <field name="model">sh.change.shift.request</field>
+        <field name="arch" type="xml">
+            <form>       
+                <header>  
+                    <button string="Update Allocation Request" name="sh_update_allocation_request_action" type="object" class="oe_highlight"/>                    
+                </header>
+                <sheet>
+                    <h3>Name:<field name="name"/></h3>
+                    <group>
+                        <field name="sh_resource_calendar_id" readonly="sh_bool" force_save="1"/>
+                    </group>
+                    <group>                        
+                        <group>                        
+                            <field name="sh_employee_ids" widget="many2many_tags"/>                            
+                            <field name="sh_from_date"/>
+                        </group>
+
+                        <group>
+                            <field name="sh_shift_type_id"/>
+                            <field name="sh_to_date"/>
+                            <field name="sh_working_hours"/>
+                        </group>
+                    </group>                   
+                    <notebook>
+                        <page string="Schedule Info">                                
+                            <field name="sh_scheduled_info_ids" string="">
+                                <list>
+                                    <field name="sh_date"/>
+                                    <field name="sh_shift_type_id"/>
+                                    <field name="sh_dayofweek"/>                                    
+                                </list>
+                            </field>                    
+                        </page>
+                        <page string="Change Requests">
+                            <field name="sh_change_request_line_ids">
+                                <!-- <header>
+                                </header> -->
+                                <list>
+                                    <button string="Approve" name="sh_approve_request_action" type="object" class="oe_highlight"/> 
+                                    <button string="Reject" name="sh_reject_request_action" type="object" class="oe_highlight"/>
+                                    <field name="sh_allocation_id"/>
+                                    <field name="sh_resource_calendar_id"/>
+                                    <field name="sh_employee_id"/>
+                                    <field name="sh_shift_type"/>
+                                    <field name="sh_from_date"/>
+                                    <field name="sh_to_date"/>
+                                    <field name="sh_working_hours"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_change_shift_request_view_list" model="ir.ui.view">
+        <field name="name">sh.change.shift.request.view.list</field>
+        <field name="model">sh.change.shift.request</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="name"/>
+                <field name="sh_resource_calendar_id"/>
+                <field name="sh_from_date"/>
+                <field name="sh_to_date"/>
+                <field name="sh_shift_type_id"/>
+                <field name="sh_working_hours"/>                
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_change_shift_request_action" model="ir.actions.act_window">
+        <field name="name">Change Shift Request</field>
+        <field name="res_model">sh.change.shift.request</field>
+        <field name="view_mode">list,form</field>        
+    </record>
+</odoo>

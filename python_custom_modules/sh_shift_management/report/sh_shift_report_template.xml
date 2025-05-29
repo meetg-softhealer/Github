@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="sh_shift_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                <div class="oe_structure"></div>
+                <table class="o_has_total_table table o_main_table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Shift Schedule</th>
+                            <th>Date</th>
+                            <th>Day</th>
+                            <th>Shift Type</th>
+                            <th>Working Hours</th>                                                        
+                        </tr>
+                    </thead>
+                    <t t-foreach="docs" t-as="record">
+                        <t t-foreach="record.sh_shift_wizard_line_ids" t-as="rec">    
+                            <tr>
+                                <td>
+                                    <span t-field="rec.sh_employee_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_shift_schedule_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_date"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_week_day"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_shift_type_id"/>
+                                </td>
+                                <td>
+                                    <span t-field="rec.sh_working_hours"/>
+                                </td>                                
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

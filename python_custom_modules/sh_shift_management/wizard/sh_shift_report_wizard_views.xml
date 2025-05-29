@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_shift_wizard_report_view_form" model="ir.ui.view">
+        <field name="name">sh.shift.wizard.report.view.form</field>
+        <field name="model">sh.shift.wizard.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sh_from_date"/>
+                            <field name="sh_employee_id"/>
+                        </group>        
+                        <group>
+                            <field name="sh_to_date"/>
+                            <field name="sh_shift_schedule_id"/>
+                            <field name="sh_shift_type_id"/>
+                        </group>
+                    </group>
+
+                    <group>                        
+                        <field name="sh_shift_wizard_line_ids" invisible="not sh_bool" string="">
+                            <list>
+                                <field name="sh_employee_id"/>
+                                <field name="sh_shift_schedule_id"/>
+                                <field name="sh_date"/>
+                                <field name="sh_week_day"/>
+                                <field name="sh_shift_type_id"/>
+                                <field name="sh_working_hours"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Pdf Reports" name="sh_print_pdf_report_action" type="object" class="oe_highlight"/>
+                    <button string="Excel Reports" name="sh_print_excel_report_action" type="object" class="oe_highlight"/>
+                    <button string="View Reports" name="sh_view_report_action" type="object" class="oe_highlight" invisible="sh_bool"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_shift_wizard_report_action" model="ir.actions.act_window">
+        <field name="name">Shift Report Action</field>
+        <field name="res_model">sh.shift.wizard.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
+

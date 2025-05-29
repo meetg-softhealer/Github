@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_report_sh_shift" model="ir.actions.report">
+        <field name="name">Shift Reports</field>
+        <field name="model">sh.shift.wizard.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">sh_shift_management.sh_shift_report_template</field>
+        <field name="report_name">sh_shift_management.sh_shift_report_template</field>
+        <field name="print_report_name"> 'report'</field>
+        <field name="binding_model_id" ref="model_sh_shift_wizard_report"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
