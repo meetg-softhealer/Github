@@ -36,9 +36,7 @@
                             </field>                    
                         </page>
                         <page string="Change Requests">
-                            <field name="sh_change_request_line_ids">
-                                <!-- <header>
-                                </header> -->
+                            <field name="sh_change_request_line_ids">                                
                                 <list>
                                     <button string="Approve" name="sh_approve_request_action" type="object" class="oe_highlight"/> 
                                     <button string="Reject" name="sh_reject_request_action" type="object" class="oe_highlight"/>

@@ -8,14 +8,6 @@
             <xpath expr="//form" position="inside">
                 <app data-string="Shift Management" string="Shift Management" name="sh_shift_management">
                     <block title="Shift Management Settings" name="sh_shift_management_settings">
-                            <!-- <setting string="Enable Custom Shift Configuration" help="User Custom Shift Management Configuration">
-                                <field name="sh_enable_custom_shift"/>
-                            </setting>
-
-                            <setting string="Restrict heckout if working hours are not completed!!!" help="It will not allow employees to checkout if the working hours are not completed!!!">
-                                <field name="sh_restrict_checkout"/>
-                            </setting> -->
-
                             <setting string="Notify Shift allocation Before">
                                 <field name="sh_notify_shift"/>
                                 <field name="sh_days"/><span>Days</span>
@@ -24,5 +16,13 @@
                 </app>
             </xpath>
         </field>
+    </record>
+
+    <record id="res_config_shift_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings Action</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>        
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'sh_shift_management'}</field>
     </record>
 </odoo>

@@ -10,6 +10,7 @@
     'data':[
         'security/sh_shift_management_security.xml',
         'security/ir.model.access.csv',   
+        'demo/demo_data.xml',
         'data/sh_shift_allocation_template.xml',
         'data/sh_shift_allocation_notification_template.xml',
         'data/sh_change_request_email_approval_template.xml',

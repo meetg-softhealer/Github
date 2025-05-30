@@ -20,27 +20,18 @@ class ShShiftAllocation(models.Model):
     sh_time = timedelta(days=1)
 
     sh_resource_calendar_id = fields.Many2one("resource.calendar", string="Shift Schedule", required=True)
-    sh_employee_ids = fields.Many2many("hr.employee", string="Employees", required=True)
-    # sh_shift_schedule_id = fields.Many2one("resource.calendar", string="Shift schedule")
+    sh_employee_ids = fields.Many2many("hr.employee", string="Employees", required=True)    
     sh_shift_type_id = fields.Many2one("sh.shift.type", string="Shift Type", required=True)
 
     sh_from_date = fields.Datetime("From Date", required=True)
-    sh_date = fields.Date("Sh Date", store=True)
+    sh_date = fields.Date("Sh Date")
 
     @api.onchange('sh_from_date')
     def _onchange_sh_from_date(self):
         if self.sh_from_date:
             self.sh_date = self.sh_from_date.date()
-            # print("\n\n\n sh_date", self.sh_date)   
-
-    # @api.depends('sh_from_date')
-    # def _compute_sh_date(self):
-    #     for record in self:
-    #         record.sh_date = record.sh_from_date.date()
-    #         print("\n\n\n\n sh_date",record.sh_date)
-
+        
     sh_to_date = fields.Datetime("To Date", required=True)
-    # sh_date = fields.Date(related='sh_from_date')
     sh_working_hours = fields.Float("Working Hours", related='sh_resource_calendar_id.hours_per_day')
 
     sh_scheduled_info_ids = fields.One2many("sh.scheduled.info", "sh_shift_allocation_id")
@@ -59,13 +50,7 @@ class ShShiftAllocation(models.Model):
         template.send_mail(self.id, force_send=True)
 
     def sh_allocate_action(self):
-        # sh_notify_ids = self.search([('sh_date','=',datetime.today().date()+relativedelta(days=self.sh_company_id.sh_days))])
-        # print("\n\n\n sh_notify_ids", sh_notify_ids)        
-        # # print("days", self.env.company.sh_days)
-        # print("date left", self.sh_date)
-        # print("date right", (datetime.today().date()+relativedelta(days=self.sh_company_id.sh_days)))
-
-        # 10/0        
+        
         self.sh_stage = 'alloted'
         current_date = self.sh_from_date
         while current_date <= self.sh_to_date:
@@ -86,7 +71,6 @@ class ShShiftAllocation(models.Model):
             'sh_from_date':self.sh_from_date,
             'sh_to_date':self.sh_to_date,
             'sh_shift_type_id':self.sh_shift_type_id.id,
-              # 'sh_scheduled_info_ids':self.sh_scheduled_info_ids.ids
         })
 
         self.sh_change_shift_request_id = record.id
@@ -99,43 +83,13 @@ class ShShiftAllocation(models.Model):
         template = self.env.ref('sh_shift_management.sh_shift_allocation_notification_template')
         template.send_mail(self.id, force_send=True)
 
-    # @api.model
-    # def write(self, values):            
-    
-    #     result = super(ShShiftAllocation, self).create(values)
-    #     print("\n\n\n values", values)
-    #     print("\n\n\n sh_date", result['sh_date'])
-
-
-    #     return result
-
-    # def write(self, values):
-    
-    #     result = super(ShShiftAllocation, self).write(values)
-    
-    #     print("\n\n\n values", values)
-    #     print("\n\n\n sh_date", result['sh_date'])
-
-    #     return result
-    
-
-
 
     def _cron_shift_notification(self):
-        # print("\n\n\n\n cron self", self)
-        # print("\n\n\n company id", self.sh_company_id.sh_days)
-        # self.sh_date = datetime.strptime(self.sh_from_date, "%d%b%Y%")
-        sh_notify_ids = self.env['sh.shift.allocation'].search([])
-        # print("\n\n\n date", datetime.today().date())
+
+        company_id = self.env.company
         
+        if company_id.sh_notify_shift:
+            sh_notify_ids = self.env['sh.shift.allocation'].search([('sh_date','=',datetime.today().date()+relativedelta(days=company_id.sh_days))])
 
-        for rec in sh_notify_ids:
-            print("\n\n\n rec", rec)
-            
-
-        print("\n\n\n sh_notify_ids", sh_notify_ids)        
-        print("days", self.sh_company_id.sh_days)
-        print("datetime", (datetime.today().date()+relativedelta(days=self.sh_company_id.sh_days)))
-
-        for rec in sh_notify_ids:
-            rec.sh_send_shift_allocation_notification_email()
+            for rec in sh_notify_ids:
+                rec.sh_send_shift_allocation_notification_email()

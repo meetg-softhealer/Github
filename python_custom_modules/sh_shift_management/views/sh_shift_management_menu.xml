@@ -11,7 +11,6 @@
     <menuitem id="sh_shift_report" name="Shift Report" action="sh_shift_management.sh_shift_wizard_report_action" parent="sh_report" sequence="1"/>
 
     <menuitem id="sh_configuration_menu" name="Configuration" sequence="3" parent="sh_shift_management_root_menu" groups="sh_shift_management.sh_shift_management_admin_group"/>
-    <menuitem id="sh_setting" name="Setting" action="sh_shift_type_action" parent="sh_configuration_menu" sequence="1"/>
-    <menuitem id="sh_shift_type" name="Shift Type" action="sh_shift_type_action" parent="sh_configuration_menu" sequence="2"/>
-    <menuitem id="sh_days_menu" name="Days" action="sh_days_action" parent="sh_configuration_menu" sequence="3"/>
+    <menuitem id="sh_setting" name="Setting" action="sh_shift_management.res_config_shift_settings_action" parent="sh_configuration_menu" sequence="1"/>
+    <menuitem id="sh_shift_type" name="Shift Type" action="sh_shift_type_action" parent="sh_configuration_menu" sequence="2"/>    
 </odoo>

@@ -8,8 +8,6 @@
                 <sheet>
                     <group>
                         <group>
-                            <!-- <field name="sh_allocation_id"/>
-                            <field name="sh_employee_ids"/> -->
                             <field name="sh_employee_id"  domain="[('id', 'in', sh_employee_ids)]"/>
                             <field name="sh_from_date"/>
                             <field name="sh_resource_calendar_id"/>

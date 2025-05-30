@@ -29,9 +29,5 @@ class ShUpdateAllocationWizard(models.TransientModel):
             'sh_working_hours':self.sh_working_hours
         })]
 
-        # records = self.env['sh.change.shift.request'].search([('id','=',self.sh_allocation_id.id)])
-
-        # for rec in records:
-        #     self.sh_allocation_id.sh_change_request_line_ids = (4,rec.id)
 
 

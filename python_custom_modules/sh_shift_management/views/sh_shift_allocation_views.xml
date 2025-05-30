@@ -23,6 +23,7 @@
                         <group>                        
                             <field name="sh_employee_ids" widget="many2many_tags" readonly="sh_button_bool"/>
                             <field name="sh_from_date" readonly="sh_button_bool"/>
+                            <field name="sh_date" invisible="1"/>
                         </group>
 
                         <group>
@@ -69,7 +70,7 @@
                 <field name="name"/>
                 <field name="sh_resource_calendar_id"/>
                 <field name="sh_from_date"/>
-                <field name="sh_date"/>
+                <!-- <field name="sh_date" invisible="1"/> -->
                 <field name="sh_to_date"/>
                 <field name="sh_shift_type_id"/>
                 <field name="sh_working_hours"/>

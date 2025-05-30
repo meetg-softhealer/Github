@@ -15,8 +15,7 @@ class ShChangeShiftRequest(models.Model):
     sh_bool = fields.Boolean(related='sh_shift_allocation_id.sh_bool')
 
     sh_resource_calendar_id = fields.Many2one("resource.calendar", string="Shift Schedule", required=True, related='sh_shift_allocation_id.sh_resource_calendar_id')
-    sh_employee_ids = fields.Many2many("hr.employee", string="Employees", required=True, related='sh_shift_allocation_id.sh_employee_ids')
-    # sh_shift_schedule_id = fields.Many2one("resource.calendar", string="Shift schedule")
+    sh_employee_ids = fields.Many2many("hr.employee", string="Employees", required=True, related='sh_shift_allocation_id.sh_employee_ids')   
     sh_shift_type_id = fields.Many2one("sh.shift.type", string="Shift Type", required=True, related='sh_shift_allocation_id.sh_shift_type_id')
 
     sh_from_date = fields.Datetime("From Date", required=True, related='sh_shift_allocation_id.sh_from_date')
@@ -24,13 +23,6 @@ class ShChangeShiftRequest(models.Model):
     sh_working_hours = fields.Float("Working Hours", related='sh_resource_calendar_id.hours_per_day')
 
     sh_scheduled_info_ids = fields.One2many("sh.scheduled.info", "sh_shift_allocation_id", related='sh_shift_allocation_id.sh_scheduled_info_ids')
-
-    # sh_change_shift_stage = fields.Selection([('draft','Draft'),
-    #                                           ('wait','Waiting For Approval'),
-    #                                           ('approve','Approved'),
-    #                                           ('reject','rejected')
-    #                                           ])
-
 
     sh_change_request_line_ids = fields.Many2many("sh.change.request.line",
                                                   "sh_change_shift_request_sh_change_shift_request_line_rel",

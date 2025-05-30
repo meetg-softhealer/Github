@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="day_1" model="sh.days">
+        <field name="name">Sunday</field>
+    </record>
+
+    <record id="day_2" model="sh.days">
+        <field name="name">Monday</field>
+    </record>
+
+    <record id="day_3" model="sh.days">
+        <field name="name">Tuesday</field>
+    </record>
+
+    <record id="day_4" model="sh.days">
+        <field name="name">Wednesday</field>
+    </record>
+
+    <record id="day_5" model="sh.days">
+        <field name="name">Thursday</field>
+    </record>
+    
+    <record id="day_6" model="sh.days">
+        <field name="name">Friday</field>
+    </record>
+
+    <record id="day_7" model="sh.days">
+        <field name="name">Saturday</field>
+    </record>
+
+
+
+
+    <record id="shift_type_1" model="sh.shift.type">
+        <field name="name">Morning</field>
+    </record>
+
+    <record id="shift_type_2" model="sh.shift.type">
+        <field name="name">Afternoon</field>
+    </record>
+    
+    <record id="shift_type_3" model="sh.shift.type">
+        <field name="name">Evening</field>
+    </record>
+
+    <record id="shift_type_4" model="sh.shift.type">
+        <field name="name">Night</field>
+    </record>
+
+</odoo>
