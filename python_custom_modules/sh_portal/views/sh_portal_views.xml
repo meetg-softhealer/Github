@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_portal_view_form" model="ir.ui.view">
+        <field name="name">sh.portal.view.form</field>
+        <field name="model">sh.portal</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>        
+                        <field name="sh_partner_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_portal_view_list" model="ir.ui.view">
+        <field name="name">sh.portal.view.list</field>
+        <field name="model">sh.portal</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="sh_partner_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_portal_action" model="ir.actions.act_window">
+        <field name="name">Portal</field>
+        <field name="res_model">sh.portal</field>
+        <field name="view_mode">list,form</field>        
+    </record>
+
+    <menuitem id="sh_portal_root_menu" name="SH Portal" sequence="10"/>
+    <menuitem id="sh_portal_menu" name="SH Portal" action="sh_portal_action" parent="sh_portal_root_menu" sequence="1"/>
+    
+</odoo>

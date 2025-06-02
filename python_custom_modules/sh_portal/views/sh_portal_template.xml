@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <template id="portal_my_home" name="template_name" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        
+        
+            <div id="portal_client_category" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <!-- <t t-set="icon" t-value="'/sale/static/src/img/bag.svg'"/> -->
+                    <t t-set="title">My Portal</t>
+                    <t t-set="url" t-value="'/my/sh_portal'"/>
+                    <t t-set="show_count" t-value="True"/>
+                    <t t-set="text">This is the text underneath!!!</t>
+                    <t t-set="placeholder_count" t-value="'sh_portal_count'"/>
+                </t>
+            </div>
+       
+        </xpath>
+    </template>
+
+    <template id="sh_portal_documents" name="My Portal Documents">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Portal Records</t>
+            </t>
+            <div t-if="not documents" class="alert alert-warning" role="alert">
+                There are currently no documents for your account.
+            </div>
+            <t t-if="documents" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">                        
+                        <th>Name</th>
+                        <th>Partner</th>
+                    </tr>
+                </thead>
+                <t t-foreach="documents" t-as="document">
+                    <tr>
+                        <td><span t-field="document.name"/></td>                     
+                        <td><span t-field="document.sh_partner_id"/></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
