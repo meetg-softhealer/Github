@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="sh_mass_update_view_form" model="ir.ui.view">
+        <field name="name">sh.mass.update.view.form</field>
+        <field name="model">sh.mass.update</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" invisible="1"/>        
+                        <field name="sh_model_ids" string="">
+                            <list editable="bottom">
+                                <field name="display_name" string="Models"/>
+                                <field name="sh_bool" string=""/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_mass_update_action" model="ir.actions.act_window">
+        <field name="name">Mass Update Name</field>
+        <field name="res_model">sh.mass.update</field>
+        <field name="view_mode">form</field>        
+    </record>
+</odoo>

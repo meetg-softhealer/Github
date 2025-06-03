@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sh_mass_update.access_sh_mass_update,access_sh_mass_update,sh_mass_update.model_sh_mass_update,base.group_user,1,1,1,1
+sh_mass_update.access_sh_mass_update_wizard,access_sh_mass_update_wizard,sh_mass_update.model_sh_mass_update_wizard,base.group_user,1,1,1,1
+sh_mass_update.access_sh_mass_update_wizard_line,access_sh_mass_update_wizard_line,sh_mass_update.model_sh_mass_update_wizard_line,base.group_user,1,1,1,1

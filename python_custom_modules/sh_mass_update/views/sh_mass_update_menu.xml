@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!-- <xpath expr="//menuitem[@id='base.menu_custom']" position="inside">
+        <menuitem id="sh_mass_update_menuitem" name="Mass Update" sequence="26"/>
+    </xpath> -->
+    
+    <menuitem id="sh_mass_update_menuitem" name="Mass Update" sequence="26" parent="base.menu_custom"/>
+    <menuitem id="sh_mass_update_configurations" name="Mass Update configurations" parent="sh_mass_update.sh_mass_update_menuitem" action="sh_mass_update_action"/>
+    <!-- <menuitem id="sh_mass_update_history" name="Mass Update History" parent="sh_mass_update.sh_mass_update_menuitem"/> -->
+</odoo>

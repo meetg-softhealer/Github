@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_mass_update_wizard_view_form" model="ir.ui.view">
+        <field name="name">sh.mass.update.wizard.view.form</field>
+        <field name="model">sh.mass.update.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sh_current_model"/>        
+                        <field name="sh_field_ids"/>                        
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Create" name="sh_create_recs" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="sh_mass_update_wizard_action" model="ir.actions.act_window">
+        <field name="name">Mass Update Wizard</field>
+        <field name="res_model">sh.mass.update.wizard</field>
+        <field name="view_mode">form</field>        
+    </record> -->
+</odoo>
