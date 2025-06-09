@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sale_order_inherit_sh_sale_dynamic_approval" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='action_preview_sale_order']" position="after">
+                <button string="Approve" name="sh_approve_action" type="object" class="oe_highlight"                 
+                invisible="not sh_show_bool"/>
+
+               
+
+                <button string="Reject" name="sh_reject_action" type="object" class="btn-secondary" 
+                invisible="not sh_show_bool"/>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="sh_approval_config_id" invisible="not sh_approval_config_id"/>
+            </xpath>
+            <field name="state" position="attributes">
+                <attribute name="statusbar_visible">draft,sent,sale,wait_approval</attribute>                
+            </field>
+
+            <xpath expr="//page[@name='customer_signature']" position="after">
+                <page name="sh_approval_info" string="Approval Info">
+                    <group>
+                        <group string="Next Approval">
+
+                            <field name="sh_show_bool" invisible="1" string="standard usid"/>
+                            <field name="sh_next_approval_level"/>
+                            <field name="sh_user_ids" widget="many2many_tags"/>
+                            <field name="sh_group_ids" widget="many2many_tags"/>
+                        </group>
+
+                        <group string="Reject Order Info">
+                            <field name="sh_reject_date"/>
+                            <field name="sh_rejected_by"/>
+                            <field name="sh_reject_reason"/>
+                            <!-- <field name="sh_user_bool2" invisible="1"/>
+                            <field name="sh_group_bool2" invisible="1"/> -->
+                        </group>
+                    </group>
+                    <field name="sh_so_approval_line_ids">
+                        <list create="false">
+                            <field name="sh_approval_level"/>
+                            <field name="sh_user_record_count"/> 
+                            <field name="sh_group_record_count"/>
+                            <field name="sh_status" widget="boolean_toggle"/>
+                            <field name="sh_approved_date"/>
+                            <field name="sh_approved_by"/>
+                            <field name="sh_so_id" string="Sale Order"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+
+
+        </field>
+
+
+    </record>
+</odoo>

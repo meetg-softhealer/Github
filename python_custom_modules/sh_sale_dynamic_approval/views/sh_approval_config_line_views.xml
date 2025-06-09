@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_approval_config_line_view_form" model="ir.ui.view">
+        <field name="name">sh.approval.config.line.view.form</field>
+        <field name="model">sh.approval.config.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sh_level" string="Level"/>
+                        <field name="sh_approval_config_id" string="Approver Type"/>        
+                    </group>
+                    
+                    <notebook>                        
+                        <page string="" invisible="sh_approver_type != 'user'">                        
+                            <field name="sh_user_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="login"/>
+                                    <field name="lang"/>
+                                    <field name="login_date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <notebook>                        
+                        <page string="" invisible="sh_approver_type != 'group'">
+                            <field name="sh_group_ids">
+                                <list>
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>                
+            </form>
+        </field>
+    </record>
+</odoo>

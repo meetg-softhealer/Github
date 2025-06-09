@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_approval_config_view_form" model="ir.ui.view">
+        <field name="name">sh.approval.config.view.form</field>
+        <field name="model">sh.approval.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>        
+                        <field name="sh_min_amount"/>
+                        <field name="sh_company_ids" widget="many2many_tags"/>
+                        <field name="sh_sales_person_bool" widget="toggle_button"/>
+                    </group>
+
+                    <notebook>                        
+                        <page string="Approval Details">
+                            <field name="sh_approval_config_line_ids" string="Sale Approval Line">
+                                <list>
+                                    <field name="sh_level" string="Level"/>
+                                    <field name="sh_approver_type" string="Approver Type"/>
+                                </list>
+
+                                <form>        
+                                    <group>                                        
+                                        <field name="sh_level" string="Level"/>
+                                        <field name="sh_approver_type" string="Approver Type"/>
+                                    </group>
+                                    <group>                                        
+                                        <field name="sh_user_ids" invisible="sh_approver_type != 'user'" string=""/>
+                                        <field name="sh_group_ids" invisible="sh_approver_type != 'group'" string=""/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_approval_config_view_list" model="ir.ui.view">
+        <field name="name">sh.approval.config.view.list</field>
+        <field name="model">sh.approval.config</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="sh_min_amount"/>
+                <field name="sh_sales_person_bool" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sh_approval_config_action" model="ir.actions.act_window">
+        <field name="name">Approval Config</field>
+        <field name="res_model">sh.approval.config</field>
+        <field name="view_mode">list,form</field>        
+    </record>
+
+    <menuitem id="sh_approval_config_menu" name="Apprval Configuration" action="sh_approval_config_action" sequence="1" parent="sale.menu_sale_config"/>
+
+</odoo>
