@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data>
-       <record id="sh_submit_for_approval_template" model="mail.template">
+       <record id="sh_order_confirm_template" model="mail.template">
            <field name="name">Sale Order Approval</field>
            <field name="model_id" ref="sh_sale_dynamic_approval.model_sale_order"/>
-           <field name="subject">Submit For Approval</field>
+           <field name="subject">Order Confirmed</field>
            <field name="email_from">{{ (object.company_id.email) }}</field>
-           <field name="partner_to">{{ (object.sh_partner_ids.ids) }}</field>
+           <field name="email_to">{{ (object.create_uid.partner_id.name) }}</field>           
            <field name="email_cc">{{ (object.create_uid.partner_id.name if object.sh_approval_config_id.sh_sales_person_bool else None) }}</field>
-           <field name="description">Approval Notification</field>
+           <field name="description">Order Confirmed</field>
            <field name="body_html" type="html">
                <div>
                     <p>
                        Dear Approver,
                        <br/>
                        <br/>
-                       This is to inform you that your order is submitted for approval.
+                       This is to inform you that your order is confirmed.
                        <br/>
                        <br/>
                        <b>Sales Person:</b><t t-out="object.env.user.name"/>
@@ -58,9 +58,8 @@
                         </table>
 
                         <br/>
-
-                        If you are the authorized approver as per approval level,
-                        You can use the following link and approve the order.
+                        
+                        You can use the following link to access the order.
 
                         <br/>
 

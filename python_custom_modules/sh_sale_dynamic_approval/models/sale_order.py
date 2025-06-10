@@ -53,47 +53,112 @@ class SaleOrder(models.Model):
 
     sh_so_approval_line_ids = fields.One2many("sh.so.approval.line", "sh_so_id", string="", readonly=True)
     
+    sh_partner_ids = fields.Many2many("res.partner")
+
+    def write(self, values):
+
+        print("\n\n\n values", values)        
+    
+        result = super(SaleOrder, self).write(values)
+    
+        return result
+    
+
 
     def sh_approve_action(self):
 
         item = self.sh_approval_config_id.sh_approval_config_line_ids
         
-        if len(self.sh_so_approval_line_ids) > 1: 
+        if len(self.sh_so_approval_line_ids) > 1 and self.sh_next_approval_level < len(self.sh_so_approval_line_ids): 
             if [(not self.sh_user_bool) and (item[self.sh_next_approval_level].sh_approver_type=='user')]:            
+                # self.sh_partner_ids = [(5,0,0)]
                 self.sh_user_bool = True
                 self.sh_user_ids = [(6,False,item[self.sh_next_approval_level].sh_user_ids.ids)]
-               
+                if self.sh_user_ids:
+                        self.sh_partner_ids = self.sh_user_ids.mapped('partner_id')                
+
                 if self.sh_user_ids.ids:                        
                         for rec in self.sh_user_ids:
                             self.sh_approval_notifications(rec)
             
             if [(not self.sh_group_bool) and (item[self.sh_next_approval_level].sh_approver_type=='group')]:
+                # self.sh_partner_ids = [(5,0,0)]
                 self.sh_group_bool = True
-                self.sh_group_ids = [(6,False,item[self.sh_next_approval_level].sh_group_ids.ids)]
+                self.sh_group_ids = [(6,False,item[self.sh_next_approval_level].sh_group_ids.ids)]                
                 
+
                 if self.sh_group_ids:
+                    usr_list = []
                     for record in self.sh_group_ids:
                             for rec in record.users:
+                                print("\n\n\n rec1 ", rec.partner_id)
+                                usr_list.append(rec.partner_id.id)
+                                # self.sh_partner_ids = [(4,rec.partner_id.id)]
                                 self.sh_approval_notifications(rec)
+                    print("\n\n\n rec1 usr list \n\n\n", usr_list)
+                    self.sh_partner_ids = [(6,False,usr_list)]
+                    # print("\n\n\n group user partner ids in approve \n\n\n", self.sh_partner_ids)
 
         for rec in self.sh_so_approval_line_ids:
 
             if len(self.sh_so_approval_line_ids)>self.sh_next_approval_level:
                 if rec.sh_user_record_count:
+                    # self.sh_partner_ids = [(5,0,0)]
                     self.sh_user_ids = [(6,False,item[self.sh_next_approval_level].sh_user_ids.ids)]
-                   
+                    if self.sh_user_ids:
+                        self.sh_partner_ids = self.sh_user_ids.mapped('partner_id')                    
+
                     if self.sh_user_ids.ids:                        
                         for recs in self.sh_user_ids:
                             self.sh_approval_notifications(recs)
             
-                if rec.sh_group_record_count:                    
+                if rec.sh_group_record_count:  
+                    # self.sh_partner_ids = [(5,0,0)]                  
                     self.sh_group_ids = [(6,False,item[self.sh_next_approval_level].sh_group_ids.ids)]
                     
+
                     if self.sh_group_ids:
+                        usr_list = []
                         for record in self.sh_group_ids:
                             for recs in record.users:
+                                print("\n\n\n rec2 ", recs.partner_id.id)
+                                usr_list.append(recs.partner_id.id)
+                                # self.sh_partner_ids = [(4,recs.partner_id.id)]
                                 self.sh_approval_notifications(recs)
+                        
+                        self.sh_partner_ids = [(6,False,usr_list)]
+                        # print("\n\n\n group user partner ids in approve \n\n\n", self.sh_partner_ids)
+
+            elif len(self.sh_so_approval_line_ids)==self.sh_next_approval_level:
+                if rec.sh_user_record_count:
+                    # self.sh_partner_ids = [(5,0,0)]
+                    self.sh_user_ids = [(6,False,item[self.sh_next_approval_level-1].sh_user_ids.ids)]
+                    if self.sh_user_ids:
+                        self.sh_partner_ids = self.sh_user_ids.mapped('partner_id')                
+
+                    if self.sh_user_ids.ids:                        
+                        for recs in self.sh_user_ids:
+                            self.sh_approval_notifications(recs)
+
+                if rec.sh_group_record_count:  
+                    # self.sh_partner_ids = [(5,0,0)]                  
+                    self.sh_group_ids = [(6,False,item[self.sh_next_approval_level-1].sh_group_ids.ids)]
+                    
+
+                    if self.sh_group_ids:
+                        usr_list = []
+                        for record in self.sh_group_ids:
+                            for recs in record.users:
+                                print("\n\n\n rec2 ", recs.partner_id.id)
+                                # self.sh_partner_ids = [(4,recs.partner_id.id)]
+                                usr_list.append(recs.partner_id.id)
+                                self.sh_approval_notifications(recs)
+
+                        self.sh_partner_ids = [(6,False,usr_list)]
+                        # print("\n\n\n group user partner ids in approve \n\n\n", self.sh_partner_ids)
+
             else:
+                print("\n in else \n")
                 self.sh_user_ids = [(5,0,0)]
                 self.sh_group_ids = [(5,0,0)]
 
@@ -102,12 +167,12 @@ class SaleOrder(models.Model):
                 rec.sh_approved_date = datetime.now()
                 rec.sh_approved_by = self.env.user.id
 
-                if rec.sh_approval_level == len(self.sh_so_approval_line_ids):
-                    self.sh_send_approval_email()
+                if rec.sh_approval_level == len(self.sh_so_approval_line_ids):  
+                    self.sh_order_confirm_email()                  
                     result = super(SaleOrder, self).action_confirm()                    
                     return result        
         
-                if self.sh_next_approval_level<len(self.sh_so_approval_line_ids)-1:
+                if self.sh_next_approval_level<=len(self.sh_so_approval_line_ids)-1:
                     self.sh_next_approval_level += 1
 
                 self.sh_send_approval_email()
@@ -161,21 +226,32 @@ class SaleOrder(models.Model):
                 self.state = 'wait_approval'                
 
                 if self.sh_approval_config_id.sh_approval_config_line_ids[0].sh_approver_type == 'user':
+                    # self.sh_partner_ids = [(5,0,0)]
                     self.sh_user_bool = True
                     self.sh_user_ids = [(6,False,self.sh_approval_config_id.sh_approval_config_line_ids[0].sh_user_ids.ids)]
-                    
+                    if self.sh_user_ids:
+                        self.sh_partner_ids = self.sh_user_ids.mapped('partner_id')                    
+
                     if self.sh_user_ids.ids:                        
                         for rec in self.sh_user_ids:
                             self.sh_approval_notifications(rec)
                 
                 if self.sh_approval_config_id.sh_approval_config_line_ids[0].sh_approver_type == 'group':
+                    # self.sh_partner_ids = [(5,0,0)]
                     self.sh_group_bool = True
                     self.sh_group_ids = [(6,False,self.sh_approval_config_id.sh_approval_config_line_ids[0].sh_group_ids.ids)]
                     
                     if self.sh_group_ids:
+                        usr_list = []
                         for record in self.sh_group_ids:
                             for rec in record.users:
-                                self.sh_approval_notifications(rec)            
+                                print("\n\n\n rec0 ", rec.partner_id)
+                                # self.sh_partner_ids = [(4,rec.partner_id.id)]
+                                usr_list.append(rec.partner_id.id)
+                                self.sh_approval_notifications(rec)      
+
+                        self.sh_partner_ids = [(6,False,usr_list)]      
+                        # print("\n\n\n group user partner ids in approve \n\n\n", self.sh_partner_ids)
 
                 self.sh_send_approval_email()
                 result = None
@@ -213,6 +289,10 @@ class SaleOrder(models.Model):
 
     def sh_send_rejection_email(self):
         template = self.env.ref('sh_sale_dynamic_approval.sh_reject_approval_template')
+        template.send_mail(self.id, force_send=True)
+
+    def sh_order_confirm_email(self):
+        template = self.env.ref('sh_sale_dynamic_approval.sh_order_confirm_template')
         template.send_mail(self.id, force_send=True)
 
     def action_draft(self):
