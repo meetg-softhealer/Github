@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+       <record id="sh_reject_approval_template" model="mail.template">
+           <field name="name">Reject Sale Order</field>
+           <field name="model_id" ref="sh_sale_dynamic_approval.model_sale_order"/>
+           <field name="subject">Reject Approval</field>
+           <field name="email_from">{{ (object.company_id.email) }}</field>
+           <field name="partner_to">{{ (object.sh_user_ids.mapped('partner_id').ids) }}</field>
+           <field name="description">Rejection Notification</field>
+           <field name="body_html" type="html">
+               <div>
+                    <p>
+                       Dear Approver,
+                       <br/>
+                       <br/>
+                       This is to inform you that your order is rejected for approval.
+                       <br/>
+                       <br/>
+                       Order Rejection Information as below
+                       <br/>
+                       <br/>
+                       <table class="table table-sm">                    
+                            <thead>
+                                <tr>
+                                    <th>Rejected Date</th>
+                                    <th>Rejected By</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>                            
+                            <tr>
+                                <td>
+                                    <t t-out="object.sh_reject_date"/>
+                                </td>
+                                <td>
+                                    <t t-out="object.sh_rejected_by.name"/>
+                                </td>
+                                <td>
+                                    <t t-out="object.sh_reject_reason"/>
+                                </td>                                    
+                            </tr>                                               
+                        </table>
+
+                        <br/>
+
+                        You can use the following link to access the sale order.
+
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a t-attf-href="'/odoo/sales/{{object.id}}"
+                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                Go to Sale Order
+                            </a>
+                        </div>
+                    </p>
+               </div>
+           </field>
+       </record>
+   </data>
+</odoo>

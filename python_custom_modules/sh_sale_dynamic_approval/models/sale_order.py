@@ -13,17 +13,9 @@ class SaleOrder(models.Model):
     sh_group_bool = fields.Boolean("", default=False)    
     sh_show_bool = fields.Boolean(compute='_compute_sh_show_bool')
 
-    sh_company_currency_id = fields.Many2one('res.currency', compute='_compute_company_currency_id')
-    
-    @api.depends_context('company')
-    def _compute_company_currency_id(self):
-        self.sh_company_currency_id = self.env.company.currency_id
-
-    sh_total_amount = fields.Monetary(currency_field='sh_company_currency_id')
-    
     def _compute_sh_show_bool(self):
         for record in self:            
-            if self.state != 'sale':
+            if self.state != 'sale' and self.state != 'cancel':
 
                 user_group = []
 
@@ -33,9 +25,15 @@ class SaleOrder(models.Model):
 
                 record.sh_show_bool = self.env.user.id in user_group or self.env.user.id in record.sh_user_ids.ids
             else:
-                record.sh_show_bool = False
-        # print("\n\n compute called usrid \n\n", user_group)
+                record.sh_show_bool = False        
+
+    sh_company_currency_id = fields.Many2one('res.currency', compute='_compute_company_currency_id')
     
+    @api.depends_context('company')
+    def _compute_company_currency_id(self):
+        self.sh_company_currency_id = self.env.company.currency_id
+
+    sh_total_amount = fields.Monetary(currency_field='sh_company_currency_id')
 
     sh_approval_config_id = fields.Many2one("sh.approval.config", string="Approval Level", readonly=True)
     
@@ -46,14 +44,6 @@ class SaleOrder(models.Model):
     sh_user_ids = fields.Many2many("res.users", string="Users", readonly=True)
 
     sh_group_ids = fields.Many2many("res.groups", string="Groups", readonly=True)
-    
-    # @api.depends('sh_approval_config_id')
-    # def _compute_sh_group_ids(self):
-    #     for record in self:
-    #         for rec in self.sh_approval_config_id.sh_approval_config_line_ids:
-    #             if rec.sh_approver_type=='group':
-    #                 for item in rec.sh_group_ids:
-    #                     record.sh_group_ids = [(4,item.id)]
 
     sh_reject_date = fields.Datetime("Rejection Date", readonly=True)
 
@@ -63,36 +53,11 @@ class SaleOrder(models.Model):
 
     sh_so_approval_line_ids = fields.One2many("sh.so.approval.line", "sh_so_id", string="", readonly=True)
     
-    # @api.model
-    # def default_get(self, fields):
-    #     res = super(SaleOrder, self).default_get(fields)   
-
-    #     # current_id = self.env.context.get('active_id')
-    #     # current_rec = self.env['sale.order'].browse(current_id)
-
-    #     res['sh_user_id'] = self.env.user.id
-    #     print("\n\n\n res", res)
-    #     return res
-
-    # def sh_bool_check(self):
-    #     self.sh_user_bool2 = (self.env.user.id in self.sh_user_ids.ids)
-    #     print("\n\n\n user bool 2", self.sh_user_bool2)
-
-    #     user_group = []
-
-    #     for item in self.sh_group_ids:
-    #         for rec in item.users:
-    #             user_group.append(rec.id)
-
-
-    #     self.sh_group_bool2 = (self.env.user.id in user_group)
-    #     print("\n\n\n group bool 2", self.sh_group_bool2)
 
     def sh_approve_action(self):
 
         item = self.sh_approval_config_id.sh_approval_config_line_ids
-
-        print("\n\n\n next level", self.sh_next_approval_level)
+        
         if len(self.sh_so_approval_line_ids) > 1: 
             if [(not self.sh_user_bool) and (item[self.sh_next_approval_level].sh_approver_type=='user')]:            
                 self.sh_user_bool = True
@@ -131,7 +96,7 @@ class SaleOrder(models.Model):
             else:
                 self.sh_user_ids = [(5,0,0)]
                 self.sh_group_ids = [(5,0,0)]
-            # print("\n\n\n user ids", self.sh_user_ids)
+
             if not rec.sh_status:
                 rec.sh_status = True
                 rec.sh_approved_date = datetime.now()
@@ -139,28 +104,16 @@ class SaleOrder(models.Model):
 
                 if rec.sh_approval_level == len(self.sh_so_approval_line_ids):
                     self.sh_send_approval_email()
-                    result = super(SaleOrder, self).action_confirm()
-                    print("\n\n\n next approval level ", self.sh_next_approval_level)
+                    result = super(SaleOrder, self).action_confirm()                    
                     return result        
         
                 if self.sh_next_approval_level<len(self.sh_so_approval_line_ids)-1:
                     self.sh_next_approval_level += 1
-                # else:
-                #     self.sh_next_approval_level = len(self.sh_so_approval_line_ids)
 
                 self.sh_send_approval_email()
                 break
             
     def sh_reject_action(self):
-        
-        self.env['bus.bus']._sendone(                                   
-                                    self.create_uid.partner_id,
-                                     "simple_notification",
-                                     {
-                                        'type': 'info',
-                                        'message': _(f"Dear salesperson your order {self.name} is rejected"),
-                                     }
-        )
 
         return {
             'type': 'ir.actions.act_window',
@@ -205,9 +158,7 @@ class SaleOrder(models.Model):
                         'sh_group_record_count':len(rec.sh_group_ids.ids),
                     })]
 
-                self.state = 'wait_approval'
-
-                print("\n\n\n before")
+                self.state = 'wait_approval'                
 
                 if self.sh_approval_config_id.sh_approval_config_line_ids[0].sh_approver_type == 'user':
                     self.sh_user_bool = True
@@ -216,14 +167,6 @@ class SaleOrder(models.Model):
                     if self.sh_user_ids.ids:                        
                         for rec in self.sh_user_ids:
                             self.sh_approval_notifications(rec)
-
-                # else:
-                #     for rec in self.sh_approval_config_id.sh_approval_config_line_ids:
-                #         if rec.sh_approver_type == 'user':
-                            
-                #             rec.sh_level
-                #             self.sh_user_ids = [(6,False,rec.sh_user_ids.ids)]            
-                #             break
                 
                 if self.sh_approval_config_id.sh_approval_config_line_ids[0].sh_approver_type == 'group':
                     self.sh_group_bool = True
@@ -232,13 +175,7 @@ class SaleOrder(models.Model):
                     if self.sh_group_ids:
                         for record in self.sh_group_ids:
                             for rec in record.users:
-                                self.sh_approval_notifications(rec)
-                # else:
-                #     for rec in self.sh_approval_config_id.sh_approval_config_line_ids:
-                #         if rec.sh_approver_type == 'group':
-                #             self.sh_group_ids = [(6,False,rec.sh_user_ids.ids)]            
-                #             break
-                # self.sh_bool_check()
+                                self.sh_approval_notifications(rec)            
 
                 self.sh_send_approval_email()
                 result = None
@@ -273,6 +210,19 @@ class SaleOrder(models.Model):
     def sh_send_approval_email(self):
         template = self.env.ref('sh_sale_dynamic_approval.sh_submit_for_approval_template')
         template.send_mail(self.id, force_send=True)
+
+    def sh_send_rejection_email(self):
+        template = self.env.ref('sh_sale_dynamic_approval.sh_reject_approval_template')
+        template.send_mail(self.id, force_send=True)
+
+    def action_draft(self):
+
+        self.sh_reject_date = False
+        self.sh_rejected_by = False
+        self.sh_reject_reason = False
+
+        result = super(SaleOrder, self).action_draft()
+        return result
 
     def _confirmation_error_message(self):
 

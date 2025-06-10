@@ -37,9 +37,7 @@
                         <group string="Reject Order Info">
                             <field name="sh_reject_date"/>
                             <field name="sh_rejected_by"/>
-                            <field name="sh_reject_reason"/>
-                            <!-- <field name="sh_user_bool2" invisible="1"/>
-                            <field name="sh_group_bool2" invisible="1"/> -->
+                            <field name="sh_reject_reason"/>                            
                         </group>
                     </group>
                     <field name="sh_so_approval_line_ids">

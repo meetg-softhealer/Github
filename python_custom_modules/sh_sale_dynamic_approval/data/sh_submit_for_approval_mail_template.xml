@@ -63,10 +63,12 @@
 
                         <br/>
 
-                        <!-- <button string="Order Ref:#{object.name}" name="action_name" type="object" class="oe_highlight"/> -->
-
-
-
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a t-attf-href="'/odoo/sales/{{object.id}}"
+                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                Go to Sale Order
+                            </a>
+                        </div>
                     </p>
                </div>
            </field>
