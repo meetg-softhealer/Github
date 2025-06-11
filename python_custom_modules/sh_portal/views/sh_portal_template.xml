@@ -25,7 +25,7 @@
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">My Portal Records</t>
+                <t t-set="title" t-value="True">My Portal Records</t>
             </t>
             <div t-if="not documents" class="alert alert-warning" role="alert">
                 There are currently no documents for your account.
@@ -38,13 +38,30 @@
                     </tr>
                 </thead>
                 <t t-foreach="documents" t-as="document">
-                    <tr>
-                        <td><span t-field="document.name"/></td>                     
+                    <tr>                    
+                        <td>
+                            <a t-att-href="document.get_portal_url()">
+                                <t t-out="document.name"/>
+                            </a>
+                        </td>                     
                         <td><span t-field="document.sh_partner_id"/></td>
                     </tr>
                 </t>
             </t>
         </t>
     </template>
+
+    <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li id="portal_breadcrumbs_sh_portal" t-if="page_name == 'ShPortal'"  t-attf-class="breadcrumb-item #{'active ' if not document else ''}">
+                <a t-if="document" t-attf-href="/my/sh_portal?{{ keep_query() }}">Portal</a>
+                <t t-else="">Portal</t>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- <template id="template_id">
+        
+    </template> -->
 
 </odoo>

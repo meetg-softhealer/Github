@@ -1,6 +1,7 @@
 from odoo import models,fields,api,_,http #type:ignore
 from odoo.http import request, Controller, route #type:ignore
-from odoo.addons.portal.controllers import portal
+from odoo.addons.portal.controllers import portal #type:ignore
+from odoo.exceptions import AccessError, MissingError #type:ignore
 
 class ShPortalController(portal.CustomerPortal):
     
@@ -13,7 +14,7 @@ class ShPortalController(portal.CustomerPortal):
         
 
     @http.route("/my/sh_portal", type="http", auth="user", website=True)
-    def sh_portal(self, page=1):
+    def sh_portal_documents(self, page=1):
         documents = request.env['sh.portal'].search([('sh_partner_id','=',request.env.user.partner_id.id)])
 
         url = "/my/sh_portal"
@@ -26,8 +27,18 @@ class ShPortalController(portal.CustomerPortal):
         )
 
         return request.render("sh_portal.sh_portal_documents", {
-            'page_name':'MyPortal',
+            'page_name':'ShPortal',
             'pager':pager_values,
             'default_url':url,
             'documents':documents
         })
+    
+    @http.route("/my/sh_portal/<int:doc_id>", type="http", auth="user", website=True)
+    def sh_portal_document(self, doc_id, access_token=None):
+
+        try:
+            order_sudo = self._document_check_access('sh.portal', doc_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        return request.render("sh_portal.sh_portal_document", {'document':order_sudo})
