@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="sh_my_approval_order_action" model="ir.actions.act_window">
+        <field name="name">My Approvals</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>        
+        <field name="context">{'create': 0}</field>
+        <field name="domain">['|',("sh_user_ids",'=',uid),("sh_group_ids.users",'=',uid),("state",'=','wait_approval')]</field>
+    </record>
+
+    <menuitem id="sh_my_approval_menu" name="My Approvals" action="sh_my_approval_order_action" sequence="1" parent="sale.sale_order_menu"/>
+
+    <record id="sh_waiting_approval_order_action" model="ir.actions.act_window">
+        <field name="name">Waiting Approvals</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>        
+        <field name="context">{'create': 0}</field>
+        <field name="domain">[('create_uid','=',uid),("state",'=','wait_approval')]</field>
+    </record>
+
+    <menuitem id="sh_waiting_approval_menu" name="Waiting Approvals" action="sh_waiting_approval_order_action" sequence="2" parent="sale.sale_order_menu"/>
+
+</odoo>

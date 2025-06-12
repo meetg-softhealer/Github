@@ -26,10 +26,11 @@ class ShRejectActionWizard(models.TransientModel):
         )
 
         self.sh_so_id.sh_send_rejection_email()
-        self.sh_so_id.sh_next_approval_level = 1
+        self.sh_so_id.sh_next_approval_level = 0
         self.sh_so_id.sh_user_ids = [(5,0,0)]
         self.sh_so_id.sh_group_ids = [(5,0,0)]
 
-        result = self.sh_so_id.action_cancel()
-        return result
+        # result = self.sh_so_id.action_cancel()
+        self.sh_so_id.state = 'reject'
+        # return result
         

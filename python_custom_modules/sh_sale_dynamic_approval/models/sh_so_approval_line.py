@@ -8,6 +8,8 @@ class ShSoApprovalLine(models.Model):
 
     name = fields.Char("")
 
+    sh_company_id = fields.Many2one("res.company", default=lambda self:self.env.company.id)
+
     sh_so_id = fields.Many2one("sale.order")
 
     sh_approval_level = fields.Integer("Approval", store=True)

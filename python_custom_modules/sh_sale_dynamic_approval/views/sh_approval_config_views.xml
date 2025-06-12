@@ -15,7 +15,7 @@
 
                     <notebook>                        
                         <page string="Approval Details">
-                            <field name="sh_approval_config_line_ids" string="Sale Approval Line">
+                            <field name="sh_approval_config_line_ids" string="Sale Approval Line" required="1">
                                 <list>
                                     <field name="sh_level" string="Level"/>
                                     <field name="sh_approver_type" string="Approver Type"/>
@@ -27,8 +27,8 @@
                                         <field name="sh_approver_type" string="Approver Type"/>
                                     </group>
                                     <group>                                        
-                                        <field name="sh_user_ids" invisible="sh_approver_type != 'user'" string=""/>
-                                        <field name="sh_group_ids" invisible="sh_approver_type != 'group'" string=""/>
+                                        <field name="sh_user_ids" invisible="sh_approver_type != 'user'" string="" required="sh_approver_type != 'user'"/>
+                                        <field name="sh_group_ids" invisible="sh_approver_type != 'group'" string="" required="sh_approver_type != 'group'"/>
                                     </group>
                                 </form>
                             </field>
