@@ -14,9 +14,9 @@ class ShSoApprovalLine(models.Model):
 
     sh_approval_level = fields.Integer("Approval", store=True)
 
-    sh_user_record_count = fields.Integer("Users")
+    sh_user_record_count_ids = fields.Many2many("res.users") # related='sh_so_id.sh_approval_config_id.sh_approval_config_line_ids.sh_user_ids'
 
-    sh_group_record_count = fields.Integer("Groups")
+    sh_group_record_count_ids = fields.Many2many("res.groups") #related='sh_so_id.sh_approval_config_id.sh_approval_config_line_ids.sh_group_ids'
 
     sh_status = fields.Boolean("Status")
 

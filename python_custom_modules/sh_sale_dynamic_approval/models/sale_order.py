@@ -93,7 +93,7 @@ class SaleOrder(models.Model):
         for rec in self.sh_so_approval_line_ids:
 
             if len(self.sh_so_approval_line_ids)>self.sh_next_approval_level:
-                if rec.sh_user_record_count:
+                if rec.sh_user_record_count_ids:
                 
                     self.sh_user_ids = [(6,False,item[self.sh_next_approval_level].sh_user_ids.ids)]
                     if self.sh_user_ids:
@@ -103,7 +103,7 @@ class SaleOrder(models.Model):
                     #     for recs in self.sh_user_ids:
                     #         self.sh_approval_notifications(recs)
             
-                if rec.sh_group_record_count:  
+                if rec.sh_group_record_count_ids:  
                 
                     self.sh_group_ids = [(6,False,item[self.sh_next_approval_level].sh_group_ids.ids)]
                     
@@ -121,7 +121,7 @@ class SaleOrder(models.Model):
                 
 
             elif len(self.sh_so_approval_line_ids)==self.sh_next_approval_level:
-                if rec.sh_user_record_count:
+                if rec.sh_user_record_count_ids:
                 
                     self.sh_user_ids = [(6,False,item[self.sh_next_approval_level-1].sh_user_ids.ids)]
                     if self.sh_user_ids:
@@ -131,7 +131,7 @@ class SaleOrder(models.Model):
                     #     for recs in self.sh_user_ids:
                     #         self.sh_approval_notifications(recs)
 
-                if rec.sh_group_record_count:  
+                if rec.sh_group_record_count_ids:  
                 
                     self.sh_group_ids = [(6,False,item[self.sh_next_approval_level-1].sh_group_ids.ids)]
                     
@@ -215,8 +215,8 @@ class SaleOrder(models.Model):
                         'sh_approval_level':count,
                         'sh_so_id':self.id,
                         'sh_status':False,
-                        'sh_user_record_count':len(rec.sh_user_ids.ids),
-                        'sh_group_record_count':len(rec.sh_group_ids.ids),
+                        'sh_user_record_count_ids':rec.sh_user_ids.ids,
+                        'sh_group_record_count_ids':rec.sh_group_ids.ids,
                     })]
 
                 self.state = 'wait_approval'                

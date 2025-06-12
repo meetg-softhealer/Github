@@ -47,8 +47,8 @@
                     <field name="sh_so_approval_line_ids">
                         <list create="false">
                             <field name="sh_approval_level"/>
-                            <field name="sh_user_record_count"/> 
-                            <field name="sh_group_record_count"/>
+                            <field name="sh_user_record_count_ids" string="Users"/> 
+                            <field name="sh_group_record_count_ids" string="Groups"/>
                             <field name="sh_status" widget="boolean_toggle"/>
                             <field name="sh_approved_date"/>
                             <field name="sh_approved_by"/>
