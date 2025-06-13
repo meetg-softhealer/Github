@@ -20,7 +20,7 @@
                        <br/>
                        <b>Sales Person:</b><t t-out="object.env.user.name"/>
                        <br/>
-                       <b>Total Amount:</b><t t-out="object.sh_total_amount"/>
+                       <b>Total Amount:</b><t t-out="object.amount_untaxed"/>
                        <br/>
                        <b>Approval Level Configuration:</b><t t-out="object.sh_approval_config_id.name"/>
                        <br/>

@@ -8,12 +8,12 @@
 
             <xpath expr="//button[@name='action_preview_sale_order']" position="after">
                 <button string="Approve" name="sh_approve_action" type="object" class="oe_highlight"                 
-                invisible="not sh_show_bool"/>
+                invisible="not sh_show_button_bool"/>
 
                
 
                 <button string="Reject" name="sh_reject_action" type="object" class="btn-secondary" 
-                invisible="not sh_show_bool"/>
+                invisible="not sh_show_button_bool"/>
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
@@ -31,7 +31,7 @@
                     <group>
                         <group string="Next Approval">
 
-                            <field name="sh_show_bool" invisible="1" string="standard usid"/>
+                            <field name="sh_show_button_bool" invisible="1" string="standard usid"/>
                             <field name="sh_next_approval_level"/>
                             <field name="sh_user_ids" widget="many2many_tags"/>
                             <field name="sh_group_ids" widget="many2many_tags"/>
