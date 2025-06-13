@@ -60,8 +60,74 @@
         </xpath>
     </template>
 
-    <!-- <template id="template_id">
-        
-    </template> -->
+    <template id="sh_portal_document" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row o_portal_sale_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar" id="document_portal_sidebar">
+                    <t t-set="classes" t-value="'col-lg-4 col-xxl-3 d-print-none'"/>
+
+                    <t t-set="title">
+                        <h2 t-field="document.sh_partner_id" class="mb-0 text-break"/>
+                    </t>
+                    <t t-set="entries">
+                        <div class="d-flex flex-column gap-4 mt-3">
+                            <!-- <div class="d-flex flex-column gap-2" id="document_sidebar_button">
+                                <a t-if="document._has_to_be_signed()" role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalaccept" href="#">
+                                    <i class="fa fa-check"/><t t-if="document._has_to_be_paid()"> Sign &amp; Pay</t><t t-else=""> Accept &amp; Sign</t>
+                                </a>
+                                <a t-elif="document._has_to_be_paid()" role="button" id="o_sale_portal_paynow" data-bs-toggle="modal" data-bs-target="#modalaccept" href="#" t-att-class="'%s' % ('btn btn-light' if document.transaction_ids else 'btn btn-primary')" >
+                                    <i class="fa fa-check"/> <t t-if="not document.signature">Accept &amp; Pay</t><t t-else="">Pay Now</t>
+                                </a>
+                                <div class="o_download_pdf d-flex gap-2 flex-lg-column flex-xl-row flex-wrap">
+                                    <a class="btn btn-light o_print_btn o_portal_invoice_print flex-grow-1" t-att-href="document.get_portal_url(report_type='pdf')" id="print_invoice_report" title="View Details" role="button" target="_blank"><i class="fa fa-print me-1"/>View Details</a>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="navspy flex-grow-1 ps-0" t-ignore="true" role="complementary">
+                                <ul class="nav flex-column bs-sidenav"></ul>
+                            </div> -->
+
+                            <!-- <t t-if="not document.is_expired and document.state in ['draft', 'sent']">
+                                <div t-if="document.amount_undiscounted - document.amount_untaxed &gt; 0.01" class="list-group-item flex-grow-1" name="document_advantage">
+                                    <small><b class="text-muted">Your advantage</b></small>
+                                    <small>
+                                        <b t-field="document.amount_undiscounted"
+                                            t-options='{"widget": "monetary", "display_currency": document.currency_id}'
+                                            style="text-decoration: line-through"
+                                            class="d-block mt-1"
+                                            data-id="amount_undiscounted" />
+                                    </small>
+                                    <t t-if="document.amount_untaxed == document.amount_total">
+                                        <h4 t-field="document.amount_total" class="text-success" data-id="total_amount"/>
+                                    </t>
+                                    <t t-else="">
+                                        <h4 t-field="document.amount_untaxed" class="text-success mb-0" data-id="total_untaxed"/>
+                                        <small>(<span t-field="document.amount_total" data-id="total_amount"/> Incl. tax)</small>
+                                    </t>
+                                </div>
+                            </t> -->
+
+                            <div t-if="document.create_uid">
+                                <h6><small class="text-muted">Your contact</small></h6>
+                                <t t-call="portal.portal_my_contact">
+                                    <t t-set="_contactAvatar" t-value="image_data_uri(document.create_uid.avatar_128)"/>
+                                    <t t-set="_contactName" t-value="document.create_uid.name"/>
+                                    <t t-set="_contactLink" t-value="True"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <!-- Page content -->
+                <div id="quote_content" class="col-12 col-lg-8 col-xxl-9 mt-5 mt-lg-0">
+                    <h1>
+                        <t t-out="document.name"/>
+                    </h1>
+                </div>
+            </div>
+        </xpath>
+    </template>
 
 </odoo>

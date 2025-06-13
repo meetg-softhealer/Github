@@ -41,4 +41,4 @@ class ShPortalController(portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/my')
 
-        return request.render("sh_portal.sh_portal_document", {'document':order_sudo})
+        return request.render("sh_portal.sh_portal_document", {'document':order_sudo, 'page_name':'ShPortal'})
